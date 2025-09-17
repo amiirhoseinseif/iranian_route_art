@@ -40,6 +40,18 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'artist' => [
+            'driver' => 'passport',
+            'provider' => 'artists',
+        ],
+        'judge' => [
+            'driver' => 'passport',
+            'provider' => 'judges',
+        ],
+        'admin' => [
+            'driver' => 'passport',
+            'provider' => 'admins',
+        ],
     ],
 
     /*
@@ -64,11 +76,18 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'artists' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Artist::class,
+        ],
+        'judges' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Judge::class,
+        ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
+        ],
     ],
 
     /*

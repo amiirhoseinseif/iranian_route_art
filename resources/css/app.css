@@ -1,3 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom styles for Persian text */
+@layer base {
+    html {
+        direction: rtl;
+    }
+    
+    body {
+        font-family: 'Vazirmatn', sans-serif;
+    }
+}
+
+@layer components {
+    .festival-gradient {
+        background: linear-gradient(135deg, #f59e0b 0%, #ea580c 50%, #dc2626 100%);
+    }
+    
+    .festival-text-gradient {
+        background: linear-gradient(135deg, #f59e0b 0%, #ea580c 50%, #dc2626 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+}
