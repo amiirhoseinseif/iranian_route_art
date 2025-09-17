@@ -6,10 +6,47 @@ import {
     CloseIcon,
     AddIcon,
     ProfileIcon,
-    ListIcon
+    ListIcon,
+    TrophyIcon,
+    GlobalIcon,
+    MusicIcon,
+    PaintingIcon,
+    FilmIcon
 } from '@/Components/SvgIcons';
 
-export default function JudgeDashboard() {
+export default function JudgeDashboard({ judge, statistics, assigned_art_fields, pending_evaluations, recent_evaluations }) {
+    const isVerified = judge?.verification_status === 'approved';
+
+    if (!isVerified) {
+        return (
+            <FestivalLayout title="پنل داور - جشنواره هنری مسیر ایران">
+                <div className="max-w-4xl mx-auto">
+                    <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-8 text-center">
+                        <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <ClockIcon className="w-8 h-8 text-yellow-600" />
+                        </div>
+                        <h2 className="text-2xl font-bold text-gray-800 mb-4 font-['Vazirmatn']">
+                            عضویت شما تایید نشده است
+                        </h2>
+                        <p className="text-gray-600 mb-6 font-['Vazirmatn']">
+                            لطفاً با مدیر سایت تماس بگیرید تا عضویت شما تایید شود.
+                        </p>
+                        {judge?.rejection_reason && (
+                            <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                                <p className="text-red-800 font-['Vazirmatn']">
+                                    <strong>دلیل رد شدن:</strong> {judge.rejection_reason}
+                                </p>
+                            </div>
+                        )}
+                        <button className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-['Vazirmatn']">
+                            تماس با مدیر
+                        </button>
+                    </div>
+                </div>
+            </FestivalLayout>
+        );
+    }
+
     return (
         <FestivalLayout title="پنل داور - جشنواره هنری مسیر ایران">
             <div className="max-w-7xl mx-auto">
@@ -27,11 +64,11 @@ export default function JudgeDashboard() {
                     <div className="bg-white p-6 rounded-2xl shadow-lg">
                         <div className="flex items-center">
                             <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                                <span className="text-2xl text-blue-600">📋</span>
+                                <ListIcon className="w-6 h-6 text-blue-600" />
                             </div>
                             <div className="mr-4">
                                 <p className="text-sm text-gray-600 font-['Vazirmatn']">کل آثار تخصیص داده شده</p>
-                                <p className="text-2xl font-bold text-gray-800">24</p>
+                                <p className="text-2xl font-bold text-gray-800">{statistics.total_assignments}</p>
                             </div>
                         </div>
                     </div>
@@ -39,11 +76,11 @@ export default function JudgeDashboard() {
                     <div className="bg-white p-6 rounded-2xl shadow-lg">
                         <div className="flex items-center">
                             <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
-                                <span className="text-2xl text-yellow-600">⏳</span>
+                                <ClockIcon className="w-6 h-6 text-yellow-600" />
                             </div>
                             <div className="mr-4">
                                 <p className="text-sm text-gray-600 font-['Vazirmatn']">در انتظار ارزیابی</p>
-                                <p className="text-2xl font-bold text-gray-800">8</p>
+                                <p className="text-2xl font-bold text-gray-800">{statistics.pending_evaluations}</p>
                             </div>
                         </div>
                     </div>
@@ -51,11 +88,11 @@ export default function JudgeDashboard() {
                     <div className="bg-white p-6 rounded-2xl shadow-lg">
                         <div className="flex items-center">
                             <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                                <span className="text-2xl text-green-600">✅</span>
+                                <CheckIcon className="w-6 h-6 text-green-600" />
                             </div>
                             <div className="mr-4">
                                 <p className="text-sm text-gray-600 font-['Vazirmatn']">ارزیابی شده</p>
-                                <p className="text-2xl font-bold text-gray-800">16</p>
+                                <p className="text-2xl font-bold text-gray-800">{statistics.completed_evaluations}</p>
                             </div>
                         </div>
                     </div>
@@ -63,11 +100,11 @@ export default function JudgeDashboard() {
                     <div className="bg-white p-6 rounded-2xl shadow-lg">
                         <div className="flex items-center">
                             <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
-                                <span className="text-2xl text-purple-600">📊</span>
+                                <TrophyIcon className="w-6 h-6 text-purple-600" />
                             </div>
                             <div className="mr-4">
                                 <p className="text-sm text-gray-600 font-['Vazirmatn']">میانگین امتیاز</p>
-                                <p className="text-2xl font-bold text-gray-800">8.2</p>
+                                <p className="text-2xl font-bold text-gray-800">{statistics.average_score}</p>
                             </div>
                         </div>
                     </div>
@@ -77,28 +114,45 @@ export default function JudgeDashboard() {
                 <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
                     <h3 className="text-xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">رشته‌های هنری تخصیص داده شده</h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {[
-                            { name: 'موسیقی', count: 12, icon: '🎵', color: 'bg-blue-100 text-blue-600' },
-                            { name: 'نقاشی', count: 8, icon: '🖼️', color: 'bg-green-100 text-green-600' },
-                            { name: 'فیلم‌سازی', count: 4, icon: '🎬', color: 'bg-purple-100 text-purple-600' },
-                        ].map((field, index) => (
-                            <div key={index} className="p-4 border border-gray-200 rounded-xl">
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center">
-                                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center mr-3 ${field.color}`}>
-                                            <span className="text-xl">{field.icon}</span>
-                                        </div>
-                                        <div>
-                                            <h4 className="font-semibold text-gray-800 font-['Vazirmatn']">{field.name}</h4>
-                                            <p className="text-sm text-gray-600 font-['Vazirmatn']">{field.count} اثر</p>
+                        {assigned_art_fields.length === 0 ? (
+                            <div className="col-span-full text-center py-8">
+                                <p className="text-gray-500 font-['Vazirmatn']">
+                                    هیچ رشته هنری تخصیص داده نشده است
+                                </p>
+                            </div>
+                        ) : (
+                            assigned_art_fields.map((field, index) => {
+                                const getIcon = (fieldName) => {
+                                    if (fieldName.includes('موسیقی')) return MusicIcon;
+                                    if (fieldName.includes('نقاشی')) return PaintingIcon;
+                                    if (fieldName.includes('فیلم')) return FilmIcon;
+                                    return TrophyIcon;
+                                };
+                                
+                                const IconComponent = getIcon(field.name);
+                                
+                                return (
+                                    <div key={index} className="p-4 border border-gray-200 rounded-xl">
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex items-center">
+                                                <div className="w-10 h-10 rounded-lg flex items-center justify-center mr-3 bg-blue-100 text-blue-600">
+                                                    <IconComponent className="w-5 h-5" />
+                                                </div>
+                                                <div>
+                                                    <h4 className="font-semibold text-gray-800 font-['Vazirmatn']">{field.name}</h4>
+                                                    <p className="text-sm text-gray-600 font-['Vazirmatn']">
+                                                        {field.count} اثر ({field.pending} در انتظار)
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <button className="bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition-colors font-['Vazirmatn']">
+                                                مشاهده
+                                            </button>
                                         </div>
                                     </div>
-                                    <button className="bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition-colors font-['Vazirmatn']">
-                                        مشاهده
-                                    </button>
-                                </div>
-                            </div>
-                        ))}
+                                );
+                            })
+                        )}
                     </div>
                 </div>
 
@@ -106,33 +160,36 @@ export default function JudgeDashboard() {
                 <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
                     <h3 className="text-xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">آثار در انتظار ارزیابی</h3>
                     <div className="space-y-4">
-                        {[
-                            { title: 'سمفونی بهار', artist: 'علی محمدی', field: 'موسیقی', submitted: '2 ساعت پیش', priority: 'high' },
-                            { title: 'نقاشی منظره کوهستان', artist: 'فاطمه احمدی', field: 'نقاشی', submitted: '4 ساعت پیش', priority: 'medium' },
-                            { title: 'فیلم کوتاه زندگی', artist: 'محمد کریمی', field: 'فیلم‌سازی', submitted: '6 ساعت پیش', priority: 'low' },
-                            { title: 'آهنگ عاشقانه', artist: 'سارا رضایی', field: 'موسیقی', submitted: '1 روز پیش', priority: 'medium' },
-                        ].map((art, index) => (
-                            <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                                <div className="flex items-center">
-                                    <div className={`w-3 h-3 rounded-full mr-3 ${
-                                        art.priority === 'high' ? 'bg-red-500' :
-                                        art.priority === 'medium' ? 'bg-yellow-500' : 'bg-green-500'
-                                    }`}></div>
-                                    <div>
-                                        <h4 className="font-medium text-gray-800 font-['Vazirmatn']">{art.title}</h4>
-                                        <p className="text-sm text-gray-600 font-['Vazirmatn']">
-                                            هنرمند: {art.artist} | رشته: {art.field}
-                                        </p>
+                        {pending_evaluations.length === 0 ? (
+                            <p className="text-gray-500 text-center py-8 font-['Vazirmatn']">
+                                هیچ اثری در انتظار ارزیابی وجود ندارد
+                            </p>
+                        ) : (
+                            pending_evaluations.map((art, index) => (
+                                <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                    <div className="flex items-center">
+                                        <div className={`w-3 h-3 rounded-full mr-3 ${
+                                            art.priority === 'high' ? 'bg-red-500' :
+                                            art.priority === 'medium' ? 'bg-yellow-500' : 'bg-green-500'
+                                        }`}></div>
+                                        <div>
+                                            <h4 className="font-medium text-gray-800 font-['Vazirmatn']">{art.title}</h4>
+                                            <p className="text-sm text-gray-600 font-['Vazirmatn']">
+                                                هنرمند: {art.artist} | رشته: {art.field}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center space-x-3 space-x-reverse">
+                                        <span className="text-sm text-gray-500 font-['Vazirmatn']">
+                                            {new Date(art.submitted_at).toLocaleDateString('fa-IR')}
+                                        </span>
+                                        <button className="bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition-colors font-['Vazirmatn']">
+                                            ارزیابی
+                                        </button>
                                     </div>
                                 </div>
-                                <div className="flex items-center space-x-3 space-x-reverse">
-                                    <span className="text-sm text-gray-500 font-['Vazirmatn']">{art.submitted}</span>
-                                    <button className="bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition-colors font-['Vazirmatn']">
-                                        ارزیابی
-                                    </button>
-                                </div>
-                            </div>
-                        ))}
+                            ))
+                        )}
                     </div>
                 </div>
 
@@ -140,29 +197,32 @@ export default function JudgeDashboard() {
                 <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
                     <h3 className="text-xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">ارزیابی‌های اخیر</h3>
                     <div className="space-y-4">
-                        {[
-                            { title: 'نقاشی انتزاعی', artist: 'احمد نوری', score: 9.2, date: '2 ساعت پیش', status: 'completed' },
-                            { title: 'آهنگ سنتی', artist: 'مریم صادقی', score: 7.8, date: '4 ساعت پیش', status: 'completed' },
-                            { title: 'مجسمه مدرن', artist: 'حسین کریمی', score: 8.5, date: '6 ساعت پیش', status: 'completed' },
-                            { title: 'فیلم مستند', artist: 'علی رضایی', score: 9.0, date: '1 روز پیش', status: 'completed' },
-                        ].map((evaluation, index) => (
-                            <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                                <div>
-                                    <h4 className="font-medium text-gray-800 font-['Vazirmatn']">{evaluation.title}</h4>
-                                    <p className="text-sm text-gray-600 font-['Vazirmatn']">هنرمند: {evaluation.artist}</p>
-                                </div>
-                                <div className="flex items-center space-x-4 space-x-reverse">
-                                    <div className="text-center">
-                                        <p className="text-sm text-gray-600 font-['Vazirmatn']">امتیاز</p>
-                                        <p className="text-xl font-bold text-amber-600">{evaluation.score}</p>
+                        {recent_evaluations.length === 0 ? (
+                            <p className="text-gray-500 text-center py-8 font-['Vazirmatn']">
+                                هیچ ارزیابی انجام نشده است
+                            </p>
+                        ) : (
+                            recent_evaluations.map((evaluation, index) => (
+                                <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                    <div>
+                                        <h4 className="font-medium text-gray-800 font-['Vazirmatn']">{evaluation.art_title}</h4>
+                                        <p className="text-sm text-gray-600 font-['Vazirmatn']">هنرمند: {evaluation.artist}</p>
                                     </div>
-                                    <span className="text-sm text-gray-500 font-['Vazirmatn']">{evaluation.date}</span>
-                                    <button className="bg-blue-600 text-white px-3 py-1 rounded-lg text-sm hover:bg-blue-700 transition-colors font-['Vazirmatn']">
-                                        مشاهده
-                                    </button>
+                                    <div className="flex items-center space-x-4 space-x-reverse">
+                                        <div className="text-center">
+                                            <p className="text-sm text-gray-600 font-['Vazirmatn']">امتیاز</p>
+                                            <p className="text-xl font-bold text-amber-600">{evaluation.score}</p>
+                                        </div>
+                                        <span className="text-sm text-gray-500 font-['Vazirmatn']">
+                                            {new Date(evaluation.evaluated_at).toLocaleDateString('fa-IR')}
+                                        </span>
+                                        <button className="bg-blue-600 text-white px-3 py-1 rounded-lg text-sm hover:bg-blue-700 transition-colors font-['Vazirmatn']">
+                                            مشاهده
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))
+                        )}
                     </div>
                 </div>
 

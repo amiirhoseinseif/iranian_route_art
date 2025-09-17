@@ -4,7 +4,7 @@ import FestivalLayout from '@/Layouts/FestivalLayout';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 
-export default function Login({ csrf_token }) {
+export default function ArtistLogin({ csrf_token }) {
     const { data, setData, post, processing, errors } = useForm({
         email: '',
         password: '',
@@ -17,21 +17,21 @@ export default function Login({ csrf_token }) {
         post(route('login.store'), {
             onSuccess: (page) => {
                 // Inertia will automatically handle the redirect
-                console.log('Login successful, redirecting...');
+                console.log('Artist login successful, redirecting...');
             },
             onError: (errors) => {
-                console.log('Login failed:', errors);
+                console.log('Artist login failed:', errors);
             }
         });
     };
 
     return (
-        <FestivalLayout title="ورود - جشنواره هنری مسیر ایران">
+        <FestivalLayout title="ورود هنرمند - جشنواره هنری مسیر ایران">
             <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-50 to-orange-100 py-12 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-md w-full space-y-8">
                     <div className="text-center">
                         <h2 className="mt-6 text-3xl font-bold text-gray-900 font-['Vazirmatn']">
-                            ورود به سیستم
+                            ورود هنرمند
                         </h2>
                         <p className="mt-2 text-sm text-gray-600 font-['Vazirmatn']">
                             به حساب کاربری خود وارد شوید
@@ -93,7 +93,7 @@ export default function Login({ csrf_token }) {
                                 <p className="text-sm text-gray-600 font-['Vazirmatn']">
                                     حساب کاربری ندارید؟{' '}
                                     <Link
-                                        href="/register"
+                                        href={route('artist.register')}
                                         className="font-medium text-amber-600 hover:text-amber-500"
                                     >
                                         ثبت نام کنید

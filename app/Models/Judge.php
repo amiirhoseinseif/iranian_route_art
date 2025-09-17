@@ -24,6 +24,9 @@ class Judge extends Authenticatable
         'qualification',
         'organization',
         'is_active',
+        'verification_status',
+        'rejection_reason',
+        'verified_at',
     ];
 
     protected $hidden = [
@@ -34,6 +37,7 @@ class Judge extends Authenticatable
     protected $casts = [
         'expertise_areas' => 'array',
         'is_active' => 'boolean',
+        'verified_at' => 'datetime',
         'email_verified_at' => 'datetime',
     ];
 
@@ -60,5 +64,35 @@ class Judge extends Authenticatable
     public function hasExpertiseIn($artFieldId): bool
     {
         return in_array($artFieldId, $this->expertise_areas ?? []);
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->verification_status === 'approved';
+    }
+
+    public function isPending(): bool
+    {
+        return $this->verification_status === 'pending';
+    }
+
+    public function isRejected(): bool
+    {
+        return $this->verification_status === 'rejected';
+    }
+
+    public function scopeVerified($query)
+    {
+        return $query->where('verification_status', 'approved');
+    }
+
+    public function scopePending($query)
+    {
+        return $query->where('verification_status', 'pending');
+    }
+
+    public function scopeRejected($query)
+    {
+        return $query->where('verification_status', 'rejected');
     }
 }

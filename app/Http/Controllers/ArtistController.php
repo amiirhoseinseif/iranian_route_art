@@ -7,6 +7,7 @@ use App\Models\ArtField;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
 
@@ -72,15 +73,23 @@ class ArtistController extends Controller
             'is_active' => true,
         ]);
 
-        // Log in the artist
-        auth()->guard('artist')->login($artist);
+        // Log in the artist using web guard and create Passport token
+        auth()->guard('web')->login($artist);
+        
+        // Create access token for Passport
+        $token = $artist->createToken('Registration Token', ['*'])->accessToken;
+        
+        // Store token in session for web usage
+        $request->session()->put('access_token', $token);
+        $request->session()->put('user_type', 'artist');
+        $request->session()->put('user_id', $artist->id);
 
         return redirect()->route('artist.dashboard')->with('success', 'ثبت نام شما با موفقیت انجام شد!');
     }
 
     public function dashboard()
     {
-        $artist = auth()->guard('artist')->user();
+        $artist = auth()->guard('web')->user();
         $arts = $artist->arts()->latest()->get();
         
         return Inertia::render('Artist/Dashboard', [
@@ -91,7 +100,7 @@ class ArtistController extends Controller
 
     public function profile()
     {
-        $artist = auth()->guard('artist')->user();
+        $artist = auth()->guard('web')->user();
         
         return Inertia::render('Artist/Profile', [
             'artist' => $artist
@@ -100,7 +109,7 @@ class ArtistController extends Controller
 
     public function updateProfile(Request $request)
     {
-        $artist = auth()->guard('artist')->user();
+        $artist = auth()->guard('web')->user();
         
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:255',
@@ -125,5 +134,53 @@ class ArtistController extends Controller
         ]));
 
         return back()->with('success', 'اطلاعات پروفایل با موفقیت بروزرسانی شد');
+    }
+
+    public function login(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required',
+        ], [
+            'email.required' => 'ایمیل الزامی است',
+            'email.email' => 'فرمت ایمیل صحیح نیست',
+            'password.required' => 'رمز عبور الزامی است',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $credentials = $request->only('email', 'password');
+        $remember = $request->boolean('remember');
+
+        if (Auth::guard('artist')->attempt($credentials, $remember)) {
+            $request->session()->regenerate();
+            return redirect()->intended(route('artist.dashboard'));
+        }
+
+        return back()->withErrors([
+            'email' => 'اطلاعات وارد شده صحیح نیست.',
+        ])->withInput();
+    }
+
+    public function logout(Request $request)
+    {
+        $artist = auth()->guard('web')->user();
+        
+        if ($artist) {
+            // Revoke all tokens for this artist
+            $artist->tokens()->delete();
+            
+            // Logout from web guard
+            Auth::guard('web')->logout();
+        }
+        
+        // Clear session
+        $request->session()->forget(['access_token', 'user_type', 'user_id']);
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        
+        return redirect()->route('login');
     }
 }

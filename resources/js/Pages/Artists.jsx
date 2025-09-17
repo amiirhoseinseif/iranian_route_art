@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import FestivalLayout from '@/Layouts/FestivalLayout';
-import { ProfileIcon, MusicIcon, PaintingIcon, FilmIcon, SculptureIcon, GraphicIcon, CalligraphyIcon, PhotographyIcon, ArchitectureIcon } from '@/Components/SvgIcons';
+import { ProfileIcon, MusicIcon, PaintingIcon, FilmIcon, SculptureIcon, GraphicIcon, CalligraphyIcon, PhotographyIcon, ArchitectureIcon, LocationIcon, CalendarIcon } from '@/Components/SvgIcons';
 
 export default function Artists() {
     const [selectedField, setSelectedField] = useState('all');
@@ -165,8 +165,14 @@ export default function Artists() {
                                         </p>
                                         
                                         <div className="flex justify-between items-center text-sm text-gray-500 mb-4">
-                                            <span className="font-['Vazirmatn']">📍 {artist.location}</span>
-                                            <span className="font-['Vazirmatn']">📅 {artist.joinDate}</span>
+                                            <span className="font-['Vazirmatn'] flex items-center">
+                                                <LocationIcon className="w-4 h-4 ml-1" />
+                                                {artist.location}
+                                            </span>
+                                            <span className="font-['Vazirmatn'] flex items-center">
+                                                <CalendarIcon className="w-4 h-4 ml-1" />
+                                                {artist.joinDate}
+                                            </span>
                                         </div>
                                         
                                         <div className="flex justify-between items-center">

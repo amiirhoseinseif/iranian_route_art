@@ -153,6 +153,155 @@ export const LinkedInIcon = ({ className = "w-6 h-6", ...props }) => (
     </svg>
 );
 
+// Admin Management Icons
+export const AdminIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1H5C3.89 1 3 1.89 3 3V21C3 22.11 3.89 23 5 23H19C20.11 23 21 22.11 21 21V9M19 9H14V4H19V9Z"/>
+    </svg>
+);
+
+export const UserCheckIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"/>
+    </svg>
+);
+
+export const UserXIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M16 8L8 16M8 8L16 16M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"/>
+    </svg>
+);
+
+export const SettingsIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M12 15.5A3.5 3.5 0 0 1 8.5 12A3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5a3.5 3.5 0 0 1-3.5 3.5m7.43-2.53c.04-.32.07-.64.07-.97c0-.33-.03-.66-.07-1l2.11-1.63c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.31-.61-.22l-2.49 1c-.52-.39-1.06-.73-1.69-.98l-.37-2.65A.506.506 0 0 0 14 2h-4c-.25 0-.46.18-.5.42l-.37 2.65c-.63.25-1.17.59-1.69.98l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.04.34-.07.67-.07 1c0 .33.03.65.07.97l-2.11 1.66c-.19.15-.25.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1.01c.52.4 1.06.74 1.69.99l.37 2.65c.04.24.25.42.5.42h4c.25 0 .46-.18.5-.42l.37-2.65c.63-.26 1.17-.6 1.69-.99l2.49 1.01c.22.08.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.66Z"/>
+    </svg>
+);
+
+export const ShieldCheckIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1M10 17L6 13L7.41 11.59L10 14.17L16.59 7.58L18 9L10 17Z"/>
+    </svg>
+);
+
+export const ShieldXIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1M15.5 8L12 11.5L8.5 8L7.5 9L11 12.5L7.5 16L8.5 17L12 13.5L15.5 17L16.5 16L13 12.5L16.5 9L15.5 8Z"/>
+    </svg>
+);
+
+// Additional Navigation Icons
+export const UploadIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z M12,12L16,16H13.5V19H10.5V16H8L12,12Z"/>
+    </svg>
+);
+
+export const BellIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M12,22A2,2 0 0,0 14,20H10A2,2 0 0,0 12,22M18,16V11C18,7.93 16.36,5.36 13.5,4.68V4A1.5,1.5 0 0,0 12,2.5A1.5,1.5 0 0,0 10.5,4V4.68C7.63,5.36 6,7.92 6,11V16L4,18V19H20V18L18,16Z"/>
+    </svg>
+);
+
+export const UsersIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A2.996 2.996 0 0 0 17.04 7H15.5c-.8 0-1.54.5-1.84 1.26L12.1 13H13v9h7zm-12.5 0c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5S6 19.67 6 20.5 6.67 22 7.5 22zM5.5 6c1.11 0 2-.89 2-2s-.89-2-2-2-2 .89-2 2 .89 2 2 2zm2 16v-7H9.5l-2.54-7.63A2.996 2.996 0 0 0 4.54 7H3c-.8 0-1.54.5-1.84 1.26L-.9 13H0v9h7.5z"/>
+    </svg>
+);
+
+export const ScaleIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8Z"/>
+    </svg>
+);
+
+export const ClipboardIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M7,7H17V5H19V19H5V5H7V7Z"/>
+    </svg>
+);
+
+export const StarIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.46,13.97L5.82,21L12,17.27Z"/>
+    </svg>
+);
+
+export const ExitIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M14.08,15.59L16.67,13H7V11H16.67L14.08,8.41L15.5,7L20.5,12L15.5,17L14.08,15.59M19,3A2,2 0 0,1 21,5V9.67L19,7.67V5H5V19H19V16.33L21,14.33V19A2,2 0 0,1 19,21H5C3.89,21 3,20.1 3,19V5C3,3.89 3.89,3 5,3H19Z"/>
+    </svg>
+);
+
+export const ChartBarIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M22,21H2V3H4V19H6V17H10V19H12V16H16V19H18V13H22V21Z"/>
+    </svg>
+);
+
+// Contact and Communication Icons
+export const EmailIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,4.89 21.1,4 20,4M20,8L12,13L4,8V6L12,11L20,6V8Z"/>
+    </svg>
+);
+
+export const PhoneIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z"/>
+    </svg>
+);
+
+export const LocationIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22S19,14.25 19,9A7,7 0 0,0 12,2Z"/>
+    </svg>
+);
+
+// Art and Media Icons
+export const PaletteIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M12,3A9,9 0 0,0 3,12A9,9 0 0,0 12,21A1.5,1.5 0 0,0 13.5,19.5C13.5,19.11 13.35,18.76 13.11,18.5C12.88,18.23 12.73,17.88 12.73,17.5A1.5,1.5 0 0,1 14.23,16H16A5,5 0 0,0 21,11C21,6.58 17.42,3 12,3M6.5,12C5.67,12 5,11.33 5,10.5S5.67,9 6.5,9 8,9.67 8,10.5 7.33,12 6.5,12M9.5,8C8.67,8 8,7.33 8,6.5S8.67,5 9.5,5 11,5.67 11,6.5 10.33,8 9.5,8M14.5,8C13.67,8 13,7.33 13,6.5S13.67,5 14.5,5 16,5.67 16,6.5 15.33,8 14.5,8M17.5,12C16.67,12 16,11.33 16,10.5S16.67,9 17.5,9 19,9.67 19,10.5 18.33,12 17.5,12Z"/>
+    </svg>
+);
+
+export const NoteIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z M12,11L14,13L10.5,16.5L8.5,14.5L12,11Z"/>
+    </svg>
+);
+
+export const ImageIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M8.5,13.5L11,16.5L14.5,12L19,18H5M21,19V5C21,3.89 20.1,3 19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19Z"/>
+    </svg>
+);
+
+export const CalendarIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M19,3H18V1H16V3H8V1H6V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M19,19H5V8H19V19M19,6H5V5H19V6Z"/>
+    </svg>
+);
+
+export const TimerIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M15,1H9V3H15V1M11,14H13V8H11V14M19.03,7.39L20.45,5.97C20,5.46 19.55,5 19.04,4.56L17.62,6C16.07,4.74 14.12,4 12,4A9,9 0 0,0 3,13A9,9 0 0,0 12,22A9,9 0 0,0 21,13C21,10.88 20.26,8.93 19.03,7.39M12,20A7,7 0 0,1 5,13A7,7 0 0,1 12,6A7,7 0 0,1 19,13A7,7 0 0,1 12,20Z"/>
+    </svg>
+);
+
+export const MobileIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M17,19H7V5H17M17,1H7C5.89,1 5,1.89 5,3V21C5,22.11 5.89,23 7,23H17C18.11,23 19,22.11 19,21V3C19,1.89 18.11,1 17,1Z"/>
+    </svg>
+);
+
+// Decorative Icons
+export const SparkleIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M9.5,6.5L12,2L14.5,6.5L19,9L14.5,11.5L12,16L9.5,11.5L5,9L9.5,6.5M12,8A2,2 0 0,0 10,10A2,2 0 0,0 12,12A2,2 0 0,0 14,10A2,2 0 0,0 12,8Z"/>
+    </svg>
+);
+
 // Logo Icon
 export const LogoIcon = ({ className = "w-8 h-8", ...props }) => (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>

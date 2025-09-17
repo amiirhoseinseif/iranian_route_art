@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import FestivalLayout from '@/Layouts/FestivalLayout';
-import { MusicIcon, PaintingIcon, FilmIcon, SculptureIcon, GraphicIcon, CalligraphyIcon, PhotographyIcon, ArchitectureIcon, CheckIcon, ClockIcon } from '@/Components/SvgIcons';
+import { MusicIcon, PaintingIcon, FilmIcon, SculptureIcon, GraphicIcon, CalligraphyIcon, PhotographyIcon, ArchitectureIcon, CheckIcon, ClockIcon, CalendarIcon, TimerIcon } from '@/Components/SvgIcons';
 
 export default function Arts() {
     const [selectedField, setSelectedField] = useState('all');
@@ -223,9 +223,15 @@ export default function Arts() {
                                         </p>
                                         
                                         <div className="flex justify-between items-center text-sm text-gray-500 mb-4">
-                                            <span className="font-['Vazirmatn']">📅 {art.uploadDate}</span>
+                                            <span className="font-['Vazirmatn'] flex items-center">
+                                                <CalendarIcon className="w-4 h-4 ml-1" />
+                                                {art.uploadDate}
+                                            </span>
                                             {art.duration && (
-                                                <span className="font-['Vazirmatn']">⏱️ {art.duration}</span>
+                                                <span className="font-['Vazirmatn'] flex items-center">
+                                                    <TimerIcon className="w-4 h-4 ml-1" />
+                                                    {art.duration}
+                                                </span>
                                             )}
                                         </div>
                                         

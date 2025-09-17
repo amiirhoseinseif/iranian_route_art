@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useForm } from '@inertiajs/react';
 import FestivalLayout from '@/Layouts/FestivalLayout';
-import PersianDateInput from '@/Components/PersianDateInput';
 import { 
     MusicIcon,
     PaintingIcon,
@@ -13,24 +12,21 @@ import {
     ArchitectureIcon
 } from '@/Components/SvgIcons';
 
-export default function ArtistRegister() {
+export default function JudgeRegister() {
     const { data, setData, post, processing, errors } = useForm({
         first_name: '',
         last_name: '',
         phone: '',
         email: '',
-        birth_date: '',
         password: '',
         password_confirmation: '',
-        telegram_id: '',
-        whatsapp_id: '',
-        instagram_id: '',
-        linkedin_id: '',
-        art_field_id: '',
         bio: '',
+        expertise_areas: [],
+        qualification: '',
+        organization: '',
     });
 
-    const [selectedArtField, setSelectedArtField] = useState(null);
+    const [selectedExpertiseAreas, setSelectedExpertiseAreas] = useState([]);
 
     const artFields = [
         { id: 1, name: 'موسیقی', icon: MusicIcon, description: 'آهنگسازی، نوازندگی، خوانندگی و تولید موسیقی' },
@@ -43,20 +39,31 @@ export default function ArtistRegister() {
         { id: 8, name: 'معماری', icon: ArchitectureIcon, description: 'طراحی معماری، نقشه‌کشی و طراحی داخلی' },
     ];
 
+    const handleExpertiseToggle = (fieldId) => {
+        let newAreas;
+        if (selectedExpertiseAreas.includes(fieldId)) {
+            newAreas = selectedExpertiseAreas.filter(id => id !== fieldId);
+        } else {
+            newAreas = [...selectedExpertiseAreas, fieldId];
+        }
+        setSelectedExpertiseAreas(newAreas);
+        setData('expertise_areas', newAreas);
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        post('/artist/register');
+        post('/judge/register');
     };
 
     return (
-        <FestivalLayout title="ثبت نام هنرمند - جشنواره هنری مسیر ایران">
+        <FestivalLayout title="ثبت نام داور - جشنواره هنری مسیر ایران">
             <div className="max-w-4xl mx-auto">
                 <div className="text-center mb-12">
                     <h1 className="text-4xl font-bold text-gray-800 mb-4 font-['Vazirmatn']">
-                        ثبت نام هنرمند
+                        ثبت نام داور
                     </h1>
                     <p className="text-xl text-gray-600 font-['Vazirmatn']">
-                        برای شرکت در جشنواره هنری مسیر ایران، لطفاً اطلاعات خود را تکمیل کنید
+                        برای داوری آثار هنری در جشنواره هنری مسیر ایران، لطفاً اطلاعات خود را تکمیل کنید
                     </p>
                 </div>
 
@@ -121,36 +128,57 @@ export default function ArtistRegister() {
                                     />
                                     {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                                 </div>
+                            </div>
+                        </div>
+
+                        {/* Professional Information */}
+                        <div className="border-b border-gray-200 pb-6">
+                            <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
+                                اطلاعات حرفه‌ای
+                            </h2>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
-                                        تاریخ تولد (شمسی) <span className="text-red-500">*</span>
+                                        مدرک تحصیلی / صلاحیت
                                     </label>
-                                    <PersianDateInput
-                                        value={data.birth_date}
-                                        onChange={(value) => setData('birth_date', value)}
-                                        placeholder="تاریخ تولد خود را انتخاب کنید"
+                                    <input
+                                        type="text"
+                                        value={data.qualification}
+                                        onChange={e => setData('qualification', e.target.value)}
                                         className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                        placeholder="مثال: دکترای هنر، کارشناسی ارشد موسیقی"
                                     />
-                                    {errors.birth_date && <p className="text-red-500 text-sm mt-1">{errors.birth_date}</p>}
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
+                                        سازمان / موسسه
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={data.organization}
+                                        onChange={e => setData('organization', e.target.value)}
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                        placeholder="مثال: دانشگاه هنر تهران"
+                                    />
                                 </div>
                             </div>
                         </div>
 
-                        {/* Art Field Selection */}
+                        {/* Expertise Areas */}
                         <div className="border-b border-gray-200 pb-6">
                             <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
-                                انتخاب رشته هنری <span className="text-red-500">*</span>
+                                حوزه‌های تخصصی داوری
                             </h2>
+                            <p className="text-gray-600 mb-4 font-['Vazirmatn']">
+                                حوزه‌هایی که در آن‌ها تجربه داوری دارید را انتخاب کنید:
+                            </p>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                                 {artFields.map((field) => (
                                     <div
                                         key={field.id}
-                                        onClick={() => {
-                                            setSelectedArtField(field);
-                                            setData('art_field_id', field.id);
-                                        }}
+                                        onClick={() => handleExpertiseToggle(field.id)}
                                         className={`p-4 border-2 rounded-xl cursor-pointer transition-all ${
-                                            selectedArtField?.id === field.id
+                                            selectedExpertiseAreas.includes(field.id)
                                                 ? 'border-amber-500 bg-amber-50'
                                                 : 'border-gray-200 hover:border-amber-300'
                                         }`}
@@ -163,81 +191,24 @@ export default function ArtistRegister() {
                                     </div>
                                 ))}
                             </div>
-                            {errors.art_field_id && <p className="text-red-500 text-sm mt-2">{errors.art_field_id}</p>}
-                        </div>
-
-                        {/* Social Media (Optional) */}
-                        <div className="border-b border-gray-200 pb-6">
-                            <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
-                                شبکه‌های اجتماعی (اختیاری)
-                            </h2>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
-                                        آیدی تلگرام
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={data.telegram_id}
-                                        onChange={e => setData('telegram_id', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
-                                        placeholder="@username"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
-                                        آیدی واتساپ
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={data.whatsapp_id}
-                                        onChange={e => setData('whatsapp_id', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
-                                        placeholder="+989123456789"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
-                                        آیدی اینستاگرام
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={data.instagram_id}
-                                        onChange={e => setData('instagram_id', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
-                                        placeholder="@username"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
-                                        آیدی لینکدین
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={data.linkedin_id}
-                                        onChange={e => setData('linkedin_id', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
-                                        placeholder="username"
-                                    />
-                                </div>
-                            </div>
+                            {errors.expertise_areas && <p className="text-red-500 text-sm mt-2">{errors.expertise_areas}</p>}
                         </div>
 
                         {/* Bio */}
                         <div className="border-b border-gray-200 pb-6">
                             <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
-                                بیوگرافی (اختیاری)
+                                بیوگرافی و تجربیات
                             </h2>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
-                                    درباره خودتان بنویسید
+                                    درباره تجربیات داوری و هنری خود بنویسید
                                 </label>
                                 <textarea
                                     value={data.bio}
                                     onChange={e => setData('bio', e.target.value)}
-                                    rows={4}
+                                    rows={6}
                                     className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
-                                    placeholder="تجربیات هنری، سبک کاری، افتخارات و..."
+                                    placeholder="تجربیات داوری، سوابق هنری، افتخارات، مقالات و..."
                                 />
                             </div>
                         </div>
@@ -284,7 +255,7 @@ export default function ArtistRegister() {
                                 disabled={processing}
                                 className="bg-gradient-to-r from-amber-600 to-orange-600 text-white px-12 py-4 rounded-xl font-bold text-lg hover:from-amber-700 hover:to-orange-700 transition-all transform hover:scale-105 shadow-lg font-['Vazirmatn'] disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                {processing ? 'در حال ثبت نام...' : 'ثبت نام'}
+                                {processing ? 'در حال ثبت نام...' : 'ثبت نام به عنوان داور'}
                             </button>
                         </div>
 

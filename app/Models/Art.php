@@ -12,6 +12,8 @@ class Art extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'arts';
+
     protected $fillable = [
         'artist_id',
         'art_field_id',
@@ -27,6 +29,10 @@ class Art extends Model
         'rejection_reason',
         'approved_at',
         'approved_by',
+        'video_url',
+        'audio_url',
+        'tags',
+        'year_created',
     ];
 
     protected $casts = [
