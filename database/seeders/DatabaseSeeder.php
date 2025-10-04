@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             FieldRequirementSeeder::class,
             AdminSeeder::class,
             FestivalSettingSeeder::class,
+            PassportClientSeeder::class,
         ]);
     }
 }

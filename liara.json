@@ -2,6 +2,8 @@
   "port": 80,
   "platform": "laravel",
   "app": "iranian-art-route",
+  "php": "8.3",
+  "node": "22",
   "build": {
     "location": "iran"
   },
