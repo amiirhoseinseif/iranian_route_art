@@ -168,7 +168,7 @@ export default function AdminManagement({ auth }) {
     };
 
     return (
-        <FestivalLayout title="مدیریت مدیران و داوران - جشنواره هنری مسیر ایران">
+        <FestivalLayout title="مدیریت مدیران و داوران - جشنواره بین الملی مسیر ایران">
             <div className="max-w-7xl mx-auto">
                 <div className="mb-8">
                     <h1 className="text-3xl font-bold text-gray-800 mb-2 font-['Vazirmatn']">

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from '@inertiajs/react';
 import FestivalLayout from '@/Layouts/FestivalLayout';
-import { PaletteIcon, MusicIcon, FilmIcon, SculptureIcon, GraphicIcon, CalligraphyIcon, PhotographyIcon, ArchitectureIcon, AddIcon } from '@/Components/SvgIcons';
+import { PaletteIcon, MusicIcon, ShortFilmIcon, SculptureIcon, IllustrationIcon, CalligraphyIcon, PhotographyIcon, ArchitectureIcon, HandicraftsIcon, IndustrialDesignIcon, LiteratureIcon, CarpetIcon, TheaterIcon, FashionDesignIcon, AnimationIcon, NewMediaArtsIcon, AddIcon } from '@/Components/SvgIcons';
 
 export default function ArtistArts({ arts = [] }) {
     return (
-        <FestivalLayout title="آثار هنری - جشنواره هنری مسیر ایران">
+        <FestivalLayout title="آثار هنری - جشنواره بین الملی مسیر ایران">
             <div className="max-w-7xl mx-auto">
                 <div className="mb-8">
                     <div className="flex items-center justify-between">
@@ -19,7 +19,7 @@ export default function ArtistArts({ arts = [] }) {
                         </div>
                         <Link
                             href="/artist/arts/create"
-                            className="bg-gradient-to-r from-amber-600 to-orange-600 text-white px-6 py-3 rounded-xl hover:from-amber-700 hover:to-orange-700 transition-all transform hover:scale-105 font-['Vazirmatn']"
+                            className="bg-gradient-to-r from-primary-600 to-primary-700 text-white px-6 py-3 rounded-xl hover:from-primary-700 hover:to-primary-800 transition-all transform hover:scale-105 font-['Vazirmatn']"
                         >
                             + افزودن اثر جدید
                         </Link>
@@ -31,16 +31,24 @@ export default function ArtistArts({ arts = [] }) {
                     {arts.length > 0 ? (
                         arts.map((art, index) => (
                             <div key={index} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-                                <div className="h-48 bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
-                                    {art.art_field?.name === 'نقاشی' ? <PaletteIcon className="w-16 h-16 text-blue-600" /> :
-                                     art.art_field?.name === 'موسیقی' ? <MusicIcon className="w-16 h-16 text-blue-600" /> :
-                                     art.art_field?.name === 'فیلم‌سازی' ? <FilmIcon className="w-16 h-16 text-blue-600" /> :
-                                     art.art_field?.name === 'مجسمه‌سازی' ? <SculptureIcon className="w-16 h-16 text-blue-600" /> :
-                                     art.art_field?.name === 'گرافیک' ? <GraphicIcon className="w-16 h-16 text-blue-600" /> :
-                                     art.art_field?.name === 'خوشنویسی' ? <CalligraphyIcon className="w-16 h-16 text-blue-600" /> :
-                                     art.art_field?.name === 'عکاسی' ? <PhotographyIcon className="w-16 h-16 text-blue-600" /> :
-                                     art.art_field?.name === 'معماری' ? <ArchitectureIcon className="w-16 h-16 text-blue-600" /> : 
-                                     <PaletteIcon className="w-16 h-16 text-blue-600" />}
+                                <div className="h-48 bg-gradient-to-br from-primary-100 to-secondary-100 flex items-center justify-center">
+                                    {art.art_field?.name === 'موسیقی' ? <MusicIcon className="w-16 h-16 text-primary-600" /> :
+                                     art.art_field?.name === 'خوشنویسی' ? <CalligraphyIcon className="w-16 h-16 text-primary-600" /> :
+                                     art.art_field?.name === 'نقاشی' ? <PaletteIcon className="w-16 h-16 text-primary-600" /> :
+                                     art.art_field?.name === 'مجسمه‌سازی' ? <SculptureIcon className="w-16 h-16 text-primary-600" /> :
+                                     art.art_field?.name === 'صنایع دستی' ? <HandicraftsIcon className="w-16 h-16 text-primary-600" /> :
+                                     art.art_field?.name === 'معماری' ? <ArchitectureIcon className="w-16 h-16 text-primary-600" /> :
+                                     art.art_field?.name === 'طراحی صنعتی' ? <IndustrialDesignIcon className="w-16 h-16 text-primary-600" /> :
+                                     art.art_field?.name === 'گرافیک و تصویرسازی' ? <IllustrationIcon className="w-16 h-16 text-primary-600" /> :
+                                     art.art_field?.name === 'ادبیات' ? <LiteratureIcon className="w-16 h-16 text-primary-600" /> :
+                                     art.art_field?.name === 'فرش' ? <CarpetIcon className="w-16 h-16 text-primary-600" /> :
+                                     art.art_field?.name === 'فیلم کوتاه' ? <ShortFilmIcon className="w-16 h-16 text-primary-600" /> :
+                                     art.art_field?.name === 'نمایش' ? <TheaterIcon className="w-16 h-16 text-primary-600" /> :
+                                     art.art_field?.name === 'طراحی پارچه و لباس' ? <FashionDesignIcon className="w-16 h-16 text-primary-600" /> :
+                                     art.art_field?.name === 'انیمیشن' ? <AnimationIcon className="w-16 h-16 text-primary-600" /> :
+                                     art.art_field?.name === 'عکاسی' ? <PhotographyIcon className="w-16 h-16 text-primary-600" /> :
+                                     art.art_field?.name === 'هنرهای جدید' ? <NewMediaArtsIcon className="w-16 h-16 text-primary-600" /> :
+                                     <PaletteIcon className="w-16 h-16 text-primary-600" />}
                                 </div>
                                 <div className="p-6">
                                     <h3 className="text-xl font-bold text-gray-800 mb-2 font-['Vazirmatn']">
@@ -51,9 +59,9 @@ export default function ArtistArts({ arts = [] }) {
                                     </p>
                                     <div className="flex items-center justify-between mb-4">
                                         <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                                            art.status === 'approved' ? 'bg-green-100 text-green-800' :
-                                            art.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                                            art.status === 'rejected' ? 'bg-red-100 text-red-800' :
+                                            art.status === 'approved' ? 'bg-secondary-200 text-secondary-800' :
+                                            art.status === 'pending' ? 'bg-secondary-100 text-secondary-700' :
+                                            art.status === 'rejected' ? 'bg-primary-100 text-primary-800' :
                                             'bg-gray-100 text-gray-800'
                                         } font-['Vazirmatn']`}>
                                             {art.status === 'approved' ? 'تایید شده' :
@@ -67,7 +75,7 @@ export default function ArtistArts({ arts = [] }) {
                                     <div className="flex space-x-2 space-x-reverse">
                                         <Link
                                             href={`/artist/arts/${art.id}/edit`}
-                                            className="flex-1 bg-amber-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-amber-700 transition-colors text-center font-['Vazirmatn']"
+                                            className="flex-1 bg-primary-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-primary-700 transition-colors text-center font-['Vazirmatn']"
                                         >
                                             ویرایش
                                         </Link>
@@ -89,7 +97,7 @@ export default function ArtistArts({ arts = [] }) {
                             </p>
                             <Link
                                 href="/artist/arts/create"
-                                className="bg-gradient-to-r from-amber-600 to-orange-600 text-white px-8 py-3 rounded-xl hover:from-amber-700 hover:to-orange-700 transition-all transform hover:scale-105 font-['Vazirmatn']"
+                                className="bg-gradient-to-r from-primary-600 to-primary-700 text-white px-8 py-3 rounded-xl hover:from-primary-700 hover:to-primary-800 transition-all transform hover:scale-105 font-['Vazirmatn']"
                             >
                                 افزودن اثر جدید
                             </Link>

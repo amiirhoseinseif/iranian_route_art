@@ -1,5 +1,6 @@
 import React from 'react';
 import FestivalLayout from '@/Layouts/FestivalLayout';
+import { useTranslation } from '@/Utils/translation';
 import { 
     CheckIcon,
     ClockIcon,
@@ -15,31 +16,32 @@ import {
 } from '@/Components/SvgIcons';
 
 export default function JudgeDashboard({ judge, statistics, assigned_art_fields, pending_evaluations, recent_evaluations }) {
+    const { trans } = useTranslation();
     const isVerified = judge?.verification_status === 'approved';
 
     if (!isVerified) {
         return (
-            <FestivalLayout title="پنل داور - جشنواره هنری مسیر ایران">
+            <FestivalLayout title={trans('judge_panel_title')}>
                 <div className="max-w-4xl mx-auto">
-                    <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-8 text-center">
-                        <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <ClockIcon className="w-8 h-8 text-yellow-600" />
+                    <div className="bg-secondary-50 border border-secondary-200 rounded-2xl p-6 sm:p-8 text-center animate-fadeIn">
+                        <div className="w-14 h-14 sm:w-16 sm:h-16 bg-secondary-100 rounded-full flex items-center justify-center mx-auto mb-4 animate-bounceIn">
+                            <ClockIcon className="w-7 h-7 sm:w-8 sm:h-8 text-secondary-600" />
                         </div>
-                        <h2 className="text-2xl font-bold text-gray-800 mb-4 font-['Vazirmatn']">
-                            عضویت شما تایید نشده است
+                        <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 font-['Vazirmatn']">
+                            {trans('not_verified_title')}
                         </h2>
-                        <p className="text-gray-600 mb-6 font-['Vazirmatn']">
-                            لطفاً با مدیر سایت تماس بگیرید تا عضویت شما تایید شود.
+                        <p className="text-gray-600 mb-6 font-['Vazirmatn'] text-sm sm:text-base">
+                            {trans('not_verified_message')}
                         </p>
                         {judge?.rejection_reason && (
-                            <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-                                <p className="text-red-800 font-['Vazirmatn']">
-                                    <strong>دلیل رد شدن:</strong> {judge.rejection_reason}
+                            <div className="bg-primary-50 border border-primary-200 rounded-lg p-4 mb-6">
+                                <p className="text-primary-800 font-['Vazirmatn']">
+                                    <strong>{trans('rejection_reason_label')}</strong> {judge.rejection_reason}
                                 </p>
                             </div>
                         )}
-                        <button className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-['Vazirmatn']">
-                            تماس با مدیر
+                        <button className="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition-colors font-['Vazirmatn']">
+                            {trans('contact_admin')}
                         </button>
                     </div>
                 </div>
@@ -48,76 +50,76 @@ export default function JudgeDashboard({ judge, statistics, assigned_art_fields,
     }
 
     return (
-        <FestivalLayout title="پنل داور - جشنواره هنری مسیر ایران">
+        <FestivalLayout title={trans('judge_panel_title')}>
             <div className="max-w-7xl mx-auto">
-                <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-gray-800 mb-2 font-['Vazirmatn']">
-                        پنل داور
+                <div className="mb-6 sm:mb-8">
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2 font-['Vazirmatn']">
+                        {trans('judge_panel_title')}
                     </h1>
-                    <p className="text-gray-600 font-['Vazirmatn']">
-                        ارزیابی آثار هنری جشنواره هنری مسیر ایران
+                    <p className="text-gray-600 font-['Vazirmatn'] text-sm sm:text-base">
+                        {trans('judge_panel_subtitle')}
                     </p>
                 </div>
 
                 {/* Judge Stats */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                    <div className="bg-white p-6 rounded-2xl shadow-lg">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+                    <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 animate-fadeIn">
                         <div className="flex items-center">
-                            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                                <ListIcon className="w-6 h-6 text-blue-600" />
+                            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary-100 rounded-xl flex items-center justify-center transition-transform duration-300 hover:scale-110">
+                                <ListIcon className="w-5 h-5 sm:w-6 sm:h-6 text-primary-600" />
                             </div>
-                            <div className="mr-4">
-                                <p className="text-sm text-gray-600 font-['Vazirmatn']">کل آثار تخصیص داده شده</p>
-                                <p className="text-2xl font-bold text-gray-800">{statistics.total_assignments}</p>
+                            <div className="mr-3 sm:mr-4">
+                                <p className="text-xs sm:text-sm text-gray-600 font-['Vazirmatn']">{trans('total_assignments')}</p>
+                                <p className="text-xl sm:text-2xl font-bold text-gray-800">{statistics.total_assignments}</p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-white p-6 rounded-2xl shadow-lg">
+                    <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 animate-fadeIn">
                         <div className="flex items-center">
-                            <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
-                                <ClockIcon className="w-6 h-6 text-yellow-600" />
+                            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-secondary-100 rounded-xl flex items-center justify-center transition-transform duration-300 hover:scale-110">
+                                <ClockIcon className="w-5 h-5 sm:w-6 sm:h-6 text-secondary-600" />
                             </div>
-                            <div className="mr-4">
-                                <p className="text-sm text-gray-600 font-['Vazirmatn']">در انتظار ارزیابی</p>
-                                <p className="text-2xl font-bold text-gray-800">{statistics.pending_evaluations}</p>
+                            <div className="mr-3 sm:mr-4">
+                                <p className="text-xs sm:text-sm text-gray-600 font-['Vazirmatn']">{trans('pending_evaluations')}</p>
+                                <p className="text-xl sm:text-2xl font-bold text-gray-800">{statistics.pending_evaluations}</p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-white p-6 rounded-2xl shadow-lg">
+                    <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 animate-fadeIn">
                         <div className="flex items-center">
-                            <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                                <CheckIcon className="w-6 h-6 text-green-600" />
+                            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-secondary-200 rounded-xl flex items-center justify-center transition-transform duration-300 hover:scale-110">
+                                <CheckIcon className="w-5 h-5 sm:w-6 sm:h-6 text-secondary-700" />
                             </div>
-                            <div className="mr-4">
-                                <p className="text-sm text-gray-600 font-['Vazirmatn']">ارزیابی شده</p>
-                                <p className="text-2xl font-bold text-gray-800">{statistics.completed_evaluations}</p>
+                            <div className="mr-3 sm:mr-4">
+                                <p className="text-xs sm:text-sm text-gray-600 font-['Vazirmatn']">{trans('completed_evaluations')}</p>
+                                <p className="text-xl sm:text-2xl font-bold text-gray-800">{statistics.completed_evaluations}</p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-white p-6 rounded-2xl shadow-lg">
+                    <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 animate-fadeIn">
                         <div className="flex items-center">
-                            <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
-                                <TrophyIcon className="w-6 h-6 text-purple-600" />
+                            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary-200 rounded-xl flex items-center justify-center transition-transform duration-300 hover:scale-110">
+                                <TrophyIcon className="w-5 h-5 sm:w-6 sm:h-6 text-primary-700" />
                             </div>
-                            <div className="mr-4">
-                                <p className="text-sm text-gray-600 font-['Vazirmatn']">میانگین امتیاز</p>
-                                <p className="text-2xl font-bold text-gray-800">{statistics.average_score}</p>
+                            <div className="mr-3 sm:mr-4">
+                                <p className="text-xs sm:text-sm text-gray-600 font-['Vazirmatn']">{trans('average_score')}</p>
+                                <p className="text-xl sm:text-2xl font-bold text-gray-800">{statistics.average_score}</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 {/* Assigned Art Fields */}
-                <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
-                    <h3 className="text-xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">رشته‌های هنری تخصیص داده شده</h3>
+                <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 mb-6 sm:mb-8 animate-slideDown">
+                    <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-4 sm:mb-6 font-['Vazirmatn']">{trans('assigned_art_fields')}</h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {assigned_art_fields.length === 0 ? (
                             <div className="col-span-full text-center py-8">
                                 <p className="text-gray-500 font-['Vazirmatn']">
-                                    هیچ رشته هنری تخصیص داده نشده است
+                                    {trans('no_field_assigned')}
                                 </p>
                             </div>
                         ) : (
@@ -132,21 +134,21 @@ export default function JudgeDashboard({ judge, statistics, assigned_art_fields,
                                 const IconComponent = getIcon(field.name);
                                 
                                 return (
-                                    <div key={index} className="p-4 border border-gray-200 rounded-xl">
+                                    <div key={index} className="p-4 border border-gray-200 rounded-xl transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center">
-                                                <div className="w-10 h-10 rounded-lg flex items-center justify-center mr-3 bg-blue-100 text-blue-600">
+                                                <div className="w-10 h-10 rounded-lg flex items-center justify-center mr-3 bg-primary-100 text-primary-600 transition-transform duration-300 hover:scale-110">
                                                     <IconComponent className="w-5 h-5" />
                                                 </div>
                                                 <div>
-                                                    <h4 className="font-semibold text-gray-800 font-['Vazirmatn']">{field.name}</h4>
-                                                    <p className="text-sm text-gray-600 font-['Vazirmatn']">
-                                                        {field.count} اثر ({field.pending} در انتظار)
+                                                    <h4 className="font-semibold text-gray-800 font-['Vazirmatn'] text-sm sm:text-base">{field.name}</h4>
+                                                    <p className="text-xs sm:text-sm text-gray-600 font-['Vazirmatn']">
+                                                        {field.count} {trans('artworks_count_label')} ({field.pending} {trans('pending_label')})
                                                     </p>
                                                 </div>
                                             </div>
-                                            <button className="bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition-colors font-['Vazirmatn']">
-                                                مشاهده
+                                            <button className="bg-primary-600 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm hover:bg-primary-700 transition-colors font-['Vazirmatn']">
+                                                {trans('view')}
                                             </button>
                                         </div>
                                     </div>
@@ -157,34 +159,34 @@ export default function JudgeDashboard({ judge, statistics, assigned_art_fields,
                 </div>
 
                 {/* Pending Evaluations */}
-                <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
-                    <h3 className="text-xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">آثار در انتظار ارزیابی</h3>
+                <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 mb-6 sm:mb-8 animate-slideDown">
+                    <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-4 sm:mb-6 font-['Vazirmatn']">{trans('evaluations_pending')}</h3>
                     <div className="space-y-4">
                         {pending_evaluations.length === 0 ? (
                             <p className="text-gray-500 text-center py-8 font-['Vazirmatn']">
-                                هیچ اثری در انتظار ارزیابی وجود ندارد
+                                {trans('no_pending_evaluations')}
                             </p>
                         ) : (
                             pending_evaluations.map((art, index) => (
-                                <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                <div key={index} className="flex items-center justify-between p-3 sm:p-4 bg-gray-50 rounded-lg transition-all duration-300 hover:bg-gray-100 animate-fadeIn" style={{ animationDelay: `${index * 0.05}s` }}>
                                     <div className="flex items-center">
                                         <div className={`w-3 h-3 rounded-full mr-3 ${
-                                            art.priority === 'high' ? 'bg-red-500' :
-                                            art.priority === 'medium' ? 'bg-yellow-500' : 'bg-green-500'
+                                            art.priority === 'high' ? 'bg-primary-700' :
+                                            art.priority === 'medium' ? 'bg-secondary-500' : 'bg-secondary-700'
                                         }`}></div>
                                         <div>
-                                            <h4 className="font-medium text-gray-800 font-['Vazirmatn']">{art.title}</h4>
-                                            <p className="text-sm text-gray-600 font-['Vazirmatn']">
-                                                هنرمند: {art.artist} | رشته: {art.field}
+                                            <h4 className="font-medium text-gray-800 font-['Vazirmatn'] text-sm sm:text-base">{art.title}</h4>
+                                            <p className="text-xs sm:text-sm text-gray-600 font-['Vazirmatn']">
+                                                {trans('artist_label')} {art.artist} | {trans('field_label')} {art.field}
                                             </p>
                                         </div>
                                     </div>
-                                    <div className="flex items-center space-x-3 space-x-reverse">
-                                        <span className="text-sm text-gray-500 font-['Vazirmatn']">
+                                    <div className="flex items-center space-x-2 sm:space-x-3 space-x-reverse">
+                                        <span className="text-xs sm:text-sm text-gray-500 font-['Vazirmatn'] hidden sm:inline">
                                             {new Date(art.submitted_at).toLocaleDateString('fa-IR')}
                                         </span>
-                                        <button className="bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition-colors font-['Vazirmatn']">
-                                            ارزیابی
+                                        <button className="bg-primary-600 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm hover:bg-primary-700 transition-colors font-['Vazirmatn']">
+                                            {trans('evaluate')}
                                         </button>
                                     </div>
                                 </div>
@@ -194,30 +196,30 @@ export default function JudgeDashboard({ judge, statistics, assigned_art_fields,
                 </div>
 
                 {/* Recent Evaluations */}
-                <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
-                    <h3 className="text-xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">ارزیابی‌های اخیر</h3>
+                <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 mb-6 sm:mb-8 animate-slideDown">
+                    <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-4 sm:mb-6 font-['Vazirmatn']">{trans('recent_evaluations')}</h3>
                     <div className="space-y-4">
                         {recent_evaluations.length === 0 ? (
                             <p className="text-gray-500 text-center py-8 font-['Vazirmatn']">
-                                هیچ ارزیابی انجام نشده است
+                                {trans('no_evaluations_done')}
                             </p>
                         ) : (
                             recent_evaluations.map((evaluation, index) => (
-                                <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                <div key={index} className="flex items-center justify-between p-3 sm:p-4 bg-gray-50 rounded-lg transition-all duration-300 hover:bg-gray-100 animate-fadeIn" style={{ animationDelay: `${index * 0.05}s` }}>
                                     <div>
-                                        <h4 className="font-medium text-gray-800 font-['Vazirmatn']">{evaluation.art_title}</h4>
-                                        <p className="text-sm text-gray-600 font-['Vazirmatn']">هنرمند: {evaluation.artist}</p>
+                                        <h4 className="font-medium text-gray-800 font-['Vazirmatn'] text-sm sm:text-base">{evaluation.art_title}</h4>
+                                        <p className="text-xs sm:text-sm text-gray-600 font-['Vazirmatn']">{trans('artist_label')} {evaluation.artist}</p>
                                     </div>
-                                    <div className="flex items-center space-x-4 space-x-reverse">
+                                    <div className="flex items-center space-x-2 sm:space-x-4 space-x-reverse">
                                         <div className="text-center">
-                                            <p className="text-sm text-gray-600 font-['Vazirmatn']">امتیاز</p>
-                                            <p className="text-xl font-bold text-amber-600">{evaluation.score}</p>
+                                            <p className="text-xs sm:text-sm text-gray-600 font-['Vazirmatn']">{trans('score_label')}</p>
+                                            <p className="text-lg sm:text-xl font-bold text-primary-600">{evaluation.score}</p>
                                         </div>
-                                        <span className="text-sm text-gray-500 font-['Vazirmatn']">
+                                        <span className="text-xs sm:text-sm text-gray-500 font-['Vazirmatn'] hidden sm:inline">
                                             {new Date(evaluation.evaluated_at).toLocaleDateString('fa-IR')}
                                         </span>
-                                        <button className="bg-blue-600 text-white px-3 py-1 rounded-lg text-sm hover:bg-blue-700 transition-colors font-['Vazirmatn']">
-                                            مشاهده
+                                        <button className="bg-primary-600 text-white px-3 py-1 rounded-lg text-xs sm:text-sm hover:bg-primary-700 transition-colors font-['Vazirmatn']">
+                                            {trans('view')}
                                         </button>
                                     </div>
                                 </div>
@@ -227,26 +229,26 @@ export default function JudgeDashboard({ judge, statistics, assigned_art_fields,
                 </div>
 
                 {/* Evaluation Guidelines */}
-                <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl p-6">
-                    <h3 className="text-xl font-bold text-gray-800 mb-4 font-['Vazirmatn']">راهنمای ارزیابی</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-700 font-['Vazirmatn']">
+                <div className="bg-gradient-to-r from-primary-50 to-secondary-100 rounded-2xl p-4 sm:p-6 animate-fadeIn">
+                    <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-4 font-['Vazirmatn']">{trans('evaluation_guidelines')}</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm text-gray-700 font-['Vazirmatn']">
                         <div>
-                            <h4 className="font-semibold mb-2">معیارهای ارزیابی:</h4>
+                            <h4 className="font-semibold mb-2">{trans('evaluation_criteria')}</h4>
                             <ul className="space-y-1 list-disc list-inside">
-                                <li>خلاقیت و نوآوری (25%)</li>
-                                <li>تکنیک و مهارت (25%)</li>
-                                <li>مفهوم و پیام (20%)</li>
-                                <li>کیفیت اجرا (20%)</li>
-                                <li>اصالت و منحصر به فرد بودن (10%)</li>
+                                <li>{trans('criteria_creativity')}</li>
+                                <li>{trans('criteria_technique')}</li>
+                                <li>{trans('criteria_concept')}</li>
+                                <li>{trans('criteria_execution')}</li>
+                                <li>{trans('criteria_originality')}</li>
                             </ul>
                         </div>
                         <div>
-                            <h4 className="font-semibold mb-2">نکات مهم:</h4>
+                            <h4 className="font-semibold mb-2">{trans('important_notes')}</h4>
                             <ul className="space-y-1 list-disc list-inside">
-                                <li>امتیازدهی از 0 تا 10</li>
-                                <li>ارائه توضیحات برای امتیازات پایین</li>
-                                <li>رعایت انصاف و بی‌طرفی</li>
-                                <li>توجه به فرهنگ و هنر ایرانی</li>
+                                <li>{trans('note_scoring')}</li>
+                                <li>{trans('note_low_scores')}</li>
+                                <li>{trans('note_fairness')}</li>
+                                <li>{trans('note_culture')}</li>
                             </ul>
                         </div>
                     </div>

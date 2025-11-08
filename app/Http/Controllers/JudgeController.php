@@ -218,6 +218,104 @@ class JudgeController extends Controller
     }
 
     /**
+     * Store evaluation for an artwork.
+     */
+    public function storeEvaluation(Request $request, $artId)
+    {
+        $userId = $request->session()->get('user_id');
+        $judge = \App\Models\Judge::find($userId);
+        
+        if (!$judge) {
+            return redirect()->route('login');
+        }
+        
+        $art = \App\Models\Art::findOrFail($artId);
+        
+        // Check if judge is assigned to this art field
+        $assignedFieldIds = $judge->assignments()->pluck('art_field_id');
+        if (!$assignedFieldIds->contains($art->art_field_id)) {
+            return back()->withErrors(['error' => 'شما مجاز به ارزیابی این اثر نیستید']);
+        }
+        
+        // Check if already evaluated
+        $existingEvaluation = $judge->evaluations()->where('art_id', $art->id)->first();
+        if ($existingEvaluation) {
+            return back()->withErrors(['error' => 'این اثر قبلاً ارزیابی شده است']);
+        }
+        
+        $validator = \Validator::make($request->all(), [
+            'score' => 'required|numeric|min:0|max:10',
+            'comments' => 'nullable|string|max:2000',
+            'criteria_scores' => 'nullable|array',
+            'criteria_scores.*' => 'nullable|numeric|min:0|max:10',
+        ], [
+            'score.required' => 'امتیاز کلی الزامی است',
+            'score.numeric' => 'امتیاز باید عدد باشد',
+            'score.min' => 'امتیاز نباید کمتر از 0 باشد',
+            'score.max' => 'امتیاز نباید بیشتر از 10 باشد',
+        ]);
+        
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+        
+        $evaluation = \App\Models\ArtEvaluation::create([
+            'art_id' => $art->id,
+            'judge_id' => $judge->id,
+            'score' => $request->score,
+            'comments' => $request->comments,
+            'criteria_scores' => $request->criteria_scores,
+            'status' => 'submitted',
+            'submitted_at' => now(),
+        ]);
+        
+        return redirect()->route('judge.dashboard')->with('success', 'ارزیابی با موفقیت ثبت شد!');
+    }
+    
+    /**
+     * Update existing evaluation.
+     */
+    public function updateEvaluation(Request $request, $evaluationId)
+    {
+        $userId = $request->session()->get('user_id');
+        $judge = \App\Models\Judge::find($userId);
+        
+        if (!$judge) {
+            return redirect()->route('login');
+        }
+        
+        $evaluation = \App\Models\ArtEvaluation::where('id', $evaluationId)
+            ->where('judge_id', $judge->id)
+            ->firstOrFail();
+        
+        $validator = \Validator::make($request->all(), [
+            'score' => 'required|numeric|min:0|max:10',
+            'comments' => 'nullable|string|max:2000',
+            'criteria_scores' => 'nullable|array',
+            'criteria_scores.*' => 'nullable|numeric|min:0|max:10',
+        ], [
+            'score.required' => 'امتیاز کلی الزامی است',
+            'score.numeric' => 'امتیاز باید عدد باشد',
+            'score.min' => 'امتیاز نباید کمتر از 0 باشد',
+            'score.max' => 'امتیاز نباید بیشتر از 10 باشد',
+        ]);
+        
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+        
+        $evaluation->update([
+            'score' => $request->score,
+            'comments' => $request->comments,
+            'criteria_scores' => $request->criteria_scores,
+            'status' => 'submitted',
+            'submitted_at' => now(),
+        ]);
+        
+        return redirect()->route('judge.dashboard')->with('success', 'ارزیابی با موفقیت به‌روزرسانی شد!');
+    }
+
+    /**
      * Calculate priority based on submission date.
      */
     private function calculatePriority($submittedAt)

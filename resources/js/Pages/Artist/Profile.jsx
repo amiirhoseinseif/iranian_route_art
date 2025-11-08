@@ -4,6 +4,7 @@ import FestivalLayout from '@/Layouts/FestivalLayout';
 import PersianDateInput from '@/Components/PersianDateInput';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
+import { route } from '@/Utils/route';
 
 export default function ArtistProfile({ artist }) {
     const { data, setData, patch, processing, errors } = useForm({
@@ -25,7 +26,7 @@ export default function ArtistProfile({ artist }) {
     };
 
     return (
-        <FestivalLayout title="پروفایل هنرمند - جشنواره هنری مسیر ایران">
+        <FestivalLayout title="پروفایل هنرمند - جشنواره بین الملی مسیر ایران">
             <div className="max-w-4xl mx-auto">
                 <div className="mb-8">
                     <h1 className="text-3xl font-bold text-gray-800 mb-2 font-['Vazirmatn']">
@@ -51,7 +52,7 @@ export default function ArtistProfile({ artist }) {
                                         type="text"
                                         value={data.first_name}
                                         onChange={e => setData('first_name', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                         required
                                     />
                                     {errors.first_name && <p className="text-red-500 text-sm mt-1">{errors.first_name}</p>}
@@ -64,7 +65,7 @@ export default function ArtistProfile({ artist }) {
                                         type="text"
                                         value={data.last_name}
                                         onChange={e => setData('last_name', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                         required
                                     />
                                     {errors.last_name && <p className="text-red-500 text-sm mt-1">{errors.last_name}</p>}
@@ -77,7 +78,7 @@ export default function ArtistProfile({ artist }) {
                                         type="tel"
                                         value={data.phone}
                                         onChange={e => setData('phone', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                         placeholder="09123456789"
                                         required
                                     />
@@ -91,7 +92,7 @@ export default function ArtistProfile({ artist }) {
                                         type="email"
                                         value={data.email}
                                         onChange={e => setData('email', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                         required
                                     />
                                     {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
@@ -104,7 +105,7 @@ export default function ArtistProfile({ artist }) {
                                         value={data.birth_date}
                                         onChange={(value) => setData('birth_date', value)}
                                         placeholder="تاریخ تولد خود را انتخاب کنید"
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                     />
                                     {errors.birth_date && <p className="text-red-500 text-sm mt-1">{errors.birth_date}</p>}
                                 </div>
@@ -124,7 +125,7 @@ export default function ArtistProfile({ artist }) {
                                         type="text"
                                         value={data.telegram_id}
                                         onChange={e => setData('telegram_id', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                         placeholder="@username"
                                     />
                                 </div>
@@ -136,7 +137,7 @@ export default function ArtistProfile({ artist }) {
                                         type="text"
                                         value={data.whatsapp_id}
                                         onChange={e => setData('whatsapp_id', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                         placeholder="+989123456789"
                                     />
                                 </div>
@@ -148,7 +149,7 @@ export default function ArtistProfile({ artist }) {
                                         type="text"
                                         value={data.instagram_id}
                                         onChange={e => setData('instagram_id', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                         placeholder="@username"
                                     />
                                 </div>
@@ -160,7 +161,7 @@ export default function ArtistProfile({ artist }) {
                                         type="text"
                                         value={data.linkedin_id}
                                         onChange={e => setData('linkedin_id', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                         placeholder="username"
                                     />
                                 </div>
@@ -179,7 +180,7 @@ export default function ArtistProfile({ artist }) {
                                     value={data.bio}
                                     onChange={e => setData('bio', e.target.value)}
                                     rows={4}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                     placeholder="تجربیات هنری، سبک کاری، افتخارات و..."
                                 />
                             </div>

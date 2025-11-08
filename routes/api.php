@@ -72,6 +72,12 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     // Enhanced data endpoints
     Route::get('/artists', [AdminController::class, 'getArtists']);
     Route::get('/arts', [AdminController::class, 'getArts']);
+    
+    // Field Requirements management
+    Route::get('/art-fields/{artFieldId}/field-requirements', [AdminController::class, 'getFieldRequirements']);
+    Route::post('/field-requirements', [AdminController::class, 'storeFieldRequirement']);
+    Route::put('/field-requirements/{id}', [AdminController::class, 'updateFieldRequirement']);
+    Route::delete('/field-requirements/{id}', [AdminController::class, 'deleteFieldRequirement']);
 });
 
 // Judge API routes

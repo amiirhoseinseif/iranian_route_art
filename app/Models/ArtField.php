@@ -13,6 +13,7 @@ class ArtField extends Model
     protected $fillable = [
         'name',
         'name_en',
+        'icon_name',
         'description',
         'is_active',
     ];

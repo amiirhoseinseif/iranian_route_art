@@ -11,117 +11,142 @@ import {
     PaletteIcon,
     ChartBarIcon
 } from '@/Components/SvgIcons';
+import { useTranslation } from '@/Utils/translation';
 
 export default function ArtistDashboard({ artist, statistics, recent_arts, festival_settings, notifications }) {
+    const { trans } = useTranslation();
+    
     return (
-        <FestivalLayout title="پنل هنرمند - جشنواره هنری مسیر ایران">
+        <FestivalLayout title={trans('dashboard') + ' - ' + trans('site_title')}>
             <div className="max-w-7xl mx-auto">
                 <div className="mb-8">
                     <div className="flex justify-between items-center">
                         <div>
                             <h1 className="text-3xl font-bold text-gray-800 mb-2 font-['Vazirmatn']">
-                                پنل هنرمند
+                                {trans('dashboard')}
                             </h1>
                             <p className="text-gray-600 font-['Vazirmatn']">
-                                خوش آمدید {artist?.first_name} {artist?.last_name}! اینجا می‌توانید آثار هنری خود را مدیریت کنید
+                                {trans('welcome')} {artist?.first_name} {artist?.last_name}! {trans('artist_dashboard_intro')}
                             </p>
                         </div>
                         <Link
                             href="/logout"
                             method="post"
-                            className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors font-['Vazirmatn']"
+                            className="bg-primary-700 text-white px-4 py-2 rounded-lg hover:bg-primary-800 transition-colors font-['Vazirmatn']"
                         >
-                            خروج
+                            {trans('logout')}
                         </Link>
                     </div>
                 </div>
 
-                {/* Artist Stats */}
+                {/* Artist Stats with modern design */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                    <div className="bg-white p-6 rounded-2xl shadow-lg">
-                        <div className="flex items-center">
-                            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                                <PaletteIcon className="w-6 h-6 text-blue-600" />
+                    <div className="group relative bg-gradient-to-br from-primary-50 to-white p-6 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-primary-100/50 overflow-hidden">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-primary-200/20 rounded-full blur-2xl"></div>
+                        <div className="relative flex items-center">
+                            <div className="w-14 h-14 bg-gradient-to-br from-primary-500 to-primary-600 rounded-2xl flex items-center justify-center shadow-lg transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                                <PaletteIcon className="w-7 h-7 text-white" />
                             </div>
                             <div className="mr-4">
-                                <p className="text-sm text-gray-600 font-['Vazirmatn']">کل آثار</p>
-                                <p className="text-2xl font-bold text-gray-800">{statistics?.total_arts || 0}</p>
+                                <p className="text-xs text-gray-500 font-['Vazirmatn'] uppercase tracking-wide mb-1">{trans('total_artworks')}</p>
+                                <p className="text-3xl font-extrabold text-gray-800 group-hover:text-primary-600 transition-colors">{statistics?.total_arts || 0}</p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-white p-6 rounded-2xl shadow-lg">
-                        <div className="flex items-center">
-                            <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                                <CheckIcon className="w-6 h-6 text-green-600" />
+                    <div className="group relative bg-gradient-to-br from-secondary-50 to-white p-6 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-secondary-100/50 overflow-hidden">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-secondary-300/20 rounded-full blur-2xl"></div>
+                        <div className="relative flex items-center">
+                            <div className="w-14 h-14 bg-gradient-to-br from-secondary-500 to-secondary-600 rounded-2xl flex items-center justify-center shadow-lg transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                                <CheckIcon className="w-7 h-7 text-white" />
                             </div>
                             <div className="mr-4">
-                                <p className="text-sm text-gray-600 font-['Vazirmatn']">تایید شده</p>
-                                <p className="text-2xl font-bold text-gray-800">{statistics?.approved_arts || 0}</p>
+                                <p className="text-xs text-gray-500 font-['Vazirmatn'] uppercase tracking-wide mb-1">{trans('approved_status')}</p>
+                                <p className="text-3xl font-extrabold text-gray-800 group-hover:text-secondary-700 transition-colors">{statistics?.approved_arts || 0}</p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-white p-6 rounded-2xl shadow-lg">
-                        <div className="flex items-center">
-                            <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
-                                <ClockIcon className="w-6 h-6 text-yellow-600" />
+                    <div className="group relative bg-gradient-to-br from-amber-50 to-white p-6 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-amber-100/50 overflow-hidden">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-amber-200/20 rounded-full blur-2xl"></div>
+                        <div className="relative flex items-center">
+                            <div className="w-14 h-14 bg-gradient-to-br from-amber-500 to-amber-600 rounded-2xl flex items-center justify-center shadow-lg transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                                <ClockIcon className="w-7 h-7 text-white" />
                             </div>
                             <div className="mr-4">
-                                <p className="text-sm text-gray-600 font-['Vazirmatn']">در انتظار تایید</p>
-                                <p className="text-2xl font-bold text-gray-800">{statistics?.pending_arts || 0}</p>
+                                <p className="text-xs text-gray-500 font-['Vazirmatn'] uppercase tracking-wide mb-1">{trans('pending_status')}</p>
+                                <p className="text-3xl font-extrabold text-gray-800 group-hover:text-amber-600 transition-colors">{statistics?.pending_arts || 0}</p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-white p-6 rounded-2xl shadow-lg">
-                        <div className="flex items-center">
-                            <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
-                                <ChartBarIcon className="w-6 h-6 text-purple-600" />
+                    <div className="group relative bg-gradient-to-br from-primary-100 to-white p-6 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-primary-200/50 overflow-hidden">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-primary-300/20 rounded-full blur-2xl"></div>
+                        <div className="relative flex items-center">
+                            <div className="w-14 h-14 bg-gradient-to-br from-primary-600 to-primary-700 rounded-2xl flex items-center justify-center shadow-lg transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                                <ChartBarIcon className="w-7 h-7 text-white" />
                             </div>
                             <div className="mr-4">
-                                <p className="text-sm text-gray-600 font-['Vazirmatn']">میانگین امتیاز</p>
-                                <p className="text-2xl font-bold text-gray-800">{statistics?.average_score || 0}</p>
+                                <p className="text-xs text-gray-500 font-['Vazirmatn'] uppercase tracking-wide mb-1">{trans('average_score')}</p>
+                                <p className="text-3xl font-extrabold text-gray-800 group-hover:text-primary-700 transition-colors">{statistics?.average_score || 0}</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Quick Actions */}
-                <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
-                    <h3 className="text-xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">عملیات سریع</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {/* Quick Actions with modern cards */}
+                <div className="bg-gradient-to-br from-white to-gray-50 rounded-3xl shadow-xl p-8 mb-8 border border-gray-100">
+                    <h3 className="text-2xl font-extrabold text-gray-800 mb-8 font-['Vazirmatn'] relative">
+                        <span className="relative z-10">{trans('quick_actions')}</span>
+                        <span className="absolute bottom-0 right-0 w-20 h-1 bg-gradient-to-r from-primary-600 to-transparent rounded-full"></span>
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <Link 
                             href="/artist/arts/create" 
-                            className="bg-gradient-to-r from-amber-600 to-orange-600 text-white p-6 rounded-xl text-center hover:from-amber-700 hover:to-orange-700 transition-all transform hover:scale-105"
+                            className="group relative bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white p-8 rounded-3xl text-center hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-primary-500/50 overflow-hidden"
                         >
-                            <div className="text-4xl mb-3 flex justify-center">
-                                <AddIcon className="w-12 h-12" />
+                            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div className="relative z-10">
+                                <div className="mb-4 flex justify-center transform group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
+                                    <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-lg">
+                                        <AddIcon className="w-8 h-8" />
+                                    </div>
+                                </div>
+                                <h4 className="text-xl font-bold mb-2 font-['Vazirmatn']">{trans('submit_new_art')}</h4>
+                                <p className="text-primary-100 text-sm font-['Vazirmatn']">{trans('add_new_artwork')}</p>
                             </div>
-                            <h4 className="text-lg font-bold mb-2 font-['Vazirmatn']">افزودن اثر جدید</h4>
-                            <p className="text-amber-100 text-sm font-['Vazirmatn']">اثر هنری جدید خود را اضافه کنید</p>
                         </Link>
                         
                         <Link 
                             href="/artist/profile" 
-                            className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-xl text-center hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105"
+                            className="group relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white p-8 rounded-3xl text-center hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-blue-500/50 overflow-hidden"
                         >
-                            <div className="text-4xl mb-3 flex justify-center">
-                                <ProfileIcon className="w-12 h-12" />
+                            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div className="relative z-10">
+                                <div className="mb-4 flex justify-center transform group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
+                                    <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-lg">
+                                        <ProfileIcon className="w-8 h-8" />
+                                    </div>
+                                </div>
+                                <h4 className="text-xl font-bold mb-2 font-['Vazirmatn']">{trans('edit_profile')}</h4>
+                                <p className="text-blue-100 text-sm font-['Vazirmatn']">{trans('update_personal_info')}</p>
                             </div>
-                            <h4 className="text-lg font-bold mb-2 font-['Vazirmatn']">ویرایش پروفایل</h4>
-                            <p className="text-blue-100 text-sm font-['Vazirmatn']">اطلاعات شخصی خود را بروزرسانی کنید</p>
                         </Link>
                         
                         <Link 
                             href="/artist/arts" 
-                            className="bg-gradient-to-r from-green-600 to-teal-600 text-white p-6 rounded-xl text-center hover:from-green-700 hover:to-teal-700 transition-all transform hover:scale-105"
+                            className="group relative bg-gradient-to-br from-secondary-600 via-secondary-700 to-secondary-800 text-white p-8 rounded-3xl text-center hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-secondary-500/50 overflow-hidden"
                         >
-                            <div className="text-4xl mb-3 flex justify-center">
-                                <ListIcon className="w-12 h-12" />
+                            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div className="relative z-10">
+                                <div className="mb-4 flex justify-center transform group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
+                                    <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-lg">
+                                        <ListIcon className="w-8 h-8" />
+                                    </div>
+                                </div>
+                                <h4 className="text-xl font-bold mb-2 font-['Vazirmatn']">{trans('view_all_artworks')}</h4>
+                                <p className="text-secondary-100 text-sm font-['Vazirmatn']">{trans('view_all_artworks_desc')}</p>
                             </div>
-                            <h4 className="text-lg font-bold mb-2 font-['Vazirmatn']">مشاهده همه آثار</h4>
-                            <p className="text-green-100 text-sm font-['Vazirmatn']">لیست کامل آثار هنری خود را ببینید</p>
                         </Link>
                     </div>
                 </div>
@@ -129,12 +154,12 @@ export default function ArtistDashboard({ artist, statistics, recent_arts, festi
                 {/* Recent Arts */}
                 <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
                     <div className="flex items-center justify-between mb-6">
-                        <h3 className="text-xl font-bold text-gray-800 font-['Vazirmatn']">آثار اخیر</h3>
+                        <h3 className="text-xl font-bold text-gray-800 font-['Vazirmatn']">{trans('recent_artworks')}</h3>
                         <Link 
                             href="/artist/arts" 
-                            className="text-amber-600 hover:text-amber-700 font-semibold font-['Vazirmatn']"
+                            className="text-primary-600 hover:text-primary-700 font-semibold font-['Vazirmatn']"
                         >
-                            مشاهده همه
+                            {trans('view_all')}
                         </Link>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -176,16 +201,16 @@ export default function ArtistDashboard({ artist, statistics, recent_arts, festi
                                         <h4 className="font-semibold text-gray-800 mb-2 font-['Vazirmatn']">{art.title}</h4>
                                         <div className="flex items-center justify-between mb-3">
                                             <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                                art.status === 'approved' ? 'bg-green-100 text-green-800' :
-                                                art.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                                                'bg-red-100 text-red-800'
+                                                art.status === 'approved' ? 'bg-secondary-200 text-secondary-800' :
+                                                art.status === 'pending' ? 'bg-secondary-100 text-secondary-700' :
+                                                'bg-primary-100 text-primary-800'
                                             } font-['Vazirmatn']`}>
-                                                {art.status === 'approved' ? 'تایید شده' :
-                                                 art.status === 'pending' ? 'در انتظار' : 'رد شده'}
+                                                {art.status === 'approved' ? trans('approved_status') :
+                                                 art.status === 'pending' ? trans('pending_status') : trans('rejected_status')}
                                             </span>
                                             {art.average_score && (
                                                 <span className="text-sm text-gray-600 font-['Vazirmatn']">
-                                                    امتیاز: {art.average_score}
+                                                    {trans('score_label')}: {art.average_score}
                                                 </span>
                                             )}
                                         </div>
@@ -193,15 +218,15 @@ export default function ArtistDashboard({ artist, statistics, recent_arts, festi
                                         <div className="flex space-x-2 space-x-reverse">
                                             <Link 
                                                 href={`/artist/arts/${art.id}`}
-                                                className="flex-1 bg-amber-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-amber-700 transition-colors font-['Vazirmatn'] text-center"
+                                                className="flex-1 bg-primary-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-primary-700 transition-colors font-['Vazirmatn'] text-center"
                                             >
-                                                مشاهده
+                                                {trans('view')}
                                             </Link>
                                             <Link 
                                                 href={`/artist/arts/${art.id}/edit`}
                                                 className="flex-1 bg-gray-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-gray-700 transition-colors font-['Vazirmatn'] text-center"
                                             >
-                                                ویرایش
+                                                {trans('edit')}
                                             </Link>
                                         </div>
                                     </div>
@@ -210,13 +235,13 @@ export default function ArtistDashboard({ artist, statistics, recent_arts, festi
                         ) : (
                             <div className="col-span-full text-center py-8">
                                 <PaletteIcon className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-                                <h3 className="text-lg font-semibold text-gray-600 mb-2 font-['Vazirmatn']">هنوز اثری ارسال نکرده‌اید</h3>
-                                <p className="text-gray-500 mb-4 font-['Vazirmatn']">اولین اثر هنری خود را ارسال کنید</p>
+                                <h3 className="text-lg font-semibold text-gray-600 mb-2 font-['Vazirmatn']">{trans('no_artwork_submitted')}</h3>
+                                <p className="text-gray-500 mb-4 font-['Vazirmatn']">{trans('submit_first_artwork')}</p>
                                 <Link 
                                     href="/artist/arts/create"
-                                    className="bg-amber-600 text-white px-6 py-3 rounded-lg hover:bg-amber-700 transition-colors font-['Vazirmatn']"
+                                    className="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition-colors font-['Vazirmatn']"
                                 >
-                                    افزودن اثر جدید
+                                    {trans('submit_new_art')}
                                 </Link>
                             </div>
                         )}
@@ -225,16 +250,16 @@ export default function ArtistDashboard({ artist, statistics, recent_arts, festi
 
                 {/* Notifications */}
                 <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
-                    <h3 className="text-xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">اعلان‌ها</h3>
+                    <h3 className="text-xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">{trans('notifications')}</h3>
                     <div className="space-y-4">
                         {notifications && notifications.length > 0 ? (
                             notifications.map((notification, index) => (
                                 <div key={index} className="flex items-start space-x-3 space-x-reverse p-4 bg-gray-50 rounded-lg">
                                     <div className={`w-3 h-3 rounded-full mt-2 ${
-                                        notification.type === 'success' ? 'bg-green-500' :
-                                        notification.type === 'info' ? 'bg-blue-500' :
-                                        notification.type === 'warning' ? 'bg-yellow-500' : 
-                                        notification.type === 'error' ? 'bg-red-500' : 'bg-gray-500'
+                                        notification.type === 'success' ? 'bg-secondary-600' :
+                                        notification.type === 'info' ? 'bg-primary-500' :
+                                        notification.type === 'warning' ? 'bg-secondary-500' : 
+                                        notification.type === 'error' ? 'bg-primary-800' : 'bg-primary-600'
                                     }`}></div>
                                     <div className="flex-1">
                                         <p className="text-gray-800 font-['Vazirmatn']">{notification.message}</p>
@@ -245,32 +270,32 @@ export default function ArtistDashboard({ artist, statistics, recent_arts, festi
                         ) : (
                             <div className="text-center py-8">
                                 <div className="text-4xl mb-4">🔔</div>
-                                <p className="text-gray-500 font-['Vazirmatn']">هیچ اعلان جدیدی وجود ندارد</p>
+                                <p className="text-gray-500 font-['Vazirmatn']">{trans('no_notifications')}</p>
                             </div>
                         )}
                     </div>
                 </div>
 
                 {/* Festival Info */}
-                <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl p-6">
-                    <h3 className="text-xl font-bold text-gray-800 mb-4 font-['Vazirmatn']">اطلاعات جشنواره</h3>
+                <div className="bg-gradient-to-r from-primary-50 to-secondary-100 rounded-2xl p-6">
+                    <h3 className="text-xl font-bold text-gray-800 mb-4 font-['Vazirmatn']">{trans('festival_info')}</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-700 font-['Vazirmatn']">
                         <div>
-                            <h4 className="font-semibold mb-2">مهلت‌های مهم:</h4>
+                            <h4 className="font-semibold mb-2">{trans('important_deadlines')}:</h4>
                             <ul className="space-y-1">
-                                <li>• مهلت ارسال آثار: {festival_settings?.submission_deadline || 'تعیین نشده'}</li>
-                                <li>• شروع داوری: {festival_settings?.judging_start_date || 'تعیین نشده'}</li>
-                                <li>• اعلام نتایج: {festival_settings?.results_announcement_date || 'تعیین نشده'}</li>
-                                <li>• مراسم اختتامیه: {festival_settings?.closing_ceremony_date || 'تعیین نشده'}</li>
+                                <li>• {trans('submission_deadline')}: {festival_settings?.submission_deadline || trans('not_set')}</li>
+                                <li>• {trans('judging_start')}: {festival_settings?.judging_start_date || trans('not_set')}</li>
+                                <li>• {trans('results_announcement')}: {festival_settings?.results_announcement_date || trans('not_set')}</li>
+                                <li>• {trans('closing_ceremony')}: {festival_settings?.closing_ceremony_date || trans('not_set')}</li>
                             </ul>
                         </div>
                         <div>
-                            <h4 className="font-semibold mb-2">قوانین مهم:</h4>
+                            <h4 className="font-semibold mb-2">{trans('important_rules')}:</h4>
                             <ul className="space-y-1">
-                                <li>• آثار باید اصیل و منحصر به فرد باشند</li>
-                                <li>• حداکثر اندازه فایل: {festival_settings?.max_file_size || '100'} مگابایت</li>
-                                <li>• فرمت‌های مجاز: {festival_settings?.allowed_formats || 'MP3, MP4, JPG, PNG'}</li>
-                                <li>• هر هنرمند حداکثر {festival_settings?.max_submissions_per_artist || '5'} اثر می‌تواند ارسال کند</li>
+                                <li>• {trans('artworks_must_be_original')}</li>
+                                <li>• {trans('max_file_size')}: {festival_settings?.max_file_size || '100'} {trans('megabytes')}</li>
+                                <li>• {trans('allowed_formats')}: {festival_settings?.allowed_formats || 'MP3, MP4, JPG, PNG'}</li>
+                                <li>• {trans('max_submissions_per_artist')}: {festival_settings?.max_submissions_per_artist || '5'}</li>
                             </ul>
                         </div>
                     </div>

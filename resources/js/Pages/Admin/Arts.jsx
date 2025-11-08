@@ -3,12 +3,20 @@ import FestivalLayout from '@/Layouts/FestivalLayout';
 import { 
     MusicIcon, 
     PaintingIcon, 
-    FilmIcon, 
+    ShortFilmIcon, 
     SculptureIcon, 
-    GraphicIcon, 
+    IllustrationIcon, 
     CalligraphyIcon, 
     PhotographyIcon, 
     ArchitectureIcon,
+    HandicraftsIcon,
+    IndustrialDesignIcon,
+    LiteratureIcon,
+    CarpetIcon,
+    TheaterIcon,
+    FashionDesignIcon,
+    AnimationIcon,
+    NewMediaArtsIcon,
     CheckIcon,
     ClockIcon,
     CloseIcon,
@@ -38,13 +46,21 @@ export default function AdminArts({ auth }) {
     const artFields = [
         { value: 'all', name: 'همه رشته‌ها', icon: MusicIcon },
         { value: 'music', name: 'موسیقی', icon: MusicIcon },
-        { value: 'painting', name: 'نقاشی', icon: PaintingIcon },
-        { value: 'film', name: 'فیلم‌سازی', icon: FilmIcon },
-        { value: 'sculpture', name: 'مجسمه‌سازی', icon: SculptureIcon },
-        { value: 'graphic', name: 'گرافیک', icon: GraphicIcon },
         { value: 'calligraphy', name: 'خوشنویسی', icon: CalligraphyIcon },
-        { value: 'photography', name: 'عکاسی', icon: PhotographyIcon },
+        { value: 'painting', name: 'نقاشی', icon: PaintingIcon },
+        { value: 'sculpture', name: 'مجسمه‌سازی', icon: SculptureIcon },
+        { value: 'handicrafts', name: 'صنایع دستی', icon: HandicraftsIcon },
         { value: 'architecture', name: 'معماری', icon: ArchitectureIcon },
+        { value: 'industrial_design', name: 'طراحی صنعتی', icon: IndustrialDesignIcon },
+        { value: 'graphic', name: 'گرافیک و تصویرسازی', icon: IllustrationIcon },
+        { value: 'literature', name: 'ادبیات', icon: LiteratureIcon },
+        { value: 'carpet', name: 'فرش', icon: CarpetIcon },
+        { value: 'short_film', name: 'فیلم کوتاه', icon: ShortFilmIcon },
+        { value: 'theater', name: 'نمایش', icon: TheaterIcon },
+        { value: 'fashion_design', name: 'طراحی پارچه و لباس', icon: FashionDesignIcon },
+        { value: 'animation', name: 'انیمیشن', icon: AnimationIcon },
+        { value: 'photography', name: 'عکاسی', icon: PhotographyIcon },
+        { value: 'new_media_arts', name: 'هنرهای جدید', icon: NewMediaArtsIcon },
     ];
 
     const statuses = [
@@ -157,8 +173,8 @@ export default function AdminArts({ auth }) {
 
     const getStatusColor = (status) => {
         switch (status) {
-            case 'approved': return 'bg-green-100 text-green-800';
-            case 'pending': return 'bg-yellow-100 text-yellow-800';
+            case 'approved': return 'bg-secondary-200 text-secondary-800';
+            case 'pending': return 'bg-secondary-100 text-secondary-700';
             case 'rejected': return 'bg-red-100 text-red-800';
             default: return 'bg-gray-100 text-gray-800';
         }
@@ -183,7 +199,7 @@ export default function AdminArts({ auth }) {
             <FestivalLayout title="مدیریت آثار - پنل مدیریت">
                 <div className="flex justify-center items-center h-64">
                     <div className="text-center">
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto mb-4"></div>
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
                         <p className="text-gray-600 font-['Vazirmatn']">در حال بارگذاری...</p>
                     </div>
                 </div>
@@ -208,8 +224,8 @@ export default function AdminArts({ auth }) {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
                     <div className="bg-white p-6 rounded-2xl shadow-lg">
                         <div className="flex items-center">
-                            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                                <MusicIcon className="w-6 h-6 text-blue-600" />
+                            <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
+                                <MusicIcon className="w-6 h-6 text-primary-600" />
                             </div>
                             <div className="mr-4">
                                 <p className="text-sm text-gray-600 font-['Vazirmatn']">کل آثار</p>
@@ -220,8 +236,8 @@ export default function AdminArts({ auth }) {
 
                     <div className="bg-white p-6 rounded-2xl shadow-lg">
                         <div className="flex items-center">
-                            <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                                <CheckIcon className="w-6 h-6 text-green-600" />
+                            <div className="w-12 h-12 bg-secondary-200 rounded-xl flex items-center justify-center">
+                                <CheckIcon className="w-6 h-6 text-secondary-700" />
                             </div>
                             <div className="mr-4">
                                 <p className="text-sm text-gray-600 font-['Vazirmatn']">تایید شده</p>
@@ -234,8 +250,8 @@ export default function AdminArts({ auth }) {
 
                     <div className="bg-white p-6 rounded-2xl shadow-lg">
                         <div className="flex items-center">
-                            <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
-                                <ClockIcon className="w-6 h-6 text-yellow-600" />
+                            <div className="w-12 h-12 bg-secondary-100 rounded-xl flex items-center justify-center">
+                                <ClockIcon className="w-6 h-6 text-secondary-600" />
                             </div>
                             <div className="mr-4">
                                 <p className="text-sm text-gray-600 font-['Vazirmatn']">در انتظار</p>
@@ -331,8 +347,8 @@ export default function AdminArts({ auth }) {
                                         <tr key={art.id} className="border-b border-gray-100 hover:bg-gray-50">
                                             <td className="py-4 px-6">
                                                 <div className="flex items-center">
-                                                    <div className="w-12 h-12 bg-gradient-to-br from-amber-100 to-orange-100 rounded-lg flex items-center justify-center ml-3">
-                                                        <FieldIcon className="w-6 h-6 text-amber-600" />
+                                                    <div className="w-12 h-12 bg-gradient-to-br from-primary-100 to-secondary-100 rounded-lg flex items-center justify-center ml-3">
+                                                        <FieldIcon className="w-6 h-6 text-primary-600" />
                                                     </div>
                                                     <div>
                                                         <div className="font-semibold text-gray-800 font-['Vazirmatn']">
@@ -362,7 +378,7 @@ export default function AdminArts({ auth }) {
                                                 <div className="flex items-center gap-2">
                                                     <button
                                                         onClick={() => openArtModal(art)}
-                                                        className="p-2 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors"
+                                                        className="p-2 text-primary-600 hover:bg-primary-100 rounded-lg transition-colors"
                                                         title="مشاهده جزئیات"
                                                     >
                                                         <EyeIcon className="w-4 h-4" />
@@ -372,7 +388,7 @@ export default function AdminArts({ auth }) {
                                                         <>
                                                             <button
                                                                 onClick={() => handleArtStatusChange(art.id, 'approved')}
-                                                                className="p-2 text-green-600 hover:bg-green-100 rounded-lg transition-colors"
+                                                                className="p-2 text-secondary-700 hover:bg-secondary-100 rounded-lg transition-colors"
                                                                 title="تایید اثر"
                                                             >
                                                                 <CheckIcon className="w-4 h-4" />
@@ -502,7 +518,7 @@ export default function AdminArts({ auth }) {
                                             handleArtStatusChange(selectedArt.id, 'approved');
                                             setShowArtModal(false);
                                         }}
-                                        className="bg-green-600 hover:bg-green-700"
+                                        className="bg-secondary-600 hover:bg-secondary-700"
                                     >
                                         تایید اثر
                                     </PrimaryButton>
@@ -514,7 +530,7 @@ export default function AdminArts({ auth }) {
                                                 setShowArtModal(false);
                                             }
                                         }}
-                                        className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-['Vazirmatn']"
+                                        className="px-4 py-2 bg-primary-800 text-white rounded-lg hover:bg-primary-900 transition-colors font-['Vazirmatn']"
                                     >
                                         رد اثر
                                     </button>

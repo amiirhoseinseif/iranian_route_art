@@ -4,7 +4,7 @@ import { ClipboardIcon } from '@/Components/SvgIcons';
 
 export default function ArtistSubmissions() {
     return (
-        <FestivalLayout title="ارسال‌ها - جشنواره هنری مسیر ایران">
+        <FestivalLayout title="ارسال‌ها - جشنواره بین الملی مسیر ایران">
             <div className="max-w-7xl mx-auto">
                 <div className="mb-8">
                     <h1 className="text-3xl font-bold text-gray-800 mb-2 font-['Vazirmatn']">

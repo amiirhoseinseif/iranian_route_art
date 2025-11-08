@@ -12,9 +12,9 @@ class FieldRequirementSeeder extends Seeder
         // Get art field IDs
         $musicId = DB::table('art_fields')->where('name', 'موسیقی')->first()->id;
         $paintingId = DB::table('art_fields')->where('name', 'نقاشی')->first()->id;
-        $filmmakingId = DB::table('art_fields')->where('name', 'فیلم‌سازی')->first()->id;
+        $filmmakingId = DB::table('art_fields')->where('name', 'فیلم کوتاه')->first()->id;
         $sculptureId = DB::table('art_fields')->where('name', 'مجسمه‌سازی')->first()->id;
-        $graphicId = DB::table('art_fields')->where('name', 'گرافیک')->first()->id;
+        $graphicId = DB::table('art_fields')->where('name', 'گرافیک و تصویرسازی')->first()->id;
         $calligraphyId = DB::table('art_fields')->where('name', 'خوشنویسی')->first()->id;
         $photographyId = DB::table('art_fields')->where('name', 'عکاسی')->first()->id;
         $architectureId = DB::table('art_fields')->where('name', 'معماری')->first()->id;

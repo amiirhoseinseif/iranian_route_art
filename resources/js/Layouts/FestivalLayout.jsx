@@ -1,24 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import { Head } from '@inertiajs/react';
 import { LogoIcon, HomeIcon, AboutIcon, ContactIcon, TelegramIcon, InstagramIcon, WhatsAppIcon, PaletteIcon, AddIcon, UploadIcon, ProfileIcon, BellIcon, SettingsIcon, UsersIcon, ScaleIcon, ClipboardIcon, StarIcon, ExitIcon, ChartBarIcon, EmailIcon, PhoneIcon, LocationIcon } from '@/Components/SvgIcons';
 import Dropdown from '@/Components/Dropdown';
+import LanguageSwitcher, { LanguageSwitcherCompact } from '@/Components/LanguageSwitcher';
+import AuthModal from '@/Components/AuthModal';
+import { useTranslation } from '@/Utils/translation';
 
-export default function FestivalLayout({ children, title = 'جشنواره هنری مسیر ایران' }) {
+export default function FestivalLayout({ children, title = 'جشنواره بین الملی مسیر ایران' }) {
     const { auth } = usePage().props;
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+    const [showAuthModal, setShowAuthModal] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
+    const { trans, getLocale } = useTranslation();
+    const persianTitle = 'جشنواره بین الملی مسیر ایران';
+    const persianTagline = 'دانشگاه‌ها و دانشکده‌های هنر ایران';
+    const englishTitle = 'Iranian Route Festival';
+    const englishTagline = 'Universities and Faculties of Iranian Arts';
+    const locale = getLocale();
+    const isPersianLocale = locale === 'fa';
+    const mobilePersianShell = `w-full rounded-2xl px-4 py-3 shadow-lg transition-all duration-300 backdrop-blur-sm ${
+        isScrolled
+            ? 'bg-white/90 text-primary-700 border border-primary-100/70'
+            : 'bg-white/12 text-white border border-white/15'
+    }`;
+    const mobileEnglishShell = `w-full rounded-2xl px-4 py-3 shadow-lg transition-all duration-300 backdrop-blur-sm ${
+        isScrolled
+            ? 'bg-primary-50 text-primary-700 border border-primary-100/70'
+            : 'bg-white/10 text-white border border-white/15'
+    }`;
+    
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 20);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
     
     // Get user role display name
     const getUserRoleDisplayName = (userType) => {
         switch (userType) {
             case 'artist':
-                return 'هنرمند';
+                return trans('artist');
             case 'admin':
-                return 'مدیر';
+                return trans('admin');
             case 'judge':
-                return 'داور';
+                return trans('judge');
             default:
-                return 'کاربر';
+                return trans('user');
         }
     };
 
@@ -27,30 +57,30 @@ export default function FestivalLayout({ children, title = 'جشنواره هن�
         switch (userType) {
             case 'artist':
                 return [
-                    { href: route('artist.dashboard'), label: 'داشبورد', icon: HomeIcon },
-                    { href: route('artist.arts'), label: 'آثار من', icon: PaletteIcon },
-                    { href: route('artist.arts.create'), label: 'ثبت اثر جدید', icon: AddIcon },
-                    { href: route('artist.submissions'), label: 'ارسال‌ها', icon: UploadIcon },
-                    { href: route('artist.profile'), label: 'پروفایل', icon: ProfileIcon },
-                    { href: route('artist.notifications'), label: 'اعلان‌ها', icon: BellIcon },
-                    { href: route('artist.settings'), label: 'تنظیمات', icon: SettingsIcon },
+                    { href: route('artist.dashboard'), label: trans('dashboard'), icon: HomeIcon },
+                    { href: route('artist.arts'), label: trans('my_arts'), icon: PaletteIcon },
+                    { href: route('artist.arts.create'), label: trans('submit_new_art'), icon: AddIcon },
+                    { href: route('artist.submissions'), label: trans('submissions'), icon: UploadIcon },
+                    { href: route('artist.profile'), label: trans('profile'), icon: ProfileIcon },
+                    { href: route('artist.notifications'), label: trans('notifications'), icon: BellIcon },
+                    { href: route('artist.settings'), label: trans('settings'), icon: SettingsIcon },
                 ];
             case 'admin':
                 return [
-                    { href: route('admin.dashboard'), label: 'داشبورد', icon: HomeIcon },
-                    { href: route('admin.artists'), label: 'هنرمندان', icon: UsersIcon },
-                    { href: route('admin.arts'), label: 'آثار هنری', icon: PaletteIcon },
-                    { href: route('admin.judges'), label: 'داوران', icon: ScaleIcon },
-                    { href: route('admin.settings'), label: 'تنظیمات', icon: SettingsIcon },
-                    { href: route('admin.reports'), label: 'گزارشات', icon: ChartBarIcon },
+                    { href: route('admin.dashboard'), label: trans('dashboard'), icon: HomeIcon },
+                    { href: route('admin.artists'), label: trans('artists'), icon: UsersIcon },
+                    { href: route('admin.arts'), label: trans('arts'), icon: PaletteIcon },
+                    { href: route('admin.judges'), label: trans('judges'), icon: ScaleIcon },
+                    { href: route('admin.settings'), label: trans('settings'), icon: SettingsIcon },
+                    { href: route('admin.reports'), label: trans('reports'), icon: ChartBarIcon },
                 ];
             case 'judge':
                 return [
-                    { href: route('judge.dashboard'), label: 'داشبورد', icon: HomeIcon },
-                    { href: route('judge.assignments'), label: 'وظایف', icon: ClipboardIcon },
-                    { href: route('judge.evaluations'), label: 'ارزیابی‌ها', icon: StarIcon },
-                    { href: route('judge.profile'), label: 'پروفایل', icon: ProfileIcon },
-                    { href: route('judge.settings'), label: 'تنظیمات', icon: SettingsIcon },
+                    { href: route('judge.dashboard'), label: trans('dashboard'), icon: HomeIcon },
+                    { href: route('judge.assignments'), label: trans('assignments'), icon: ClipboardIcon },
+                    { href: route('judge.evaluations'), label: trans('evaluations'), icon: StarIcon },
+                    { href: route('judge.profile'), label: trans('profile'), icon: ProfileIcon },
+                    { href: route('judge.settings'), label: trans('settings'), icon: SettingsIcon },
                 ];
             default:
                 return [];
@@ -60,197 +90,296 @@ export default function FestivalLayout({ children, title = 'جشنواره هن�
     return (
         <>
             <Head title={title} />
-            <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-red-50">
-                {/* Header */}
-                <header className="bg-gradient-to-r from-amber-600 via-orange-600 to-red-600 text-white shadow-lg">
-                    <div className="container mx-auto px-4 py-6">
-                        <div className="flex items-center justify-between">
-                            {/* Logo and Title */}
-                            <div className="flex items-center space-x-4 space-x-reverse">
-                                <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center">
-                                    <LogoIcon className="w-10 h-10 text-amber-600" />
-                                </div>
-                                <div>
-                                    <h1 className="text-3xl font-bold font-['Vazirmatn']">جشنواره هنری مسیر ایران</h1>
-                                    <p className="text-amber-100 text-sm">Iranian Route Art Festival</p>
-                                </div>
+            <div className="min-h-screen bg-gradient-to-br from-light-100 via-light-200 to-secondary-100">
+                {/* Modern Header with Glassmorphism */}
+                <header 
+                    className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+                        isScrolled 
+                            ? 'bg-white/95 backdrop-blur-xl shadow-2xl border-b border-secondary-200/30' 
+                            : 'bg-gradient-to-r from-secondary-600 via-secondary-700 to-secondary-800 shadow-lg'
+                    } mobile-safe-area`}
+                >
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="flex items-center justify-between h-20 lg:h-24">
+                            {/* Mobile Hamburger */}
+                            <div className="lg:hidden flex items-center flex-shrink-0">
+                                <button
+                                    onClick={() => setShowingNavigationDropdown(!showingNavigationDropdown)}
+                                    className={`relative inline-flex items-center justify-center rounded-xl p-2.5 transition-all duration-300 ${
+                                        isScrolled 
+                                            ? 'text-secondary-700 hover:bg-secondary-50' 
+                                            : 'text-white hover:bg-white/10'
+                                    } active:scale-95`}
+                                    aria-label="Toggle menu"
+                                >
+                                    <div className="w-6 h-6 relative">
+                                        {/* Top line - transforms to top part of X */}
+                                        <span 
+                                            className={`absolute left-0 top-0 w-full h-0.5 bg-current transition-all duration-300 ${
+                                                showingNavigationDropdown 
+                                                    ? 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-45' 
+                                                    : ''
+                                            }`}
+                                        ></span>
+                                        {/* Middle line - fades out */}
+                                        <span 
+                                            className={`absolute left-0 top-1/2 -translate-y-1/2 w-full h-0.5 bg-current transition-all duration-300 ${
+                                                showingNavigationDropdown ? 'opacity-0' : 'opacity-100'
+                                            }`}
+                                        ></span>
+                                        {/* Bottom line - transforms to bottom part of X */}
+                                        <span 
+                                            className={`absolute left-0 bottom-0 w-full h-0.5 bg-current transition-all duration-300 ${
+                                                showingNavigationDropdown 
+                                                    ? 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-45' 
+                                                    : ''
+                                            }`}
+                                        ></span>
+                                    </div>
+                                </button>
                             </div>
+                            
+                            {/* Logo */}
+                            <Link href="/" className="flex items-center space-x-3 space-x-reverse flex-shrink-0 group">
+                                {/* <div className="relative">
+                                    <LogoIcon className="h-12 w-auto sm:h-14 lg:h-16 transition-transform duration-300 group-hover:scale-105" />
+                                </div> */}
+                                <div className="flex flex-col sm:flex-row sm:items-end sm:gap-6 gap-3 text-center sm:text-right">
+                                    {isPersianLocale ? (
+                                        <div className={`sm:hidden flex flex-col items-center gap-1 ${mobilePersianShell}`}>
+                                            <h1 className="text-base font-black font-['Vazirmatn'] leading-tight tracking-tight">
+                                                {persianTitle}
+                                            </h1>
+                                            <p className="text-[11px] font-medium">
+                                                {persianTagline}
+                                            </p>
+                                        </div>
+                                    ) : (
+                                        <div className={`sm:hidden flex flex-col items-center gap-1 ${mobileEnglishShell}`}>
+                                            <p className="text-xs font-semibold uppercase tracking-[0.18em]">
+                                                {englishTitle}
+                                            </p>
+                                            <p className="text-[10px] tracking-wide">
+                                                {englishTagline}
+                                            </p>
+                                        </div>
+                                    )}
+                                    <div className="hidden sm:flex flex-col items-center sm:items-end gap-1">
+                                        <h1 className={`text-lg md:text-2xl font-black font-['Vazirmatn'] leading-tight tracking-tight transition-colors duration-300 ${
+                                            isScrolled ? 'text-primary-700' : 'text-white'
+                                        }`}>
+                                            {persianTitle}
+                                        </h1>
+                                        <p className={`text-[11px] md:text-sm font-medium transition-colors duration-300 ${
+                                            isScrolled ? 'text-gray-600' : 'text-white/75'
+                                        }`}>
+                                            {persianTagline}
+                                        </p>
+                                    </div>
+                                    <div className="hidden sm:block h-10 w-px bg-white/25"></div>
+                                    <div className="hidden sm:flex flex-col items-center sm:items-start gap-1 sm:text-left">
+                                        <p className={`text-xs md:text-base font-semibold uppercase tracking-[0.22em] md:tracking-[0.35em] transition-colors duration-300 ${
+                                            isScrolled ? 'text-gray-700' : 'text-white/90'
+                                        }`}>
+                                            {englishTitle}
+                                        </p>
+                                        <p className={`text-[10px] md:text-xs tracking-wide transition-colors duration-300 ${
+                                            isScrolled ? 'text-gray-500' : 'text-white/65'
+                                        }`}>
+                                            {englishTagline}
+                                        </p>
+                                    </div>
+                                </div>
+                            </Link>
 
-                            {/* Navigation */}
-                            <nav className="hidden md:flex items-center space-x-8 space-x-reverse">
-                                <Link href="/" className="hover:text-amber-200 transition-colors font-['Vazirmatn'] flex items-center">
-                                    <HomeIcon className="w-4 h-4 ml-1" />
-                                    صفحه اصلی
-                                </Link>
-                                <Link href="/about" className="hover:text-amber-200 transition-colors font-['Vazirmatn'] flex items-center">
-                                    <AboutIcon className="w-4 h-4 ml-1" />
-                                    درباره جشنواره
-                                </Link>
-                                <Link href="/artists" className="hover:text-amber-200 transition-colors font-['Vazirmatn'] flex items-center">
-                                    هنرمندان
-                                </Link>
-                                <Link href="/arts" className="hover:text-amber-200 transition-colors font-['Vazirmatn'] flex items-center">
-                                    آثار هنری
-                                </Link>
-                                <Link href="/contact" className="hover:text-amber-200 transition-colors font-['Vazirmatn'] flex items-center">
-                                    <ContactIcon className="w-4 h-4 ml-1" />
-                                    تماس با ما
-                                </Link>
+                            {/* Desktop Navigation */}
+                            <nav className="hidden lg:flex items-center space-x-1 space-x-reverse">
+                                {[
+                                    { href: '/', label: trans('home'), icon: HomeIcon },
+                                    { href: '/about', label: trans('about_festival'), icon: AboutIcon },
+                                    { href: '/artists', label: trans('festival_history'), icon: UsersIcon },
+                                    { href: '/arts', label: trans('arts'), icon: PaletteIcon },
+                                    { href: '/contact', label: trans('contact_us'), icon: ContactIcon },
+                                ].map((item, index) => {
+                                    const IconComponent = item.icon;
+                                    return (
+                                        <Link
+                                            key={index}
+                                            href={item.href}
+                                            className={`group relative px-4 py-2 rounded-xl text-sm font-semibold font-['Vazirmatn'] transition-all duration-300 ${
+                                                isScrolled
+                                                    ? 'text-gray-700 hover:text-secondary-600 hover:bg-secondary-50'
+                                                    : 'text-white hover:text-secondary-200 hover:bg-white/10'
+                                            }`}
+                                        >
+                                            <span className="flex items-center space-x-2 space-x-reverse">
+                                                {/* <IconComponent className="w-4 h-4 transition-transform duration-300 group-hover:scale-110" /> */}
+                                                <span>{item.label}</span>
+                                            </span>
+                                            <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-secondary-500 transition-all duration-300 group-hover:w-3/4"></span>
+                                        </Link>
+                                    );
+                                })}
                             </nav>
 
                             {/* Auth Section */}
                             {auth.user ? (
-                                // Logged in user section
-                                <div className="flex items-center space-x-4 space-x-reverse">
-                                    <div className="hidden md:block text-right">
-                                        <p className="text-sm text-amber-100 font-['Vazirmatn']">
-                                            خوش آمدید، {auth.user.first_name || auth.user.name}
+                                <div className="hidden lg:flex items-center space-x-3 space-x-reverse flex-shrink-0">
+                                    <div className="hidden xl:block text-right">
+                                        <p className={`text-sm font-semibold font-['Vazirmatn'] transition-colors duration-300 ${
+                                            isScrolled ? 'text-gray-800' : 'text-white'
+                                        }`}>
+                                            {trans('welcome')}، {auth.user.first_name || auth.user.name}
                                         </p>
-                                        <p className="text-xs text-amber-200 font-['Vazirmatn']">
+                                        <p className={`text-xs font-['Vazirmatn'] transition-colors duration-300 ${
+                                            isScrolled ? 'text-gray-600' : 'text-white/80'
+                                        }`}>
                                             {getUserRoleDisplayName(auth.user_type)}
                                         </p>
                                     </div>
                                     
-                                    {/* User Dropdown */}
-                                    <div className="relative">
-                                        <Dropdown>
-                                            <Dropdown.Trigger>
-                                                <button className="flex items-center space-x-2 space-x-reverse bg-white text-amber-600 px-4 py-2 rounded-lg font-semibold hover:bg-amber-50 transition-colors font-['Vazirmatn']">
-                                                    <span>{auth.user.first_name || auth.user.name}</span>
-                                                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                                        <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                                                    </svg>
-                                                </button>
-                                            </Dropdown.Trigger>
-                                            
-                                            <Dropdown.Content>
-                                                {getRoleBasedShortcuts(auth.user_type).map((shortcut, index) => {
-                                                    const IconComponent = shortcut.icon;
-                                                    return (
-                                                        <Dropdown.Link key={index} href={shortcut.href}>
-                                                            <span className="flex items-center space-x-2 space-x-reverse">
-                                                                <IconComponent className="w-4 h-4" />
-                                                                <span>{shortcut.label}</span>
-                                                            </span>
-                                                        </Dropdown.Link>
-                                                    );
-                                                })}
-                                                <div className="border-t border-gray-200 my-1"></div>
-                                                <Dropdown.Link href={route('logout')} method="post" as="button">
-                                                    <span className="flex items-center space-x-2 space-x-reverse text-red-600">
-                                                        <ExitIcon className="w-4 h-4" />
-                                                        <span>خروج</span>
-                                                    </span>
-                                                </Dropdown.Link>
-                                            </Dropdown.Content>
-                                        </Dropdown>
-                                    </div>
+                                    <Dropdown>
+                                        <Dropdown.Trigger>
+                                            <button className={`flex items-center space-x-2 space-x-reverse px-4 py-2.5 rounded-xl font-semibold font-['Vazirmatn'] transition-all duration-300 shadow-lg hover:shadow-xl ${
+                                                isScrolled
+                                                    ? 'bg-secondary-600 text-white hover:bg-secondary-700'
+                                                    : 'bg-white text-secondary-600 hover:bg-secondary-100'
+                                            }`}>
+                                                <ProfileIcon className="w-5 h-5" />
+                                                <span className="hidden xl:inline">{auth.user.first_name || auth.user.name}</span>
+                                                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                                                </svg>
+                                            </button>
+                                        </Dropdown.Trigger>
+                                        <Dropdown.Content>
+                                            {getRoleBasedShortcuts(auth.user_type).map((shortcut, index) => {
+                                                const IconComponent = shortcut.icon;
+                                                return (
+                                                    <Dropdown.Link key={index} href={shortcut.href}>
+                                                        <span className="flex items-center space-x-2 space-x-reverse">
+                                                            <IconComponent className="w-4 h-4" />
+                                                            <span>{shortcut.label}</span>
+                                                        </span>
+                                                    </Dropdown.Link>
+                                                );
+                                            })}
+                                            <div className="border-t border-gray-200 my-1"></div>
+                                            <Dropdown.Link href={route('logout')} method="post" as="button">
+                                                <span className="flex items-center space-x-2 space-x-reverse text-red-600">
+                                                    <ExitIcon className="w-4 h-4" />
+                                                    <span>{trans('logout')}</span>
+                                                </span>
+                                            </Dropdown.Link>
+                                        </Dropdown.Content>
+                                    </Dropdown>
                                 </div>
                             ) : (
-                                // Guest user section
-                                <div className="flex items-center space-x-4 space-x-reverse">
-                                    <Link 
-                                        href="/login" 
-                                        className="bg-white text-amber-600 px-6 py-2 rounded-lg font-semibold hover:bg-amber-50 transition-colors font-['Vazirmatn']"
+                                <div className="hidden lg:flex items-center space-x-3 space-x-reverse flex-shrink-0">
+                                    <LanguageSwitcher isScrolled={isScrolled} />
+                                    <button 
+                                        onClick={() => setShowAuthModal(true)}
+                                        className={`px-6 py-2.5 rounded-xl font-bold font-['Vazirmatn'] transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 ${
+                                            isScrolled
+                                                ? 'bg-secondary-600 text-white hover:bg-secondary-700'
+                                                : 'bg-white text-secondary-600 hover:bg-secondary-100'
+                                        }`}
                                     >
-                                        ورود
-                                    </Link>
-                                    <Link 
-                                        href="/register" 
-                                        className="border-2 border-white text-white px-6 py-2 rounded-lg font-semibold hover:bg-white hover:text-amber-600 transition-colors font-['Vazirmatn']"
-                                    >
-                                        ثبت نام
-                                    </Link>
+                                        {trans('login')} / {trans('register')}
+                                    </button>
                                 </div>
                             )}
                         </div>
-                        
-                        {/* Mobile Navigation */}
-                        <div className="md:hidden">
-                            <button
-                                onClick={() => setShowingNavigationDropdown(!showingNavigationDropdown)}
-                                className="inline-flex items-center justify-center rounded-md p-2 text-white hover:bg-white hover:bg-opacity-10 transition-colors"
-                            >
-                                <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                                    <path
-                                        className={!showingNavigationDropdown ? 'inline-flex' : 'hidden'}
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                    <path
-                                        className={showingNavigationDropdown ? 'inline-flex' : 'hidden'}
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
                     </div>
                     
-                    {/* Mobile Menu */}
+                    {/* Modern Mobile Menu */}
                     {showingNavigationDropdown && (
-                        <div className="md:hidden bg-white bg-opacity-10 backdrop-blur-sm">
-                            <div className="px-4 py-2 space-y-1">
-                                <Link href="/" className="block px-3 py-2 text-white hover:bg-white hover:bg-opacity-10 rounded-md font-['Vazirmatn']">
-                                    صفحه اصلی
-                                </Link>
-                                <Link href="/about" className="block px-3 py-2 text-white hover:bg-white hover:bg-opacity-10 rounded-md font-['Vazirmatn']">
-                                    درباره جشنواره
-                                </Link>
-                                <Link href="/artists" className="block px-3 py-2 text-white hover:bg-white hover:bg-opacity-10 rounded-md font-['Vazirmatn']">
-                                    هنرمندان
-                                </Link>
-                                <Link href="/arts" className="block px-3 py-2 text-white hover:bg-white hover:bg-opacity-10 rounded-md font-['Vazirmatn']">
-                                    آثار هنری
-                                </Link>
-                                <Link href="/contact" className="block px-3 py-2 text-white hover:bg-white hover:bg-opacity-10 rounded-md font-['Vazirmatn']">
-                                    تماس با ما
-                                </Link>
+                        <div className="lg:hidden border-t border-white/20">
+                            <div className="container mx-auto px-4 py-6 space-y-3">
+                                {[
+                                    { href: '/', label: trans('home'), icon: HomeIcon },
+                                    { href: '/about', label: trans('about_festival'), icon: AboutIcon },
+                                    { href: '/artists', label: trans('festival_history'), icon: UsersIcon },
+                                    { href: '/arts', label: trans('arts'), icon: PaletteIcon },
+                                    { href: '/contact', label: trans('contact_us'), icon: ContactIcon },
+                                ].map((item, index) => {
+                                    const IconComponent = item.icon;
+                                    return (
+                                        <Link
+                                            key={index}
+                                            href={item.href}
+                                            className={`flex items-center space-x-3 space-x-reverse px-4 py-3 rounded-xl text-sm font-semibold font-['Vazirmatn'] transition-all duration-200 ${
+                                                isScrolled
+                                                    ? 'text-gray-700 hover:bg-secondary-50 hover:text-secondary-600'
+                                                    : 'text-white hover:bg-white/10'
+                                            }`}
+                                            onClick={() => setShowingNavigationDropdown(false)}
+                                        >
+                                            <IconComponent className="w-5 h-5" />
+                                            <span>{item.label}</span>
+                                        </Link>
+                                    );
+                                })}
                                 
-                                {auth.user && (
+                                <div className="pt-4 border-t border-white/20">
+                                    <LanguageSwitcherCompact />
+                                </div>
+                                
+                                {!auth.user ? (
+                                    <button
+                                        onClick={() => {
+                                            setShowAuthModal(true);
+                                            setShowingNavigationDropdown(false);
+                                        }}
+                                        className={`w-full px-4 py-3 rounded-xl font-bold font-['Vazirmatn'] transition-all duration-200 ${
+                                            isScrolled
+                                                ? 'bg-secondary-600 text-white hover:bg-secondary-700'
+                                                : 'bg-white text-secondary-600 hover:bg-secondary-100'
+                                        }`}
+                                    >
+                                        {trans('login')} / {trans('register')}
+                                    </button>
+                                ) : (
                                     <>
-                                        <div className="border-t border-white border-opacity-20 my-2"></div>
-                                        <div className="px-3 py-2">
-                                            <p className="text-sm text-amber-100 font-['Vazirmatn']">
-                                                خوش آمدید، {auth.user.first_name || auth.user.name}
+                                        <div className="px-4 py-2 rounded-xl bg-white/10">
+                                            <p className={`text-sm font-semibold font-['Vazirmatn'] ${
+                                                isScrolled ? 'text-gray-800' : 'text-white'
+                                            }`}>
+                                                {trans('welcome')}، {auth.user.first_name || auth.user.name}
                                             </p>
-                                            <p className="text-xs text-amber-200 font-['Vazirmatn']">
+                                            <p className={`text-xs font-['Vazirmatn'] ${
+                                                isScrolled ? 'text-gray-600' : 'text-white/80'
+                                            }`}>
                                                 {getUserRoleDisplayName(auth.user_type)}
                                             </p>
                                         </div>
                                         {getRoleBasedShortcuts(auth.user_type).map((shortcut, index) => {
                                             const IconComponent = shortcut.icon;
                                             return (
-                                                <Link key={index} href={shortcut.href} className="block px-3 py-2 text-white hover:bg-white hover:bg-opacity-10 rounded-md font-['Vazirmatn']">
-                                                    <span className="flex items-center space-x-2 space-x-reverse">
-                                                        <IconComponent className="w-4 h-4" />
-                                                        <span>{shortcut.label}</span>
-                                                    </span>
+                                                <Link
+                                                    key={index}
+                                                    href={shortcut.href}
+                                                    className={`flex items-center space-x-3 space-x-reverse px-4 py-3 rounded-xl text-sm font-semibold font-['Vazirmatn'] transition-all duration-200 ${
+                                                        isScrolled
+                                                            ? 'text-gray-700 hover:bg-secondary-50'
+                                                            : 'text-white hover:bg-white/10'
+                                                    }`}
+                                                    onClick={() => setShowingNavigationDropdown(false)}
+                                                >
+                                                    <IconComponent className="w-5 h-5" />
+                                                    <span>{shortcut.label}</span>
                                                 </Link>
                                             );
                                         })}
-                                        <div className="border-t border-white border-opacity-20 my-2"></div>
-                                        <Link href={route('logout')} method="post" as="button" className="block w-full text-right px-3 py-2 text-red-200 hover:bg-white hover:bg-opacity-10 rounded-md font-['Vazirmatn']">
-                                            <span className="flex items-center space-x-2 space-x-reverse">
-                                                <ExitIcon className="w-4 h-4" />
-                                                <span>خروج</span>
-                                            </span>
-                                        </Link>
-                                    </>
-                                )}
-                                
-                                {!auth.user && (
-                                    <>
-                                        <div className="border-t border-white border-opacity-20 my-2"></div>
-                                        <Link href="/login" className="block px-3 py-2 text-white hover:bg-white hover:bg-opacity-10 rounded-md font-['Vazirmatn']">
-                                            ورود
-                                        </Link>
-                                        <Link href="/register" className="block px-3 py-2 text-white hover:bg-white hover:bg-opacity-10 rounded-md font-['Vazirmatn']">
-                                            ثبت نام
+                                        <Link
+                                            href={route('logout')}
+                                            method="post"
+                                            as="button"
+                                            className="flex items-center space-x-3 space-x-reverse w-full px-4 py-3 rounded-xl text-sm font-semibold font-['Vazirmatn'] text-red-500 hover:bg-red-50 transition-all duration-200"
+                                            onClick={() => setShowingNavigationDropdown(false)}
+                                        >
+                                            <ExitIcon className="w-5 h-5" />
+                                            <span>{trans('logout')}</span>
                                         </Link>
                                     </>
                                 )}
@@ -259,69 +388,160 @@ export default function FestivalLayout({ children, title = 'جشنواره هن�
                     )}
                 </header>
 
-                {/* Main Content */}
-                <main className="container mx-auto px-4 py-8">
+                {/* Main Content with padding for fixed header */}
+                <main className="pt-20 lg:pt-24 container mx-auto px-4 py-8">
                     {children}
                 </main>
 
-                {/* Footer */}
-                <footer className="bg-gray-800 text-white mt-16">
-                    <div className="container mx-auto px-4 py-12">
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-                            <div>
-                                <h3 className="text-xl font-bold mb-4 font-['Vazirmatn']">جشنواره هنری مسیر ایران</h3>
-                                <p className="text-gray-300 text-sm leading-relaxed font-['Vazirmatn']">
-                                    جشنواره‌ای برای معرفی و نمایش آثار هنری هنرمندان ایرانی در مسیر هنر و فرهنگ
+                {/* Modern Footer */}
+                <footer className="relative mt-20 bg-gradient-to-br from-gray-900 via-secondary-900 to-gray-900 text-white overflow-hidden">
+                    {/* Decorative Background Elements */}
+                    <div className="absolute top-0 left-0 w-full h-full opacity-10">
+                        <div className="absolute top-20 right-20 w-72 h-72 bg-secondary-400 rounded-full filter blur-3xl"></div>
+                        <div className="absolute bottom-20 left-20 w-96 h-96 bg-secondary-300 rounded-full filter blur-3xl"></div>
+                    </div>
+                    
+                    <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
+                            {/* Logo and Description */}
+                            <div className="lg:col-span-1">
+                                <Link href="/" className="inline-block mb-6">
+                                    <LogoIcon className="h-16 w-auto" />
+                                </Link>
+                                <h3 className="text-2xl font-black mb-4 font-['Vazirmatn']">جشنواره بین الملی مسیر ایران</h3>
+                                <p className="text-gray-300 text-sm leading-relaxed font-['Vazirmatn'] mb-6">
+                                    {trans('site_description')}
                                 </p>
-                            </div>
-                            <div>
-                                <h4 className="text-lg font-semibold mb-4 font-['Vazirmatn']">دسترسی سریع</h4>
-                                <ul className="space-y-2 text-sm text-gray-300">
-                                    <li><Link href="/about" className="hover:text-white transition-colors">درباره ما</Link></li>
-                                    <li><Link href="/rules" className="hover:text-white transition-colors">قوانین جشنواره</Link></li>
-                                    <li><Link href="/faq" className="hover:text-white transition-colors">سوالات متداول</Link></li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h4 className="text-lg font-semibold mb-4 font-['Vazirmatn']">تماس با ما</h4>
-                                <ul className="space-y-2 text-sm text-gray-300">
-                                    <li className="flex items-center space-x-2 space-x-reverse">
-                                        <EmailIcon className="w-4 h-4" />
-                                        <span>info@iranianrouteart.ir</span>
-                                    </li>
-                                    <li className="flex items-center space-x-2 space-x-reverse">
-                                        <PhoneIcon className="w-4 h-4" />
-                                        <span>+98-21-12345678</span>
-                                    </li>
-                                    <li className="flex items-center space-x-2 space-x-reverse">
-                                        <LocationIcon className="w-4 h-4" />
-                                        <span>تهران، ایران</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h4 className="text-lg font-semibold mb-4 font-['Vazirmatn']">شبکه‌های اجتماعی</h4>
+                                {/* Social Media */}
                                 <div className="flex space-x-4 space-x-reverse">
-                                    <a href="#" className="text-gray-300 hover:text-white transition-colors">
-                                        <TelegramIcon className="w-6 h-6" />
+                                    <a 
+                                        href="https://t.me/iranian_route" 
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-10 h-10 bg-white/10 hover:bg-secondary-600 rounded-xl flex items-center justify-center transition-all duration-300 transform hover:scale-110 group"
+                                        aria-label="Telegram"
+                                    >
+                                        <TelegramIcon className="w-5 h-5 text-white group-hover:text-white transition-colors" />
                                     </a>
-                                    <a href="#" className="text-gray-300 hover:text-white transition-colors">
-                                        <InstagramIcon className="w-6 h-6" />
-                                    </a>
-                                    <a href="#" className="text-gray-300 hover:text-white transition-colors">
-                                        <WhatsAppIcon className="w-6 h-6" />
+                                    <a 
+                                        href="https://www.instagram.com/iranianroute" 
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-10 h-10 bg-white/10 hover:bg-pink-600 rounded-xl flex items-center justify-center transition-all duration-300 transform hover:scale-110 group"
+                                        aria-label="Instagram"
+                                    >
+                                        <InstagramIcon className="w-5 h-5 text-white group-hover:text-white transition-colors" />
                                     </a>
                                 </div>
                             </div>
+
+                            {/* Quick Access */}
+                            <div>
+                                <h4 className="text-lg font-bold mb-6 font-['Vazirmatn'] border-b border-white/20 pb-3">دسترسی سریع</h4>
+                                <ul className="space-y-3">
+                                    {[
+                                        { href: '/', label: trans('home') },
+                                        { href: '/about', label: trans('about_us') },
+                                        { href: '/artists', label: trans('festival_history') },
+                                        { href: '/arts', label: trans('arts') },
+                                        { href: '/contact', label: trans('contact_us') },
+                                    ].map((link, index) => (
+                                        <li key={index}>
+                                            <Link 
+                                                href={link.href}
+                                                className="text-gray-300 hover:text-white transition-colors duration-300 font-['Vazirmatn'] flex items-center space-x-2 space-x-reverse group"
+                                            >
+                                                <span className="w-1.5 h-1.5 bg-secondary-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                                                <span>{link.label}</span>
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+
+                            {/* Contact Info */}
+                            <div>
+                                <h4 className="text-lg font-bold mb-6 font-['Vazirmatn'] border-b border-white/20 pb-3">{trans('contact_us')}</h4>
+                                <ul className="space-y-4">
+                                    <li className="flex items-start space-x-3 space-x-reverse group">
+                                        <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-secondary-600 transition-colors duration-300">
+                                            <EmailIcon className="w-5 h-5" />
+                                        </div>
+                                        <div>
+                                            <p className="text-sm text-gray-400 font-['Vazirmatn'] mb-1">ایمیل</p>
+                                            <a href="mailto:info@iranianrouteart.ir" className="text-gray-300 hover:text-white transition-colors font-['Vazirmatn']">
+                                                info@iranianrouteart.ir
+                                            </a>
+                                        </div>
+                                    </li>
+                                    <li className="flex items-start space-x-3 space-x-reverse group">
+                                        <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-secondary-600 transition-colors duration-300">
+                                            <PhoneIcon className="w-5 h-5" />
+                                        </div>
+                                        <div>
+                                            <p className="text-sm text-gray-400 font-['Vazirmatn'] mb-1">تلفن</p>
+                                            <a href="tel:+982112345678" className="text-gray-300 hover:text-white transition-colors font-['Vazirmatn']">
+                                                +98-21-12345678
+                                            </a>
+                                        </div>
+                                    </li>
+                                    <li className="flex items-start space-x-3 space-x-reverse group">
+                                        <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-secondary-600 transition-colors duration-300">
+                                            <LocationIcon className="w-5 h-5" />
+                                        </div>
+                                        <div>
+                                            <p className="text-sm text-gray-400 font-['Vazirmatn'] mb-1">آدرس</p>
+                                            <p className="text-gray-300 font-['Vazirmatn']">
+                                                {trans('location')}
+                                            </p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            {/* Newsletter / Info */}
+                            <div>
+                                <h4 className="text-lg font-bold mb-6 font-['Vazirmatn'] border-b border-white/20 pb-3">اطلاعات بیشتر</h4>
+                                <p className="text-gray-300 text-sm leading-relaxed font-['Vazirmatn'] mb-6">
+                                    برای دریافت آخرین اخبار و اطلاعات جشنواره، ما را در شبکه‌های اجتماعی دنبال کنید.
+                                </p>
+                                <Link 
+                                    href="/about"
+                                    className="inline-flex items-center space-x-2 space-x-reverse px-6 py-3 bg-secondary-600 hover:bg-secondary-700 rounded-xl font-semibold font-['Vazirmatn'] transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                                >
+                                    <span>درباره جشنواره</span>
+                                    <svg className="w-5 h-5 transform -rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                    </svg>
+                                </Link>
+                            </div>
                         </div>
-                        <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400 text-sm">
-                            <p className="font-['Vazirmatn']">
-                                © 2025 جشنواره هنری مسیر ایران. تمامی حقوق محفوظ است.
-                            </p>
+
+                        {/* Copyright */}
+                        <div className="border-t border-white/20 pt-8 mt-8">
+                            <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+                                <p className="text-gray-400 text-sm text-center font-['Vazirmatn']">
+                                    © 2025 جشنواره بین الملی مسیر ایران. {trans('all_rights_reserved')}.
+                                </p>
+                                <div className="flex items-center space-x-6 space-x-reverse text-sm text-gray-400">
+                                    <Link href="/rules" className="hover:text-white transition-colors font-['Vazirmatn']">
+                                        {trans('festival_rules')}
+                                    </Link>
+                                    <Link href="/faq" className="hover:text-white transition-colors font-['Vazirmatn']">
+                                        {trans('faq')}
+                                    </Link>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </footer>
             </div>
+            
+            {/* Auth Modal */}
+            <AuthModal 
+                isOpen={showAuthModal} 
+                onClose={() => setShowAuthModal(false)} 
+            />
         </>
     );
 }

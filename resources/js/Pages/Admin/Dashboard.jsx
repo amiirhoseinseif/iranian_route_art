@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import FestivalLayout from '@/Layouts/FestivalLayout';
+import { useTranslation } from '@/Utils/translation';
 import { 
     CheckIcon,
     ClockIcon,
@@ -23,6 +24,7 @@ import InputLabel from '@/Components/InputLabel';
 import InputError from '@/Components/InputError';
 
 export default function AdminDashboard({ auth }) {
+    const { trans } = useTranslation();
     const [stats, setStats] = useState({
         total_artists: 0,
         total_arts: 0,
@@ -238,183 +240,183 @@ export default function AdminDashboard({ auth }) {
     };
 
     return (
-        <FestivalLayout title="پنل مدیریت - جشنواره هنری مسیر ایران">
+        <FestivalLayout title={trans('admin_panel_title')}>
             <div className="max-w-7xl mx-auto">
-                <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-gray-800 mb-2 font-['Vazirmatn']">
-                        پنل مدیریت
+                <div className="mb-6 sm:mb-8">
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2 font-['Vazirmatn']">
+                        {trans('admin_panel_title')}
                     </h1>
-                    <p className="text-gray-600 font-['Vazirmatn']">
-                        مدیریت جشنواره هنری مسیر ایران
+                    <p className="text-gray-600 font-['Vazirmatn'] text-sm sm:text-base">
+                        {trans('admin_panel_subtitle')}
                     </p>
                 </div>
 
                 {/* Statistics Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <div className="bg-white p-6 rounded-2xl shadow-lg">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+                    <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 animate-fadeIn">
                         <div className="flex items-center">
-                            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                                <ProfileIcon className="w-6 h-6 text-blue-600" />
+                            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary-100 rounded-xl flex items-center justify-center transition-transform duration-300 hover:scale-110">
+                                <ProfileIcon className="w-5 h-5 sm:w-6 sm:h-6 text-primary-600" />
                             </div>
-                            <div className="mr-4">
-                                <p className="text-sm text-gray-600 font-['Vazirmatn']">کل هنرمندان</p>
-                                <p className="text-2xl font-bold text-gray-800">{stats.total_artists}</p>
+                            <div className="mr-3 sm:mr-4">
+                                <p className="text-xs sm:text-sm text-gray-600 font-['Vazirmatn']">{trans('total_artists_admin')}</p>
+                                <p className="text-xl sm:text-2xl font-bold text-gray-800">{stats.total_artists}</p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-white p-6 rounded-2xl shadow-lg">
+                    <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 animate-fadeIn">
                         <div className="flex items-center">
-                            <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                                <TrophyIcon className="w-6 h-6 text-green-600" />
+                            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-secondary-200 rounded-xl flex items-center justify-center transition-transform duration-300 hover:scale-110">
+                                <TrophyIcon className="w-5 h-5 sm:w-6 sm:h-6 text-secondary-700" />
                             </div>
-                            <div className="mr-4">
-                                <p className="text-sm text-gray-600 font-['Vazirmatn']">کل آثار</p>
-                                <p className="text-2xl font-bold text-gray-800">{stats.total_arts}</p>
+                            <div className="mr-3 sm:mr-4">
+                                <p className="text-xs sm:text-sm text-gray-600 font-['Vazirmatn']">{trans('total_artworks')}</p>
+                                <p className="text-xl sm:text-2xl font-bold text-gray-800">{stats.total_arts}</p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-white p-6 rounded-2xl shadow-lg">
+                    <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 animate-fadeIn">
                         <div className="flex items-center">
-                            <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
-                                <GlobalIcon className="w-6 h-6 text-yellow-600" />
+                            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-secondary-100 rounded-xl flex items-center justify-center transition-transform duration-300 hover:scale-110">
+                                <GlobalIcon className="w-5 h-5 sm:w-6 sm:h-6 text-secondary-600" />
                             </div>
-                            <div className="mr-4">
-                                <p className="text-sm text-gray-600 font-['Vazirmatn']">کل داوران</p>
-                                <p className="text-2xl font-bold text-gray-800">{stats.total_judges}</p>
+                            <div className="mr-3 sm:mr-4">
+                                <p className="text-xs sm:text-sm text-gray-600 font-['Vazirmatn']">{trans('total_judges_admin')}</p>
+                                <p className="text-xl sm:text-2xl font-bold text-gray-800">{stats.total_judges}</p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-white p-6 rounded-2xl shadow-lg">
+                    <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 animate-fadeIn">
                         <div className="flex items-center">
-                            <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
-                                <ClockIcon className="w-6 h-6 text-purple-600" />
+                            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary-200 rounded-xl flex items-center justify-center transition-transform duration-300 hover:scale-110">
+                                <ClockIcon className="w-5 h-5 sm:w-6 sm:h-6 text-primary-700" />
                             </div>
-                            <div className="mr-4">
-                                <p className="text-sm text-gray-600 font-['Vazirmatn']">در انتظار تایید</p>
-                                <p className="text-2xl font-bold text-gray-800">{stats.pending_judges}</p>
+                            <div className="mr-3 sm:mr-4">
+                                <p className="text-xs sm:text-sm text-gray-600 font-['Vazirmatn']">{trans('pending_judges_admin')}</p>
+                                <p className="text-xl sm:text-2xl font-bold text-gray-800">{stats.pending_judges}</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 {/* Quick Actions */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                    <div className="bg-white p-6 rounded-2xl shadow-lg">
-                        <h3 className="text-lg font-bold text-gray-800 mb-4 font-['Vazirmatn']">مدیریت هنرمندان</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6 sm:mb-8">
+                    <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 animate-fadeIn">
+                        <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-4 font-['Vazirmatn']">{trans('artists_management')}</h3>
                         <div className="space-y-3">
                             <button 
                                 onClick={() => {
                                     fetchArtists();
                                     setShowArtistsModal(true);
                                 }}
-                                className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-['Vazirmatn']"
+                                className="w-full bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors font-['Vazirmatn'] transform hover:scale-105"
                             >
-                                مشاهده همه هنرمندان
+                                {trans('view_all_artists')}
                             </button>
-                            <button className="w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors font-['Vazirmatn']">
-                                تایید هنرمندان جدید
+                            <button className="w-full bg-secondary-600 text-white px-4 py-2 rounded-lg hover:bg-secondary-700 transition-colors font-['Vazirmatn'] transform hover:scale-105">
+                                {trans('approve_new_artists')}
                             </button>
                         </div>
                     </div>
 
-                    <div className="bg-white p-6 rounded-2xl shadow-lg">
-                        <h3 className="text-lg font-bold text-gray-800 mb-4 font-['Vazirmatn']">مدیریت آثار</h3>
+                    <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 animate-fadeIn">
+                        <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-4 font-['Vazirmatn']">{trans('arts_management')}</h3>
                         <div className="space-y-3">
                             <button 
                                 onClick={() => {
                                     fetchArts();
                                     setShowArtsModal(true);
                                 }}
-                                className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-['Vazirmatn']"
+                                className="w-full bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors font-['Vazirmatn'] transform hover:scale-105"
                             >
-                                مشاهده همه آثار
+                                {trans('view_all_arts')}
                             </button>
-                            <button className="w-full bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition-colors font-['Vazirmatn']">
-                                آثار در انتظار تایید
+                            <button className="w-full bg-secondary-500 text-white px-4 py-2 rounded-lg hover:bg-secondary-600 transition-colors font-['Vazirmatn'] transform hover:scale-105">
+                                {trans('pending_arts_approval')}
                             </button>
                         </div>
                     </div>
 
-                    <div className="bg-white p-6 rounded-2xl shadow-lg">
-                        <h3 className="text-lg font-bold text-gray-800 mb-4 font-['Vazirmatn']">مدیریت داوران</h3>
+                    <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 animate-fadeIn">
+                        <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-4 font-['Vazirmatn']">{trans('judges_management')}</h3>
                         <div className="space-y-3">
                             <button 
                                 onClick={() => {
                                     fetchAllJudges();
                                     setShowJudgesModal(true);
                                 }}
-                                className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-['Vazirmatn']"
+                                className="w-full bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors font-['Vazirmatn'] transform hover:scale-105"
                             >
-                                مشاهده همه داوران
+                                {trans('view_all_judges')}
                             </button>
                             <button 
                                 onClick={() => setShowPendingJudgesModal(true)}
-                                className="w-full bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors font-['Vazirmatn']"
+                                className="w-full bg-primary-700 text-white px-4 py-2 rounded-lg hover:bg-primary-800 transition-colors font-['Vazirmatn'] transform hover:scale-105"
                             >
-                                تایید داوران ({stats.pending_judges})
+                                {trans('approve_judges')} ({stats.pending_judges})
                             </button>
                         </div>
                     </div>
 
-                    <div className="bg-white p-6 rounded-2xl shadow-lg">
-                        <h3 className="text-lg font-bold text-gray-800 mb-4 font-['Vazirmatn']">مدیریت مدیران</h3>
+                    <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 animate-fadeIn">
+                        <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-4 font-['Vazirmatn']">{trans('admins_management')}</h3>
                         <div className="space-y-3">
                             <button 
                                 onClick={() => {
                                     fetchAllAdmins();
                                     setShowAdminsModal(true);
                                 }}
-                                className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-['Vazirmatn']"
+                                className="w-full bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors font-['Vazirmatn'] transform hover:scale-105"
                             >
-                                مشاهده همه مدیران
+                                {trans('view_all_admins')}
                             </button>
                             <button 
                                 onClick={() => setShowAddAdminModal(true)}
-                                className="w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors font-['Vazirmatn'] flex items-center justify-center"
+                                className="w-full bg-secondary-600 text-white px-4 py-2 rounded-lg hover:bg-secondary-700 transition-colors font-['Vazirmatn'] flex items-center justify-center transform hover:scale-105"
                             >
                                 <AddIcon className="w-4 h-4 ml-2" />
-                                اضافه کردن مدیر جدید
+                                {trans('add_new_admin')}
                             </button>
                         </div>
                     </div>
                 </div>
 
                 {/* Recent Activities */}
-                <div className="bg-white rounded-2xl shadow-lg p-6">
-                    <h3 className="text-xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">فعالیت‌های اخیر</h3>
+                <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 mb-6 sm:mb-8 animate-slideDown">
+                    <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-4 sm:mb-6 font-['Vazirmatn']">{trans('recent_activities')}</h3>
                     <div className="space-y-4">
                         {(recentActivities || []).length === 0 ? (
                             <p className="text-gray-500 text-center py-8 font-['Vazirmatn']">
-                                هیچ فعالیتی یافت نشد
+                                {trans('no_activities')}
                             </p>
                         ) : (
                             (recentActivities || []).map((activity, index) => (
-                                <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                <div key={index} className="flex items-center justify-between p-3 sm:p-4 bg-gray-50 rounded-lg transition-all duration-300 hover:bg-gray-100 animate-fadeIn" style={{ animationDelay: `${index * 0.05}s` }}>
                                     <div className="flex items-center">
                                         <div className={`w-3 h-3 rounded-full mr-3 ${
-                                            activity.status === 'success' ? 'bg-green-500' :
-                                            activity.status === 'info' ? 'bg-blue-500' :
-                                            activity.status === 'warning' ? 'bg-yellow-500' : 'bg-gray-500'
+                                            activity.status === 'success' ? 'bg-secondary-600' :
+                                            activity.status === 'info' ? 'bg-primary-500' :
+                                            activity.status === 'warning' ? 'bg-secondary-500' : 'bg-primary-600'
                                         }`}></div>
                                         <div>
-                                            <p className="font-medium text-gray-800 font-['Vazirmatn']">
+                                            <p className="font-medium text-gray-800 font-['Vazirmatn'] text-sm sm:text-base">
                                                 {activity.message}
                                                 {activity.art_title && (
                                                     <span className="text-gray-600">: {activity.art_title}</span>
                                                 )}
                                                 {activity.score && (
-                                                    <span className="text-amber-600 font-bold"> (امتیاز: {activity.score})</span>
+                                                    <span className="text-primary-600 font-bold"> ({trans('score_label')}: {activity.score})</span>
                                                 )}
                                             </p>
-                                            <p className="text-sm text-gray-600 font-['Vazirmatn']">
-                                                توسط {activity.user}
+                                            <p className="text-xs sm:text-sm text-gray-600 font-['Vazirmatn']">
+                                                {trans('by')} {activity.user}
                                             </p>
                                         </div>
                                     </div>
-                                    <span className="text-sm text-gray-500 font-['Vazirmatn']">
+                                    <span className="text-xs sm:text-sm text-gray-500 font-['Vazirmatn'] hidden sm:inline">
                                         {new Date(activity.time).toLocaleDateString('fa-IR')} - {new Date(activity.time).toLocaleTimeString('fa-IR')}
                                     </span>
                                 </div>
@@ -424,30 +426,30 @@ export default function AdminDashboard({ auth }) {
                 </div>
 
                 {/* System Status */}
-                <div className="mt-8 bg-white rounded-2xl shadow-lg p-6">
-                    <h3 className="text-xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">وضعیت سیستم</h3>
+                <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 animate-fadeIn">
+                    <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-4 sm:mb-6 font-['Vazirmatn']">{trans('system_status')}</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <h4 className="font-semibold text-gray-700 mb-3 font-['Vazirmatn']">سرور</h4>
+                            <h4 className="font-semibold text-gray-700 mb-3 font-['Vazirmatn']">{trans('server')}</h4>
                             <div className="space-y-2">
                                 <div className="flex justify-between">
-                                    <span className="text-sm text-gray-600 font-['Vazirmatn']">CPU</span>
-                                    <span className="text-sm font-medium">23%</span>
+                                    <span className="text-xs sm:text-sm text-gray-600 font-['Vazirmatn']">{trans('cpu')}</span>
+                                    <span className="text-xs sm:text-sm font-medium">23%</span>
                                 </div>
                                 <div className="w-full bg-gray-200 rounded-full h-2">
-                                    <div className="bg-green-500 h-2 rounded-full" style={{ width: '23%' }}></div>
+                                    <div className="bg-secondary-600 h-2 rounded-full transition-all duration-300" style={{ width: '23%' }}></div>
                                 </div>
                             </div>
                         </div>
                         <div>
-                            <h4 className="font-semibold text-gray-700 mb-3 font-['Vazirmatn']">حافظه</h4>
+                            <h4 className="font-semibold text-gray-700 mb-3 font-['Vazirmatn']">{trans('memory')}</h4>
                             <div className="space-y-2">
                                 <div className="flex justify-between">
-                                    <span className="text-sm text-gray-600 font-['Vazirmatn']">RAM</span>
-                                    <span className="text-sm font-medium">67%</span>
+                                    <span className="text-xs sm:text-sm text-gray-600 font-['Vazirmatn']">{trans('ram')}</span>
+                                    <span className="text-xs sm:text-sm font-medium">67%</span>
                                 </div>
                                 <div className="w-full bg-gray-200 rounded-full h-2">
-                                    <div className="bg-yellow-500 h-2 rounded-full" style={{ width: '67%' }}></div>
+                                    <div className="bg-secondary-500 h-2 rounded-full transition-all duration-300" style={{ width: '67%' }}></div>
                                 </div>
                             </div>
                         </div>
@@ -459,13 +461,13 @@ export default function AdminDashboard({ auth }) {
             <Modal show={showAddAdminModal} onClose={() => setShowAddAdminModal(false)}>
                 <div className="p-6">
                     <h2 className="text-xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
-                        اضافه کردن مدیر جدید
+                        {trans('add_admin_title')}
                     </h2>
                     
                     <form onSubmit={handleAddAdmin}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
-                                <InputLabel htmlFor="first_name" value="نام" />
+                                <InputLabel htmlFor="first_name" value={trans('first_name')} />
                                 <TextInput
                                     id="first_name"
                                     type="text"
@@ -478,7 +480,7 @@ export default function AdminDashboard({ auth }) {
                             </div>
                             
                             <div>
-                                <InputLabel htmlFor="last_name" value="نام خانوادگی" />
+                                <InputLabel htmlFor="last_name" value={trans('last_name')} />
                                 <TextInput
                                     id="last_name"
                                     type="text"
@@ -493,7 +495,7 @@ export default function AdminDashboard({ auth }) {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
-                                <InputLabel htmlFor="email" value="ایمیل" />
+                                <InputLabel htmlFor="email" value={trans('email')} />
                                 <TextInput
                                     id="email"
                                     type="email"
@@ -506,7 +508,7 @@ export default function AdminDashboard({ auth }) {
                             </div>
                             
                             <div>
-                                <InputLabel htmlFor="phone" value="شماره تماس" />
+                                <InputLabel htmlFor="phone" value={trans('phone')} />
                                 <TextInput
                                     id="phone"
                                     type="text"
@@ -521,7 +523,7 @@ export default function AdminDashboard({ auth }) {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
-                                <InputLabel htmlFor="password" value="رمز عبور" />
+                                <InputLabel htmlFor="password" value={trans('password')} />
                                 <TextInput
                                     id="password"
                                     type="password"
@@ -534,16 +536,16 @@ export default function AdminDashboard({ auth }) {
                             </div>
                             
                             <div>
-                                <InputLabel htmlFor="role" value="نقش" />
+                                <InputLabel htmlFor="role" value={trans('role')} />
                                 <select
                                     id="role"
-                                    className="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                    className="mt-1 block w-full border-gray-300 focus:border-primary-500 focus:ring-primary-500 rounded-md shadow-sm font-['Vazirmatn']"
                                     value={formData.role}
                                     onChange={(e) => setFormData({...formData, role: e.target.value})}
                                     required
                                 >
-                                    <option value="admin">مدیر</option>
-                                    <option value="moderator">ناظر</option>
+                                    <option value="admin">{trans('admin')}</option>
+                                    <option value="moderator">{trans('moderator')}</option>
                                 </select>
                                 <InputError message={errors.role} className="mt-2" />
                             </div>
@@ -551,10 +553,10 @@ export default function AdminDashboard({ auth }) {
 
                         <div className="flex justify-end space-x-3">
                             <SecondaryButton onClick={() => setShowAddAdminModal(false)}>
-                                انصراف
+                                {trans('cancel')}
                             </SecondaryButton>
                             <PrimaryButton type="submit">
-                                اضافه کردن مدیر
+                                {trans('add_new_admin')}
                             </PrimaryButton>
                         </div>
                     </form>
@@ -565,13 +567,13 @@ export default function AdminDashboard({ auth }) {
             <Modal show={showPendingJudgesModal} onClose={() => setShowPendingJudgesModal(false)}>
                 <div className="p-6">
                     <h2 className="text-xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
-                        داوران در انتظار تایید
+                        {trans('pending_judges_title')}
                     </h2>
                     
                     <div className="space-y-4 max-h-96 overflow-y-auto">
                         {(pendingJudges || []).length === 0 ? (
                             <p className="text-gray-500 text-center py-8 font-['Vazirmatn']">
-                                هیچ داور در انتظار تایید وجود ندارد
+                                {trans('no_pending_judges')}
                             </p>
                         ) : (
                             (pendingJudges || []).map((judge) => (
@@ -596,22 +598,22 @@ export default function AdminDashboard({ auth }) {
                                         <div className="flex space-x-2">
                                             <button
                                                 onClick={() => handleJudgeApproval(judge.id, 'approved')}
-                                                className="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700 transition-colors font-['Vazirmatn'] flex items-center"
+                                                className="bg-secondary-600 text-white px-3 py-1 rounded text-sm hover:bg-secondary-700 transition-colors font-['Vazirmatn'] flex items-center transform hover:scale-105"
                                             >
                                                 <ShieldCheckIcon className="w-4 h-4 ml-1" />
-                                                تایید
+                                                {trans('approve')}
                                             </button>
                                             <button
                                                 onClick={() => {
-                                                    const reason = prompt('دلیل رد شدن:');
+                                                    const reason = prompt(trans('reject_reason_prompt'));
                                                     if (reason) {
                                                         handleJudgeApproval(judge.id, 'rejected', reason);
                                                     }
                                                 }}
-                                                className="bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700 transition-colors font-['Vazirmatn'] flex items-center"
+                                                className="bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700 transition-colors font-['Vazirmatn'] flex items-center transform hover:scale-105"
                                             >
                                                 <ShieldXIcon className="w-4 h-4 ml-1" />
-                                                رد
+                                                {trans('reject')}
                                             </button>
                                         </div>
                                     </div>
@@ -622,7 +624,7 @@ export default function AdminDashboard({ auth }) {
 
                     <div className="flex justify-end mt-6">
                         <SecondaryButton onClick={() => setShowPendingJudgesModal(false)}>
-                            بستن
+                            {trans('close')}
                         </SecondaryButton>
                     </div>
                 </div>
@@ -632,17 +634,17 @@ export default function AdminDashboard({ auth }) {
             <Modal show={showArtistsModal} onClose={() => setShowArtistsModal(false)}>
                 <div className="p-6">
                     <h2 className="text-xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
-                        لیست هنرمندان
+                        {trans('artists_list')}
                     </h2>
                     
                     <div className="overflow-x-auto">
                         <table className="w-full">
                             <thead>
                                 <tr className="border-b border-gray-200">
-                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">نام</th>
-                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">ایمیل</th>
-                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">رشته هنری</th>
-                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">تاریخ ثبت نام</th>
+                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">{trans('artists_list_name')}</th>
+                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">{trans('artists_list_email')}</th>
+                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">{trans('artists_list_field')}</th>
+                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">{trans('artists_list_registration')}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -653,7 +655,7 @@ export default function AdminDashboard({ auth }) {
                                         </td>
                                         <td className="py-3 px-4 font-['Vazirmatn']">{artist.email}</td>
                                         <td className="py-3 px-4 font-['Vazirmatn']">
-                                            {artist.art_field?.name || 'نامشخص'}
+                                            {artist.art_field?.name || trans('unknown')}
                                         </td>
                                         <td className="py-3 px-4 font-['Vazirmatn']">
                                             {new Date(artist.created_at).toLocaleDateString('fa-IR')}
@@ -666,7 +668,7 @@ export default function AdminDashboard({ auth }) {
 
                     <div className="flex justify-end mt-6">
                         <SecondaryButton onClick={() => setShowArtistsModal(false)}>
-                            بستن
+                            {trans('close')}
                         </SecondaryButton>
                     </div>
                 </div>
@@ -676,18 +678,18 @@ export default function AdminDashboard({ auth }) {
             <Modal show={showArtsModal} onClose={() => setShowArtsModal(false)}>
                 <div className="p-6">
                     <h2 className="text-xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
-                        لیست آثار
+                        {trans('arts_list')}
                     </h2>
                     
                     <div className="overflow-x-auto">
                         <table className="w-full">
                             <thead>
                                 <tr className="border-b border-gray-200">
-                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">عنوان</th>
-                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">هنرمند</th>
-                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">رشته</th>
-                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">وضعیت</th>
-                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">تاریخ ارسال</th>
+                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">{trans('arts_list_title')}</th>
+                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">{trans('arts_list_artist')}</th>
+                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">{trans('arts_list_field')}</th>
+                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">{trans('arts_list_status')}</th>
+                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">{trans('arts_list_submission')}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -698,16 +700,16 @@ export default function AdminDashboard({ auth }) {
                                             {art.artist?.first_name} {art.artist?.last_name}
                                         </td>
                                         <td className="py-3 px-4 font-['Vazirmatn']">
-                                            {art.art_field?.name || 'نامشخص'}
+                                            {art.art_field?.name || trans('unknown')}
                                         </td>
                                         <td className="py-3 px-4">
                                             <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                                art.status === 'approved' ? 'bg-green-100 text-green-800' :
-                                                art.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                                                art.status === 'approved' ? 'bg-secondary-200 text-secondary-800' :
+                                                art.status === 'pending' ? 'bg-secondary-100 text-secondary-700' :
                                                 'bg-red-100 text-red-800'
                                             }`}>
-                                                {art.status === 'approved' ? 'تایید شده' :
-                                                 art.status === 'pending' ? 'در انتظار' : 'رد شده'}
+                                                {art.status === 'approved' ? trans('approved_status') :
+                                                 art.status === 'pending' ? trans('pending_status') : trans('rejected_status')}
                                             </span>
                                         </td>
                                         <td className="py-3 px-4 font-['Vazirmatn']">
@@ -721,7 +723,7 @@ export default function AdminDashboard({ auth }) {
 
                     <div className="flex justify-end mt-6">
                         <SecondaryButton onClick={() => setShowArtsModal(false)}>
-                            بستن
+                            {trans('close')}
                         </SecondaryButton>
                     </div>
                 </div>
@@ -731,18 +733,18 @@ export default function AdminDashboard({ auth }) {
             <Modal show={showJudgesModal} onClose={() => setShowJudgesModal(false)}>
                 <div className="p-6">
                     <h2 className="text-xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
-                        لیست داوران
+                        {trans('judges_list')}
                     </h2>
                     
                     <div className="overflow-x-auto">
                         <table className="w-full">
                             <thead>
                                 <tr className="border-b border-gray-200">
-                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">نام</th>
-                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">ایمیل</th>
-                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">تخصص</th>
-                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">وضعیت تایید</th>
-                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">تاریخ ثبت نام</th>
+                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">{trans('artists_list_name')}</th>
+                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">{trans('artists_list_email')}</th>
+                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">{trans('judges_list_qualification')}</th>
+                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">{trans('judges_list_verification')}</th>
+                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">{trans('artists_list_registration')}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -755,12 +757,12 @@ export default function AdminDashboard({ auth }) {
                                         <td className="py-3 px-4 font-['Vazirmatn']">{judge.qualification}</td>
                                         <td className="py-3 px-4">
                                             <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                                judge.verification_status === 'approved' ? 'bg-green-100 text-green-800' :
-                                                judge.verification_status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                                                judge.verification_status === 'approved' ? 'bg-secondary-200 text-secondary-800' :
+                                                judge.verification_status === 'pending' ? 'bg-secondary-100 text-secondary-700' :
                                                 'bg-red-100 text-red-800'
                                             }`}>
-                                                {judge.verification_status === 'approved' ? 'تایید شده' :
-                                                 judge.verification_status === 'pending' ? 'در انتظار' : 'رد شده'}
+                                                {judge.verification_status === 'approved' ? trans('approved_status') :
+                                                 judge.verification_status === 'pending' ? trans('pending_status') : trans('rejected_status')}
                                             </span>
                                         </td>
                                         <td className="py-3 px-4 font-['Vazirmatn']">
@@ -774,7 +776,7 @@ export default function AdminDashboard({ auth }) {
 
                     <div className="flex justify-end mt-6">
                         <SecondaryButton onClick={() => setShowJudgesModal(false)}>
-                            بستن
+                            {trans('close')}
                         </SecondaryButton>
                     </div>
                 </div>
@@ -784,18 +786,18 @@ export default function AdminDashboard({ auth }) {
             <Modal show={showAdminsModal} onClose={() => setShowAdminsModal(false)}>
                 <div className="p-6">
                     <h2 className="text-xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
-                        لیست مدیران
+                        {trans('admins_list')}
                     </h2>
                     
                     <div className="overflow-x-auto">
                         <table className="w-full">
                             <thead>
                                 <tr className="border-b border-gray-200">
-                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">نام</th>
-                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">ایمیل</th>
-                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">نقش</th>
-                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">وضعیت</th>
-                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">تاریخ ایجاد</th>
+                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">{trans('artists_list_name')}</th>
+                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">{trans('artists_list_email')}</th>
+                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">{trans('admins_list_role')}</th>
+                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">{trans('admins_list_status')}</th>
+                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">{trans('admins_list_created')}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -806,16 +808,16 @@ export default function AdminDashboard({ auth }) {
                                         </td>
                                         <td className="py-3 px-4 font-['Vazirmatn']">{admin.email}</td>
                                         <td className="py-3 px-4 font-['Vazirmatn']">
-                                            {admin.role === 'super_admin' ? 'مدیر اصلی' : 
-                                             admin.role === 'admin' ? 'مدیر' : 'ناظر'}
+                                            {admin.role === 'super_admin' ? trans('super_admin') : 
+                                             admin.role === 'admin' ? trans('admin') : trans('moderator')}
                                         </td>
                                         <td className="py-3 px-4">
                                             {admin.is_active ? 
-                                                <span className="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                                    فعال
+                                                <span className="px-2 py-1 rounded-full text-xs font-medium bg-secondary-200 text-secondary-800">
+                                                    {trans('active')}
                                                 </span> :
                                                 <span className="px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                                    غیرفعال
+                                                    {trans('inactive')}
                                                 </span>
                                             }
                                         </td>
@@ -830,7 +832,7 @@ export default function AdminDashboard({ auth }) {
 
                     <div className="flex justify-end mt-6">
                         <SecondaryButton onClick={() => setShowAdminsModal(false)}>
-                            بستن
+                            {trans('close')}
                         </SecondaryButton>
                     </div>
                 </div>

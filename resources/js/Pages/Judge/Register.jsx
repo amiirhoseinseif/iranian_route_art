@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useForm } from '@inertiajs/react';
 import FestivalLayout from '@/Layouts/FestivalLayout';
+import { route } from '@/Utils/route';
 import { 
     MusicIcon,
     PaintingIcon,
@@ -52,18 +53,18 @@ export default function JudgeRegister() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post('/judge/register');
+        post(route('judge.register.store'));
     };
 
     return (
-        <FestivalLayout title="ثبت نام داور - جشنواره هنری مسیر ایران">
+        <FestivalLayout title="ثبت نام داور - جشنواره بین الملی مسیر ایران">
             <div className="max-w-4xl mx-auto">
                 <div className="text-center mb-12">
                     <h1 className="text-4xl font-bold text-gray-800 mb-4 font-['Vazirmatn']">
                         ثبت نام داور
                     </h1>
                     <p className="text-xl text-gray-600 font-['Vazirmatn']">
-                        برای داوری آثار هنری در جشنواره هنری مسیر ایران، لطفاً اطلاعات خود را تکمیل کنید
+                        برای داوری آثار هنری در جشنواره بین الملی مسیر ایران، لطفاً اطلاعات خود را تکمیل کنید
                     </p>
                 </div>
 
@@ -83,7 +84,7 @@ export default function JudgeRegister() {
                                         type="text"
                                         value={data.first_name}
                                         onChange={e => setData('first_name', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                         required
                                     />
                                     {errors.first_name && <p className="text-red-500 text-sm mt-1">{errors.first_name}</p>}
@@ -96,7 +97,7 @@ export default function JudgeRegister() {
                                         type="text"
                                         value={data.last_name}
                                         onChange={e => setData('last_name', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                         required
                                     />
                                     {errors.last_name && <p className="text-red-500 text-sm mt-1">{errors.last_name}</p>}
@@ -109,7 +110,7 @@ export default function JudgeRegister() {
                                         type="tel"
                                         value={data.phone}
                                         onChange={e => setData('phone', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                         placeholder="09123456789"
                                         required
                                     />
@@ -123,7 +124,7 @@ export default function JudgeRegister() {
                                         type="email"
                                         value={data.email}
                                         onChange={e => setData('email', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                         required
                                     />
                                     {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
@@ -145,7 +146,7 @@ export default function JudgeRegister() {
                                         type="text"
                                         value={data.qualification}
                                         onChange={e => setData('qualification', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                         placeholder="مثال: دکترای هنر، کارشناسی ارشد موسیقی"
                                     />
                                 </div>
@@ -157,7 +158,7 @@ export default function JudgeRegister() {
                                         type="text"
                                         value={data.organization}
                                         onChange={e => setData('organization', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                         placeholder="مثال: دانشگاه هنر تهران"
                                     />
                                 </div>
@@ -179,12 +180,12 @@ export default function JudgeRegister() {
                                         onClick={() => handleExpertiseToggle(field.id)}
                                         className={`p-4 border-2 rounded-xl cursor-pointer transition-all ${
                                             selectedExpertiseAreas.includes(field.id)
-                                                ? 'border-amber-500 bg-amber-50'
-                                                : 'border-gray-200 hover:border-amber-300'
+                                                ? 'border-primary-500 bg-primary-50'
+                                                : 'border-gray-200 hover:border-secondary-300'
                                         }`}
                                     >
                                         <div className="text-3xl mb-2 flex justify-center">
-                                            <field.icon className="w-8 h-8 text-amber-600" />
+                                            <field.icon className="w-8 h-8 text-primary-600" />
                                         </div>
                                         <h3 className="font-bold text-gray-800 mb-1 font-['Vazirmatn']">{field.name}</h3>
                                         <p className="text-xs text-gray-600 font-['Vazirmatn']">{field.description}</p>
@@ -207,7 +208,7 @@ export default function JudgeRegister() {
                                     value={data.bio}
                                     onChange={e => setData('bio', e.target.value)}
                                     rows={6}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                     placeholder="تجربیات داوری، سوابق هنری، افتخارات، مقالات و..."
                                 />
                             </div>
@@ -227,7 +228,7 @@ export default function JudgeRegister() {
                                         type="password"
                                         value={data.password}
                                         onChange={e => setData('password', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                         required
                                     />
                                     {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
@@ -240,7 +241,7 @@ export default function JudgeRegister() {
                                         type="password"
                                         value={data.password_confirmation}
                                         onChange={e => setData('password_confirmation', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                         required
                                     />
                                     {errors.password_confirmation && <p className="text-red-500 text-sm mt-1">{errors.password_confirmation}</p>}
@@ -253,7 +254,7 @@ export default function JudgeRegister() {
                             <button
                                 type="submit"
                                 disabled={processing}
-                                className="bg-gradient-to-r from-amber-600 to-orange-600 text-white px-12 py-4 rounded-xl font-bold text-lg hover:from-amber-700 hover:to-orange-700 transition-all transform hover:scale-105 shadow-lg font-['Vazirmatn'] disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="bg-gradient-to-r from-primary-600 to-primary-700 text-white px-12 py-4 rounded-xl font-bold text-lg hover:from-primary-700 hover:to-primary-800 transition-all transform hover:scale-105 shadow-lg font-['Vazirmatn'] disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {processing ? 'در حال ثبت نام...' : 'ثبت نام به عنوان داور'}
                             </button>
@@ -263,7 +264,7 @@ export default function JudgeRegister() {
                         <div className="text-center pt-4">
                             <p className="text-gray-600 font-['Vazirmatn']">
                                 قبلاً ثبت نام کرده‌اید؟{' '}
-                                <Link href="/login" className="text-amber-600 hover:text-amber-700 font-semibold">
+                                <Link href="/login" className="text-primary-600 hover:text-primary-700 font-semibold">
                                     وارد شوید
                                 </Link>
                             </p>

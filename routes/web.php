@@ -32,7 +32,8 @@ Route::post('/login', [App\Http\Controllers\AuthController::class, 'login'])->na
 Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 
 Route::get('/register', function () {
-    return Inertia::render('Auth/Register');
+    $artFields = \App\Models\ArtField::active()->get();
+    return Inertia::render('Auth/Register', ['artFields' => $artFields]);
 })->name('register');
 
 Route::get('/forgot-password', function () {
@@ -42,9 +43,7 @@ Route::get('/forgot-password', function () {
 // Artist routes
 Route::prefix('artist')->group(function () {
     // Public artist routes
-    Route::get('/register', function () {
-        return Inertia::render('Artist/Register');
-    })->name('artist.register');
+    Route::get('/register', [App\Http\Controllers\ArtistController::class, 'showRegistrationForm'])->name('artist.register');
     
     Route::post('/register', [App\Http\Controllers\ArtistController::class, 'register'])->name('artist.register.store');
     
@@ -252,6 +251,13 @@ Route::prefix('admin')->middleware(['auth.admin'])->group(function () {
     Route::get('/reports', function () {
         return Inertia::render('Admin/Reports');
     })->name('admin.reports');
+    
+    Route::get('/field-requirements', function () {
+        $artFields = \App\Models\ArtField::active()->get();
+        return Inertia::render('Admin/FieldRequirements', [
+            'artFields' => $artFields
+        ]);
+    })->name('admin.field-requirements');
 });
 
 // Judge routes
@@ -371,6 +377,38 @@ Route::prefix('judge')->group(function () {
     Route::get('/settings', function () {
         return Inertia::render('Judge/Settings');
     })->name('judge.settings');
+    
+    // View artwork details for evaluation
+    Route::get('/art/{art}', function ($artId) {
+        $userId = session('user_id');
+        $judge = \App\Models\Judge::find($userId);
+        if (!$judge) {
+            return redirect()->route('login');
+        }
+        
+        $art = \App\Models\Art::with(['artist', 'artField', 'evaluations.judge'])
+            ->findOrFail($artId);
+        
+        // Check if judge is assigned to this art field
+        $assignedFieldIds = $judge->assignments()->pluck('art_field_id');
+        if (!$assignedFieldIds->contains($art->art_field_id)) {
+            return redirect()->route('judge.dashboard')->with('error', 'شما مجاز به ارزیابی این اثر نیستید');
+        }
+        
+        // Check if already evaluated
+        $existingEvaluation = $judge->evaluations()->where('art_id', $art->id)->first();
+        
+        return Inertia::render('Judge/ArtEvaluation', [
+            'art' => $art,
+            'existingEvaluation' => $existingEvaluation,
+        ]);
+    })->name('judge.art.evaluate');
+    
+    // Store evaluation
+    Route::post('/art/{art}/evaluate', [App\Http\Controllers\JudgeController::class, 'storeEvaluation'])->name('judge.evaluation.store');
+    
+    // Update evaluation
+    Route::patch('/evaluation/{evaluation}', [App\Http\Controllers\JudgeController::class, 'updateEvaluation'])->name('judge.evaluation.update');
     });
 });
 

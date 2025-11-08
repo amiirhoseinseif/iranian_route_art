@@ -18,12 +18,24 @@ class Art extends Model
         'artist_id',
         'art_field_id',
         'title',
+        'director_name',
+        'writer_name',
+        'technique',
+        'story_summary',
+        'artist_statement',
         'description',
         'cover_image',
         'art_file',
+        'main_file',
+        'poster',
         'art_file_type',
         'file_size',
         'duration',
+        'dimensions',
+        'materials',
+        'weight',
+        'software_used',
+        'subcategory',
         'metadata',
         'status',
         'rejection_reason',
@@ -33,10 +45,16 @@ class Art extends Model
         'audio_url',
         'tags',
         'year_created',
+        'resume',
+        'location',
+        'additional_files',
+        'production_photos',
     ];
 
     protected $casts = [
         'metadata' => 'array',
+        'additional_files' => 'array',
+        'production_photos' => 'array',
         'approved_at' => 'datetime',
         'file_size' => 'integer',
     ];
@@ -59,6 +77,11 @@ class Art extends Model
     public function evaluations(): HasMany
     {
         return $this->hasMany(ArtEvaluation::class);
+    }
+
+    public function fieldValues(): HasMany
+    {
+        return $this->hasMany(ArtFieldValue::class);
     }
 
     public function scopePending($query)

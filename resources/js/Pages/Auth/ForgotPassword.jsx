@@ -2,8 +2,10 @@ import React from 'react';
 import { Link, useForm } from '@inertiajs/react';
 import FestivalLayout from '@/Layouts/FestivalLayout';
 import { LogoIcon } from '@/Components/SvgIcons';
+import { useTranslation } from '@/Utils/translation';
 
 export default function ForgotPassword() {
+    const { trans } = useTranslation();
     const { data, setData, post, processing, errors } = useForm({
         email: ''
     });
@@ -14,20 +16,20 @@ export default function ForgotPassword() {
     };
 
     return (
-        <FestivalLayout title="بازیابی رمز عبور">
-            <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 py-12">
+        <FestivalLayout title={trans('forgot_password_title')}>
+            <div className="min-h-screen bg-gradient-to-br from-light-100 via-secondary-100 to-secondary-200 py-12">
                 <div className="container mx-auto px-4">
                     <div className="max-w-md mx-auto">
                         {/* Header */}
                         <div className="text-center mb-8">
-                            <div className="w-20 h-20 bg-gradient-to-r from-amber-600 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <div className="w-20 h-20 bg-gradient-to-r from-primary-600 to-primary-700 rounded-full flex items-center justify-center mx-auto mb-4">
                                 <LogoIcon className="w-12 h-12 text-white" />
                             </div>
                             <h1 className="text-3xl font-bold text-gray-800 mb-2 font-['Vazirmatn']">
-                                بازیابی رمز عبور
+                                {trans('forgot_password_title')}
                             </h1>
                             <p className="text-gray-600 font-['Vazirmatn']">
-                                ایمیل خود را وارد کنید تا لینک بازیابی رمز عبور برایتان ارسال شود
+                                {trans('forgot_password_desc')}
                             </p>
                         </div>
 
@@ -37,15 +39,15 @@ export default function ForgotPassword() {
                                 {/* Email */}
                                 <div>
                                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
-                                        ایمیل
+                                        {trans('email')}
                                     </label>
                                     <input
                                         type="email"
                                         id="email"
                                         value={data.email}
                                         onChange={(e) => setData('email', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all font-['Vazirmatn']"
-                                        placeholder="ایمیل خود را وارد کنید"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all font-['Vazirmatn']"
+                                        placeholder={trans('enter_email')}
                                         required
                                     />
                                     {errors.email && (
@@ -59,9 +61,9 @@ export default function ForgotPassword() {
                                 <button
                                     type="submit"
                                     disabled={processing}
-                                    className="w-full bg-gradient-to-r from-amber-600 to-orange-600 text-white py-3 px-6 rounded-xl font-bold text-lg hover:from-amber-700 hover:to-orange-700 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed font-['Vazirmatn']"
+                                    className="w-full bg-gradient-to-r from-primary-600 to-primary-700 text-white py-3 px-6 rounded-xl font-bold text-lg hover:from-primary-700 hover:to-primary-800 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed font-['Vazirmatn']"
                                 >
-                                    {processing ? 'در حال ارسال...' : 'ارسال لینک بازیابی'}
+                                    {processing ? trans('sending') : trans('send_reset_link')}
                                 </button>
                             </form>
 
@@ -69,9 +71,9 @@ export default function ForgotPassword() {
                             <div className="mt-6 text-center">
                                 <Link
                                     href="/login"
-                                    className="text-amber-600 hover:text-amber-700 text-sm font-['Vazirmatn']"
+                                    className="text-primary-600 hover:text-primary-700 text-sm font-['Vazirmatn']"
                                 >
-                                    بازگشت به صفحه ورود
+                                    {trans('back_to_login')}
                                 </Link>
                             </div>
                         </div>

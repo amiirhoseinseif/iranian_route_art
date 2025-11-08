@@ -2,18 +2,27 @@ import React, { useState } from 'react';
 import { Link, useForm } from '@inertiajs/react';
 import FestivalLayout from '@/Layouts/FestivalLayout';
 import PersianDateInput from '@/Components/PersianDateInput';
+import { route } from '@/Utils/route';
 import { 
     MusicIcon,
     PaintingIcon,
-    FilmIcon,
+    ShortFilmIcon,
     SculptureIcon,
-    GraphicIcon,
+    IllustrationIcon,
     CalligraphyIcon,
     PhotographyIcon,
-    ArchitectureIcon
+    ArchitectureIcon,
+    HandicraftsIcon,
+    IndustrialDesignIcon,
+    LiteratureIcon,
+    CarpetIcon,
+    TheaterIcon,
+    FashionDesignIcon,
+    AnimationIcon,
+    NewMediaArtsIcon
 } from '@/Components/SvgIcons';
 
-export default function ArtistRegister() {
+export default function ArtistRegister({ artFields = [] }) {
     const { data, setData, post, processing, errors } = useForm({
         first_name: '',
         last_name: '',
@@ -31,32 +40,50 @@ export default function ArtistRegister() {
     });
 
     const [selectedArtField, setSelectedArtField] = useState(null);
-
-    const artFields = [
-        { id: 1, name: 'موسیقی', icon: MusicIcon, description: 'آهنگسازی، نوازندگی، خوانندگی و تولید موسیقی' },
-        { id: 2, name: 'نقاشی', icon: PaintingIcon, description: 'نقاشی با رنگ روغن، آبرنگ، گواش و سایر تکنیک‌ها' },
-        { id: 3, name: 'فیلم‌سازی', icon: FilmIcon, description: 'کارگردانی، فیلمنامه‌نویسی، تدوین و تولید فیلم' },
-        { id: 4, name: 'مجسمه‌سازی', icon: SculptureIcon, description: 'مجسمه‌سازی با گچ، سنگ، فلز و سایر مواد' },
-        { id: 5, name: 'گرافیک', icon: GraphicIcon, description: 'طراحی گرافیک، پوستر، لوگو و تصویرسازی دیجیتال' },
-        { id: 6, name: 'خوشنویسی', icon: CalligraphyIcon, description: 'خوشنویسی فارسی، عربی و ترکیبی' },
-        { id: 7, name: 'عکاسی', icon: PhotographyIcon, description: 'عکاسی هنری، مستند و تجربی' },
-        { id: 8, name: 'معماری', icon: ArchitectureIcon, description: 'طراحی معماری، نقشه‌کشی و طراحی داخلی' },
-    ];
+    
+    // Map icon names to icon components
+    const iconMap = {
+        'music': MusicIcon,
+        'painting': PaintingIcon,
+        'short_film': ShortFilmIcon,
+        'sculpture': SculptureIcon,
+        'illustration': IllustrationIcon,
+        'calligraphy': CalligraphyIcon,
+        'photography': PhotographyIcon,
+        'architecture': ArchitectureIcon,
+        'handicrafts': HandicraftsIcon,
+        'industrial_design': IndustrialDesignIcon,
+        'literature': LiteratureIcon,
+        'carpet': CarpetIcon,
+        'theater': TheaterIcon,
+        'fashion_design': FashionDesignIcon,
+        'animation': AnimationIcon,
+        'new_media_arts': NewMediaArtsIcon,
+    };
+    
+    // Map art fields with icons
+    const artFieldsWithIcons = artFields.map(field => ({
+        ...field,
+        icon: iconMap[field.icon_name] || MusicIcon
+    }));
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post('/artist/register');
+        console.log('Register form submitted!');
+        console.log('Route result:', route('artist.register.store'));
+        console.log('Form data:', data);
+        post(route('artist.register.store'));
     };
 
     return (
-        <FestivalLayout title="ثبت نام هنرمند - جشنواره هنری مسیر ایران">
+        <FestivalLayout title="ثبت نام هنرمند - جشنواره بین الملی مسیر ایران">
             <div className="max-w-4xl mx-auto">
                 <div className="text-center mb-12">
                     <h1 className="text-4xl font-bold text-gray-800 mb-4 font-['Vazirmatn']">
                         ثبت نام هنرمند
                     </h1>
                     <p className="text-xl text-gray-600 font-['Vazirmatn']">
-                        برای شرکت در جشنواره هنری مسیر ایران، لطفاً اطلاعات خود را تکمیل کنید
+                        برای شرکت در جشنواره بین الملی مسیر ایران، لطفاً اطلاعات خود را تکمیل کنید
                     </p>
                 </div>
 
@@ -76,7 +103,7 @@ export default function ArtistRegister() {
                                         type="text"
                                         value={data.first_name}
                                         onChange={e => setData('first_name', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                         required
                                     />
                                     {errors.first_name && <p className="text-red-500 text-sm mt-1">{errors.first_name}</p>}
@@ -89,7 +116,7 @@ export default function ArtistRegister() {
                                         type="text"
                                         value={data.last_name}
                                         onChange={e => setData('last_name', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                         required
                                     />
                                     {errors.last_name && <p className="text-red-500 text-sm mt-1">{errors.last_name}</p>}
@@ -102,7 +129,7 @@ export default function ArtistRegister() {
                                         type="tel"
                                         value={data.phone}
                                         onChange={e => setData('phone', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                         placeholder="09123456789"
                                         required
                                     />
@@ -116,7 +143,7 @@ export default function ArtistRegister() {
                                         type="email"
                                         value={data.email}
                                         onChange={e => setData('email', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                         required
                                     />
                                     {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
@@ -129,7 +156,7 @@ export default function ArtistRegister() {
                                         value={data.birth_date}
                                         onChange={(value) => setData('birth_date', value)}
                                         placeholder="تاریخ تولد خود را انتخاب کنید"
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                     />
                                     {errors.birth_date && <p className="text-red-500 text-sm mt-1">{errors.birth_date}</p>}
                                 </div>
@@ -142,7 +169,7 @@ export default function ArtistRegister() {
                                 انتخاب رشته هنری <span className="text-red-500">*</span>
                             </h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                                {artFields.map((field) => (
+                                {artFieldsWithIcons.map((field) => (
                                     <div
                                         key={field.id}
                                         onClick={() => {
@@ -151,12 +178,12 @@ export default function ArtistRegister() {
                                         }}
                                         className={`p-4 border-2 rounded-xl cursor-pointer transition-all ${
                                             selectedArtField?.id === field.id
-                                                ? 'border-amber-500 bg-amber-50'
-                                                : 'border-gray-200 hover:border-amber-300'
+                                                ? 'border-primary-500 bg-primary-50'
+                                                : 'border-gray-200 hover:border-secondary-300'
                                         }`}
                                     >
                                         <div className="text-3xl mb-2 flex justify-center">
-                                            <field.icon className="w-8 h-8 text-amber-600" />
+                                            <field.icon className="w-8 h-8 text-primary-600" />
                                         </div>
                                         <h3 className="font-bold text-gray-800 mb-1 font-['Vazirmatn']">{field.name}</h3>
                                         <p className="text-xs text-gray-600 font-['Vazirmatn']">{field.description}</p>
@@ -180,7 +207,7 @@ export default function ArtistRegister() {
                                         type="text"
                                         value={data.telegram_id}
                                         onChange={e => setData('telegram_id', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                         placeholder="@username"
                                     />
                                 </div>
@@ -192,7 +219,7 @@ export default function ArtistRegister() {
                                         type="text"
                                         value={data.whatsapp_id}
                                         onChange={e => setData('whatsapp_id', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                         placeholder="+989123456789"
                                     />
                                 </div>
@@ -204,7 +231,7 @@ export default function ArtistRegister() {
                                         type="text"
                                         value={data.instagram_id}
                                         onChange={e => setData('instagram_id', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                         placeholder="@username"
                                     />
                                 </div>
@@ -216,7 +243,7 @@ export default function ArtistRegister() {
                                         type="text"
                                         value={data.linkedin_id}
                                         onChange={e => setData('linkedin_id', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                         placeholder="username"
                                     />
                                 </div>
@@ -236,7 +263,7 @@ export default function ArtistRegister() {
                                     value={data.bio}
                                     onChange={e => setData('bio', e.target.value)}
                                     rows={4}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                     placeholder="تجربیات هنری، سبک کاری، افتخارات و..."
                                 />
                             </div>
@@ -256,7 +283,7 @@ export default function ArtistRegister() {
                                         type="password"
                                         value={data.password}
                                         onChange={e => setData('password', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                         required
                                     />
                                     {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
@@ -269,7 +296,7 @@ export default function ArtistRegister() {
                                         type="password"
                                         value={data.password_confirmation}
                                         onChange={e => setData('password_confirmation', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
                                         required
                                     />
                                     {errors.password_confirmation && <p className="text-red-500 text-sm mt-1">{errors.password_confirmation}</p>}
@@ -282,7 +309,10 @@ export default function ArtistRegister() {
                             <button
                                 type="submit"
                                 disabled={processing}
-                                className="bg-gradient-to-r from-amber-600 to-orange-600 text-white px-12 py-4 rounded-xl font-bold text-lg hover:from-amber-700 hover:to-orange-700 transition-all transform hover:scale-105 shadow-lg font-['Vazirmatn'] disabled:opacity-50 disabled:cursor-not-allowed"
+                                onClick={(e) => {
+                                    console.log('Register button clicked!', e);
+                                }}
+                                className="bg-gradient-to-r from-primary-600 to-primary-700 text-white px-12 py-4 rounded-xl font-bold text-lg hover:from-primary-700 hover:to-primary-800 transition-all transform hover:scale-105 shadow-lg font-['Vazirmatn'] disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {processing ? 'در حال ثبت نام...' : 'ثبت نام'}
                             </button>
@@ -292,7 +322,7 @@ export default function ArtistRegister() {
                         <div className="text-center pt-4">
                             <p className="text-gray-600 font-['Vazirmatn']">
                                 قبلاً ثبت نام کرده‌اید؟{' '}
-                                <Link href="/login" className="text-amber-600 hover:text-amber-700 font-semibold">
+                                <Link href="/login" className="text-primary-600 hover:text-primary-700 font-semibold">
                                     وارد شوید
                                 </Link>
                             </p>

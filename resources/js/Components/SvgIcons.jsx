@@ -8,8 +8,10 @@ export const MusicIcon = ({ className = "w-6 h-6", ...props }) => (
 );
 
 export const PaintingIcon = ({ className = "w-6 h-6", ...props }) => (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 4l-1.5 3M4 4l1.5 3M10 5h4M7 9h10M5 14h14M3 20h18M12 3v17"/>
+        <circle cx="12" cy="11" r="2" fill="currentColor"/>
+        <path strokeLinecap="round" strokeWidth={1.5} d="M9 11l1 1M15 11l-1 1"/>
     </svg>
 );
 
@@ -20,8 +22,11 @@ export const FilmIcon = ({ className = "w-6 h-6", ...props }) => (
 );
 
 export const SculptureIcon = ({ className = "w-6 h-6", ...props }) => (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4c-2.5 0-5 1-5 3v10c0 2 2.5 3 5 3s5-1 5-3V7c0-2-2.5-3-5-3zM7 7h10M7 10h10M7 13h10"/>
+        <circle cx="9" cy="9" r="1.5" fill="currentColor"/>
+        <circle cx="15" cy="9" r="1.5" fill="currentColor"/>
+        <path strokeLinecap="round" strokeWidth={1.5} d="M5 17l2 3M19 17l-2 3"/>
     </svg>
 );
 
@@ -33,8 +38,11 @@ export const GraphicIcon = ({ className = "w-6 h-6", ...props }) => (
 );
 
 export const CalligraphyIcon = ({ className = "w-6 h-6", ...props }) => (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
-        <path d="M9 4v1.38c-.83-.33-1.72-.5-2.61-.5-1.79 0-3.58.68-4.95 2.05l3.33 3.33h1.23v1.09c0 .47-.16.92-.46 1.3.01-.06.01-.12.01-.18 0-.28-.22-.5-.5-.5H4v2h.5c.28 0 .5.22.5.5v3c0 .28-.22.5-.5.5H4v2h.5c.28 0 .5.22.5.5V20c0 .28-.22.5-.5.5H4v2h.5c.28 0 .5-.22.5-.5v-.09c0-.28.22-.5.5-.5.3 0 .55.1.73.28.58.58 1.43.91 2.29.91.44 0 .87-.1 1.25-.29l1.18-.68c.21-.12.35-.29.44-.47l1.25-2.5c.56-1.11.35-2.45-.61-3.3L9 4zm-1.25 16.5c-.88 0-1.73-.3-2.4-.85L8.03 20H7v-1.03l.85-.35c.55-.23 1.1-.35 1.65-.35.88 0 1.73.3 2.4.85l.35.35V20h-1v-1.03l-.35-.35c-.55-.23-1.1-.35-1.65-.35z"/>
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3h6v4H9V3z"/>
+        <ellipse cx="5" cy="9" rx="3" ry="8" fill="currentColor"/>
+        <ellipse cx="19" cy="9" rx="3" ry="8" fill="currentColor"/>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5h14M3 17h18M12 3v14"/>
     </svg>
 );
 
@@ -48,6 +56,100 @@ export const PhotographyIcon = ({ className = "w-6 h-6", ...props }) => (
 export const ArchitectureIcon = ({ className = "w-6 h-6", ...props }) => (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
         <path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10z"/>
+    </svg>
+);
+
+export const HandicraftsIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3h6v3H9V3zM5 7h14l-1 12H6L5 7zM8 12h8M8 16h4M6 8v1M18 8v1M10 5h4"/>
+    </svg>
+);
+
+export const IndustrialDesignIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
+        <rect x="3" y="8" width="18" height="12" rx="2"/>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12h2M7 12h2M11 12h2M15 12h2M19 12h2M3 16h2M7 16h2M11 16h2M15 16h2M6 8V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v3"/>
+    </svg>
+);
+
+export const IllustrationIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12c0-1.657 4.03-3 9-3s9 1.343 9 3M3 12v6c0 1.657 4.03 3 9 3s9-1.343 9-3v-6M3 12c0-1.657 4.03-3 9-3s9 1.343 9 3"/>
+        <circle cx="7" cy="12" r="1.5" fill="currentColor"/>
+        <circle cx="17" cy="12" r="1.5" fill="currentColor"/>
+        <path strokeLinecap="round" strokeWidth={2} d="M8 9l2 3M16 9l-2 3"/>
+    </svg>
+);
+
+export const LiteratureIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h10"/>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 21c-1-2-1.5-3.5-2-5M15 21c1-2 1.5-3.5 2-5M17 8c-.5 1-1 1.5-1 2.5s.5 2 1 3"/>
+    </svg>
+);
+
+export const CarpetIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
+        <rect x="3" y="5" width="18" height="14" rx="1" strokeWidth={2}/>
+        <path strokeLinecap="round" strokeWidth={1.5} d="M3 9h18M3 13h18M3 17h18M7 5v14M11 5v14M15 5v14M19 5v14"/>
+        <circle cx="7" cy="9" r="1" fill="currentColor"/>
+        <circle cx="11" cy="13" r="1" fill="currentColor"/>
+        <circle cx="15" cy="9" r="1" fill="currentColor"/>
+        <circle cx="19" cy="13" r="1" fill="currentColor"/>
+        <circle cx="7" cy="17" r="1" fill="currentColor"/>
+        <circle cx="15" cy="17" r="1" fill="currentColor"/>
+    </svg>
+);
+
+export const ShortFilmIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M8 5v14l11-7z"/>
+    </svg>
+);
+
+export const TheaterIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8h18v8H3z"/>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8L12 2l9 6M3 16L12 22l9-6"/>
+        <circle cx="6" cy="12" r="1.5" fill="currentColor"/>
+        <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+        <circle cx="18" cy="12" r="1.5" fill="currentColor"/>
+        <path strokeLinecap="round" strokeWidth={1.5} d="M3 8v8M21 8v8"/>
+    </svg>
+);
+
+export const FashionDesignIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3h6v3H9V3zM5 7h14M8 12h8M8 16h4M6 9v10h12V9M12 3v4"/>
+        <circle cx="10" cy="12" r="1" fill="currentColor"/>
+        <circle cx="14" cy="12" r="1" fill="currentColor"/>
+        <path strokeLinecap="round" strokeWidth={1.5} d="M7 11h2M15 11h2"/>
+    </svg>
+);
+
+export const AnimationIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
+        <circle cx="8" cy="8" r="3" strokeWidth={2}/>
+        <circle cx="16" cy="8" r="3" strokeWidth={2}/>
+        <circle cx="8" cy="16" r="3" strokeWidth={2}/>
+        <circle cx="16" cy="16" r="3" strokeWidth={2}/>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 8l8 8M8 16l8-8"/>
+        <circle cx="8" cy="8" r="1" fill="currentColor"/>
+        <circle cx="16" cy="8" r="1" fill="currentColor"/>
+        <circle cx="8" cy="16" r="1" fill="currentColor"/>
+        <circle cx="16" cy="16" r="1" fill="currentColor"/>
+    </svg>
+);
+
+export const NewMediaArtsIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
+        <rect x="3" y="5" width="8" height="8" rx="1"/>
+        <rect x="13" y="5" width="8" height="8" rx="1"/>
+        <rect x="3" y="15" width="8" height="4" rx="1"/>
+        <rect x="13" y="15" width="8" height="4" rx="1"/>
+        <circle cx="7" cy="9" r="1" fill="currentColor"/>
+        <circle cx="17" cy="9" r="1" fill="currentColor"/>
+        <path strokeLinecap="round" strokeWidth={1.5} d="M5 7h2M15 7h2M5 11h2M15 11h2M5 17h2M15 17h2"/>
     </svg>
 );
 
@@ -339,10 +441,29 @@ export const DownloadIcon = ({ className = "w-6 h-6", ...props }) => (
     </svg>
 );
 
-// Logo Icon
+// Logo Icon - Compact version for headers
 export const LogoIcon = ({ className = "w-8 h-8", ...props }) => (
+    <img
+        src="/logo.png2.png"
+        alt="Iranian Route International Festival Logo"
+        className={className}
+        style={{
+            objectFit: 'contain',
+            background: 'transparent'
+        }}
+        {...props}
+    />
+);
+
+// Additional Utility Icons
+export const CloudIcon = ({ className = "w-6 h-6", ...props }) => (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-        <path d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/>
+        <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4s1.79-4 4-4h.71C7.37 7.69 9.48 6 12 6c3.04 0 5.5 2.46 5.5 5.5v.5H19c1.66 0 3 1.34 3 3s-1.34 3-3 3z"/>
+    </svg>
+);
+
+export const BookIcon = ({ className = "w-6 h-6", ...props }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/>
     </svg>
 );

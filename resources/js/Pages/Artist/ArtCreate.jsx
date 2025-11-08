@@ -1,184 +1,317 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link, useForm } from '@inertiajs/react';
 import FestivalLayout from '@/Layouts/FestivalLayout';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
+import { route } from '@/Utils/route';
 
 export default function ArtCreate({ artFields = [] }) {
-    const { data, setData, post, processing, errors } = useForm({
-        title: '',
-        description: '',
-        art_field_id: '',
-        image: null,
-        video_url: '',
-        audio_url: '',
-        tags: '',
-        year_created: '',
-    });
+    const [selectedArtField, setSelectedArtField] = useState(null);
+    const [fieldRequirements, setFieldRequirements] = useState([]);
+
+    // Initialize form data dynamically based on field requirements
+    const initialFormData = useMemo(() => {
+        const data = { art_field_id: '' };
+        // We'll populate this dynamically when field requirements are loaded
+        return data;
+    }, []);
+
+    const { data, setData, post, processing, errors } = useForm(initialFormData);
+
+    // Load field requirements when art field is selected
+    useEffect(() => {
+        if (selectedArtField && selectedArtField.requirements) {
+            const requirements = selectedArtField.requirements
+                .filter(req => req.requirement_type !== 'disabled')
+                .sort((a, b) => (a.order || 0) - (b.order || 0));
+            
+            setFieldRequirements(requirements);
+
+            // Initialize form data for each requirement
+            const newData = { art_field_id: selectedArtField.id };
+            requirements.forEach(req => {
+                if (['file', 'image', 'audio', 'video'].includes(req.field_type)) {
+                    newData[req.field_name] = null;
+                } else {
+                    newData[req.field_name] = '';
+                }
+            });
+            setData(newData);
+        }
+    }, [selectedArtField, setData]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route('artist.arts.store'));
+        post(route('artist.arts.store'), {
+            forceFormData: true,
+        });
     };
 
-    const handleImageChange = (e) => {
-        setData('image', e.target.files[0]);
+    const handleFieldChange = (fieldName, fieldType, value) => {
+        setData(fieldName, value);
     };
+
+    const renderField = (requirement) => {
+        const { field_name, display_name, field_type, requirement_type, description, validation_rules } = requirement;
+        const isRequired = requirement_type === 'required';
+        const error = errors[field_name];
+
+        const commonProps = {
+            id: field_name,
+            name: field_name,
+            required: isRequired,
+            className: `w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn'] ${error ? 'border-red-500' : ''}`,
+        };
+
+        const label = (
+            <InputLabel htmlFor={field_name} value={display_name || field_name}>
+                {isRequired && <span className="text-red-500">*</span>}
+            </InputLabel>
+        );
+
+        const descriptionText = description && (
+            <p className="text-sm text-gray-500 mt-1 font-['Vazirmatn']">{description}</p>
+        );
+
+        const validationInfo = validation_rules && (
+            <p className="text-sm text-gray-500 mt-2 font-['Vazirmatn']">
+                {validation_rules.allowed_formats && `فرمت‌های مجاز: ${validation_rules.allowed_formats.join(', ')}`}
+                {validation_rules.max_size && ` - حداکثر حجم: ${formatFileSize(validation_rules.max_size)}`}
+                {validation_rules.max_length && ` - حداکثر طول: ${validation_rules.max_length} کاراکتر`}
+            </p>
+        );
+
+        switch (field_type) {
+            case 'textarea':
+                return (
+                    <div key={field_name} className="col-span-full">
+                        {label}
+                        <textarea
+                            {...commonProps}
+                            value={data[field_name] || ''}
+                            onChange={(e) => handleFieldChange(field_name, field_type, e.target.value)}
+                            rows={validation_rules?.rows || 4}
+                            maxLength={validation_rules?.max_length}
+                        />
+                        {descriptionText}
+                        {validationInfo}
+                        {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+                        {validation_rules?.max_length && (
+                            <p className="text-sm text-gray-500 mt-2 font-['Vazirmatn']">
+                                {(data[field_name] || '').length}/{validation_rules.max_length} کاراکتر
+                            </p>
+                        )}
+                    </div>
+                );
+
+            case 'file':
+            case 'image':
+            case 'audio':
+            case 'video':
+                const acceptMap = {
+                    image: 'image/*',
+                    audio: 'audio/*',
+                    video: 'video/*',
+                    file: '*/*',
+                };
+                
+                const acceptValue = validation_rules?.allowed_formats ? 
+                    validation_rules.allowed_formats.map(f => getMimeType(f)).join(',') :
+                    acceptMap[field_type] || '*/*';
+                
+                return (
+                    <div key={field_name} className="col-span-full">
+                        {label}
+                        <input
+                            {...commonProps}
+                            type="file"
+                            accept={acceptValue}
+                            onChange={(e) => handleFieldChange(field_name, field_type, e.target.files[0])}
+                        />
+                        {descriptionText}
+                        {validationInfo}
+                        {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+                    </div>
+                );
+
+            case 'number':
+                return (
+                    <div key={field_name}>
+                        {label}
+                        <input
+                            {...commonProps}
+                            type="number"
+                            value={data[field_name] || ''}
+                            onChange={(e) => handleFieldChange(field_name, field_type, e.target.value)}
+                            min={validation_rules?.min}
+                            max={validation_rules?.max}
+                        />
+                        {descriptionText}
+                        {validationInfo}
+                        {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+                    </div>
+                );
+
+            case 'email':
+                return (
+                    <div key={field_name}>
+                        {label}
+                        <input
+                            {...commonProps}
+                            type="email"
+                            value={data[field_name] || ''}
+                            onChange={(e) => handleFieldChange(field_name, field_type, e.target.value)}
+                        />
+                        {descriptionText}
+                        {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+                    </div>
+                );
+
+            case 'date':
+                return (
+                    <div key={field_name}>
+                        {label}
+                        <input
+                            {...commonProps}
+                            type="date"
+                            value={data[field_name] || ''}
+                            onChange={(e) => handleFieldChange(field_name, field_type, e.target.value)}
+                        />
+                        {descriptionText}
+                        {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+                    </div>
+                );
+
+            default: // text
+                return (
+                    <div key={field_name}>
+                        {label}
+                        <input
+                            {...commonProps}
+                            type="text"
+                            value={data[field_name] || ''}
+                            onChange={(e) => handleFieldChange(field_name, field_type, e.target.value)}
+                            maxLength={validation_rules?.max_length}
+                        />
+                        {descriptionText}
+                        {validationInfo}
+                        {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+                    </div>
+                );
+        }
+    };
+
+    // Helper functions
+    function formatFileSize(bytes) {
+        if (!bytes) return '';
+        if (bytes < 1024) return bytes + ' بایت';
+        if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + ' کیلوبایت';
+        if (bytes < 1024 * 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(2) + ' مگابایت';
+        return (bytes / (1024 * 1024 * 1024)).toFixed(2) + ' گیگابایت';
+    }
+
+    function getMimeType(format) {
+        const mimeTypes = {
+            'jpeg': 'image/jpeg',
+            'jpg': 'image/jpeg',
+            'png': 'image/png',
+            'pdf': 'application/pdf',
+            'mp3': 'audio/mpeg',
+            'wav': 'audio/wav',
+            'mp4': 'video/mp4',
+            'mov': 'video/quicktime',
+        };
+        return mimeTypes[format.toLowerCase()] || `*/*`;
+    }
+
+    // Group requirements into sections
+    const requiredFields = fieldRequirements.filter(req => req.requirement_type === 'required');
+    const optionalFields = fieldRequirements.filter(req => req.requirement_type === 'optional');
 
     return (
-        <FestivalLayout title="افزودن اثر جدید - جشنواره هنری مسیر ایران">
-            <div className="max-w-4xl mx-auto">
-                <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-gray-800 mb-2 font-['Vazirmatn']">
-                        افزودن اثر جدید
+        <FestivalLayout title="ثبت اثر هنری - جشنواره بین‌المللی مسیر ایران">
+            <div className="max-w-6xl mx-auto">
+                {/* Header */}
+                <div className="mb-8 text-center">
+                    <h1 className="text-4xl font-bold text-gray-800 mb-4 font-['Vazirmatn']">
+                        ثبت اثر هنری
                     </h1>
-                    <p className="text-gray-600 font-['Vazirmatn']">
-                        اثر هنری جدید خود را ثبت کنید
+                    <p className="text-xl text-gray-600 font-['Vazirmatn']">
+                        جشنواره بین‌المللی مسیر ایران - مهلت ارسال: نوروز ۱۴۰۵
                     </p>
+                    <div className="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-200">
+                        <p className="text-blue-800 font-['Vazirmatn']">
+                            <strong>موضوع جشنواره:</strong> ایران است. فرهنگ و هنر ایران
+                        </p>
+                    </div>
                 </div>
 
                 <div className="bg-white rounded-2xl shadow-lg p-8">
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        {/* Basic Information */}
-                        <div className="border-b border-gray-200 pb-6">
+                    <form onSubmit={handleSubmit} className="space-y-8">
+                        {/* انتخاب رشته هنری */}
+                        <div className="border-b border-gray-200 pb-8">
                             <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
-                                اطلاعات اصلی
+                                انتخاب رشته هنری <span className="text-red-500">*</span>
                             </h2>
-                            <div className="space-y-6">
-                                <div>
-                                    <InputLabel htmlFor="title" value="عنوان اثر" />
-                                    <input
-                                        id="title"
-                                        type="text"
-                                        value={data.title}
-                                        onChange={e => setData('title', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
-                                        placeholder="عنوان اثر هنری خود را وارد کنید"
-                                        required
-                                    />
-                                    {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title}</p>}
-                                </div>
-                                
-                                <div>
-                                    <InputLabel htmlFor="description" value="توضیحات اثر" />
-                                    <textarea
-                                        id="description"
-                                        value={data.description}
-                                        onChange={e => setData('description', e.target.value)}
-                                        rows={4}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
-                                        placeholder="توضیحات کامل اثر هنری خود را بنویسید"
-                                        required
-                                    />
-                                    {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
-                                </div>
-                                
-                                <div>
-                                    <InputLabel htmlFor="art_field_id" value="رشته هنری" />
-                                    <select
-                                        id="art_field_id"
-                                        value={data.art_field_id}
-                                        onChange={e => setData('art_field_id', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
-                                        required
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                                {artFields.map((field) => (
+                                    <div
+                                        key={field.id}
+                                        onClick={() => {
+                                            setSelectedArtField(field);
+                                            setData('art_field_id', field.id);
+                                        }}
+                                        className={`p-4 border-2 rounded-xl cursor-pointer transition-all ${
+                                            selectedArtField?.id === field.id
+                                                ? 'border-primary-500 bg-primary-50'
+                                                : 'border-gray-200 hover:border-secondary-300'
+                                        }`}
                                     >
-                                        <option value="">انتخاب رشته هنری</option>
-                                        {artFields.map((field) => (
-                                            <option key={field.id} value={field.id}>
-                                                {field.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                    {errors.art_field_id && <p className="text-red-500 text-sm mt-1">{errors.art_field_id}</p>}
-                                </div>
-                                
-                                <div>
-                                    <InputLabel htmlFor="year_created" value="سال ایجاد اثر (شمسی)" />
-                                    <input
-                                        id="year_created"
-                                        type="number"
-                                        value={data.year_created}
-                                        onChange={e => setData('year_created', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
-                                        placeholder="1400"
-                                        min="1300"
-                                        max="1450"
-                                    />
-                                    {errors.year_created && <p className="text-red-500 text-sm mt-1">{errors.year_created}</p>}
-                                </div>
+                                        <h3 className="font-bold text-gray-800 mb-2 font-['Vazirmatn']">{field.name}</h3>
+                                        <p className="text-sm text-gray-600 font-['Vazirmatn']">
+                                            {field.description || 'توضیحات رشته هنری'}
+                                        </p>
+                                    </div>
+                                ))}
                             </div>
+                            {errors.art_field_id && <p className="text-red-500 text-sm mt-2">{errors.art_field_id}</p>}
                         </div>
 
-                        {/* Media Files */}
-                        <div className="border-b border-gray-200 pb-6">
-                            <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
-                                فایل‌های رسانه‌ای
-                            </h2>
-                            <div className="space-y-6">
-                                <div>
-                                    <InputLabel htmlFor="image" value="تصویر اثر (الزامی)" />
-                                    <input
-                                        id="image"
-                                        type="file"
-                                        onChange={handleImageChange}
-                                        accept="image/*"
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
-                                        required
-                                    />
-                                    <p className="text-sm text-gray-500 mt-2 font-['Vazirmatn']">
-                                        فرمت‌های مجاز: JPG, PNG, GIF - حداکثر حجم: 10 مگابایت
-                                    </p>
-                                    {errors.image && <p className="text-red-500 text-sm mt-1">{errors.image}</p>}
-                                </div>
-                                
-                                <div>
-                                    <InputLabel htmlFor="video_url" value="لینک ویدیو (اختیاری)" />
-                                    <input
-                                        id="video_url"
-                                        type="url"
-                                        value={data.video_url}
-                                        onChange={e => setData('video_url', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
-                                        placeholder="https://youtube.com/watch?v=..."
-                                    />
-                                    {errors.video_url && <p className="text-red-500 text-sm mt-1">{errors.video_url}</p>}
-                                </div>
-                                
-                                <div>
-                                    <InputLabel htmlFor="audio_url" value="لینک فایل صوتی (اختیاری)" />
-                                    <input
-                                        id="audio_url"
-                                        type="url"
-                                        value={data.audio_url}
-                                        onChange={e => setData('audio_url', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
-                                        placeholder="https://soundcloud.com/..."
-                                    />
-                                    {errors.audio_url && <p className="text-red-500 text-sm mt-1">{errors.audio_url}</p>}
+                        {/* فیلدهای الزامی */}
+                        {selectedArtField && requiredFields.length > 0 && (
+                            <div className="border-b border-gray-200 pb-8">
+                                <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
+                                    اطلاعات اصلی اثر <span className="text-red-500">*</span>
+                                </h2>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    {requiredFields.map(requirement => renderField(requirement))}
                                 </div>
                             </div>
-                        </div>
+                        )}
 
-                        {/* Additional Information */}
-                        <div className="pb-6">
-                            <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
-                                اطلاعات تکمیلی
-                            </h2>
-                            <div>
-                                <InputLabel htmlFor="tags" value="برچسب‌ها (اختیاری)" />
-                                <input
-                                    id="tags"
-                                    type="text"
-                                    value={data.tags}
-                                    onChange={e => setData('tags', e.target.value)}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent font-['Vazirmatn']"
-                                    placeholder="نقاشی، انتزاعی، مدرن، هنر معاصر"
-                                />
-                                <p className="text-sm text-gray-500 mt-2 font-['Vazirmatn']">
-                                    برچسب‌ها را با کاما جدا کنید
-                                </p>
-                                {errors.tags && <p className="text-red-500 text-sm mt-1">{errors.tags}</p>}
+                        {/* فیلدهای اختیاری */}
+                        {selectedArtField && optionalFields.length > 0 && (
+                            <div className="border-b border-gray-200 pb-8">
+                                <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
+                                    اطلاعات اختیاری
+                                </h2>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    {optionalFields.map(requirement => renderField(requirement))}
+                                </div>
                             </div>
+                        )}
+
+                        {/* نکات مهم */}
+                        <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-6">
+                            <h3 className="text-lg font-bold text-yellow-800 mb-4 font-['Vazirmatn']">
+                                نکات مهم
+                            </h3>
+                            <ul className="space-y-2 text-yellow-700 font-['Vazirmatn']">
+                                <li>• فایل‌ها نباید شامل نام هنرمند، واترمارک یا هرگونه علامت شناسایی باشند</li>
+                                <li>• تمام آثار باید حاصل خلاقیت و مالکیت هنرمند باشند</li>
+                                <li>• هرگونه کپی‌برداری یا سرقت هنری منجر به حذف قطعی اثر خواهد شد</li>
+                                <li>• آثار باید مختص جشنواره تولید شده و پیش از این در فضای مجازی منتشر نشده باشند</li>
+                            </ul>
                         </div>
 
                         {/* Submit Button */}
@@ -189,7 +322,7 @@ export default function ArtCreate({ artFields = [] }) {
                             >
                                 انصراف
                             </Link>
-                            <PrimaryButton disabled={processing}>
+                            <PrimaryButton disabled={processing || !data.art_field_id}>
                                 {processing ? 'در حال ثبت...' : 'ثبت اثر'}
                             </PrimaryButton>
                         </div>

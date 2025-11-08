@@ -41,6 +41,23 @@ class HandleInertiaRequests extends Middleware
                 'access_token' => $request->session()->get('access_token'),
             ],
             'csrf_token' => csrf_token(),
+            'locale' => app()->getLocale(),
+            'translations' => function () {
+                $locale = app()->getLocale();
+                $messages = trans('messages');
+                $auth = trans('auth');
+                
+                // Merge messages and auth translations
+                $allTranslations = [];
+                if (is_array($messages)) {
+                    $allTranslations = array_merge($allTranslations, $messages);
+                }
+                if (is_array($auth)) {
+                    $allTranslations = array_merge($allTranslations, $auth);
+                }
+                
+                return $allTranslations;
+            },
         ];
     }
 }

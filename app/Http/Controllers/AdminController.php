@@ -353,4 +353,113 @@ class AdminController extends Controller
 
         return response()->json($arts);
     }
+
+    /**
+     * Get field requirements for an art field
+     */
+    public function getFieldRequirements(Request $request, $artFieldId)
+    {
+        $requirements = \App\Models\FieldRequirement::where('art_field_id', $artFieldId)
+            ->orderBy('order')
+            ->orderBy('created_at')
+            ->get();
+
+        return response()->json($requirements);
+    }
+
+    /**
+     * Store a new field requirement
+     */
+    public function storeFieldRequirement(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'art_field_id' => 'required|exists:art_fields,id',
+            'field_name' => 'required|string|max:255',
+            'display_name' => 'required|string|max:255',
+            'requirement_type' => 'required|in:required,optional,disabled',
+            'field_type' => 'required|string|max:50',
+            'description' => 'nullable|string',
+            'validation_rules' => 'nullable|array',
+            'order' => 'nullable|integer|min:0',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'خطا در اعتبارسنجی داده‌ها',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $requirement = \App\Models\FieldRequirement::create([
+            'art_field_id' => $request->art_field_id,
+            'field_name' => $request->field_name,
+            'display_name' => $request->display_name,
+            'requirement_type' => $request->requirement_type,
+            'field_type' => $request->field_type,
+            'description' => $request->description,
+            'validation_rules' => $request->validation_rules ?? [],
+            'order' => $request->order ?? 0,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'فیلد با موفقیت اضافه شد',
+            'data' => $requirement
+        ], 201);
+    }
+
+    /**
+     * Update a field requirement
+     */
+    public function updateFieldRequirement(Request $request, $id)
+    {
+        $requirement = \App\Models\FieldRequirement::findOrFail($id);
+
+        $validator = Validator::make($request->all(), [
+            'display_name' => 'required|string|max:255',
+            'requirement_type' => 'required|in:required,optional,disabled',
+            'field_type' => 'required|string|max:50',
+            'description' => 'nullable|string',
+            'validation_rules' => 'nullable|array',
+            'order' => 'nullable|integer|min:0',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'خطا در اعتبارسنجی داده‌ها',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $requirement->update([
+            'display_name' => $request->display_name,
+            'requirement_type' => $request->requirement_type,
+            'field_type' => $request->field_type,
+            'description' => $request->description,
+            'validation_rules' => $request->validation_rules ?? [],
+            'order' => $request->order ?? $requirement->order,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'فیلد با موفقیت بروزرسانی شد',
+            'data' => $requirement
+        ]);
+    }
+
+    /**
+     * Delete a field requirement
+     */
+    public function deleteFieldRequirement($id)
+    {
+        $requirement = \App\Models\FieldRequirement::findOrFail($id);
+        $requirement->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'فیلد با موفقیت حذف شد'
+        ]);
+    }
 }
