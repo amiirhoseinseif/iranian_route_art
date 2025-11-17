@@ -33,10 +33,10 @@ export default function ArtistLogin({ csrf_token }) {
             <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-light-100 to-secondary-100 py-12 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-md w-full space-y-8">
                     <div className="text-center">
-                        <h2 className="mt-6 text-3xl font-bold text-gray-900 font-['Vazirmatn']">
+                        <h2 className="mt-6 text-3xl font-bold text-gray-900 font-['iransansX']">
                             {trans('login_title')}
                         </h2>
-                        <p className="mt-2 text-sm text-gray-600 font-['Vazirmatn']">
+                        <p className="mt-2 text-sm text-gray-600 font-['iransansX']">
                             {trans('login_subtitle')}
                         </p>
                     </div>
@@ -50,7 +50,7 @@ export default function ArtistLogin({ csrf_token }) {
                                     type="email"
                                     value={data.email}
                                     onChange={e => setData('email', e.target.value)}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
+                                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['iransansX']"
                                     placeholder={trans('enter_email')}
                                     required
                                 />
@@ -64,7 +64,7 @@ export default function ArtistLogin({ csrf_token }) {
                                     type="password"
                                     value={data.password}
                                     onChange={e => setData('password', e.target.value)}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
+                                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['iransansX']"
                                     placeholder={trans('enter_password')}
                                     required
                                 />
@@ -80,7 +80,7 @@ export default function ArtistLogin({ csrf_token }) {
                                         onChange={e => setData('remember', e.target.checked)}
                                         className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                                     />
-                                    <label htmlFor="remember" className="mr-2 block text-sm text-gray-900 font-['Vazirmatn']">
+                                    <label htmlFor="remember" className="mr-2 block text-sm text-gray-900 font-['iransansX']">
                                         {trans('remember_me')}
                                     </label>
                                 </div>
@@ -98,7 +98,7 @@ export default function ArtistLogin({ csrf_token }) {
                             </div>
 
                             <div className="text-center">
-                                <p className="text-sm text-gray-600 font-['Vazirmatn']">
+                                <p className="text-sm text-gray-600 font-['iransansX']">
                                     {trans('not_registered')}{' '}
                                     <Link
                                         href={route('artist.register')}

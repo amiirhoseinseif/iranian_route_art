@@ -6,7 +6,7 @@ export default function SecondaryButton({
     variant = 'default', // 'default', 'subtle', 'ghost'
     ...props
 }) {
-    const baseClasses = 'inline-flex items-center justify-center font-semibold transition-all duration-300 transform focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 font-["Vazirmatn"]';
+    const baseClasses = 'inline-flex items-center justify-center font-semibold transition-all duration-300 transform focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 font-["iransansX"]';
     
     const variantClasses = {
         default: 'rounded-xl border-2 border-secondary-300 bg-white px-6 py-3 text-primary-700 shadow-md hover:bg-secondary-50 hover:border-secondary-400 active:scale-95 hover:shadow-lg',

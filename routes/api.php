@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Validator;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,6 +73,12 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     // Enhanced data endpoints
     Route::get('/artists', [AdminController::class, 'getArtists']);
     Route::get('/arts', [AdminController::class, 'getArts']);
+    Route::get('/arts/{art}', [AdminController::class, 'getArt']);
+    Route::post('/arts/{art}/status', [AdminController::class, 'updateArtStatus']);
+    Route::delete('/arts/{art}', [AdminController::class, 'deleteArt']);
+    Route::post('/art-fields', [AdminController::class, 'storeArtField']);
+    Route::get('/art-fields', [AdminController::class, 'artFields']);
+    Route::put('/art-fields/{artField}', [AdminController::class, 'updateArtField']);
     
     // Field Requirements management
     Route::get('/art-fields/{artFieldId}/field-requirements', [AdminController::class, 'getFieldRequirements']);

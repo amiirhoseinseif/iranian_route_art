@@ -95,22 +95,22 @@ export default function ArtEvaluation({ art, existingEvaluation }) {
     const criteria = getArtFieldCriteria(art.art_field_id);
 
     return (
-        <FestivalLayout title={`ارزیابی اثر: ${art.title} - جشنواره بین الملی مسیر ایران`}>
+        <FestivalLayout title={`ارزیابی اثر: ${art.title} - جشنواره بین المللی مسیر ایران`}>
             <div className="max-w-6xl mx-auto">
                 {/* Header */}
                 <div className="mb-8">
                     <div className="flex items-center justify-between">
                         <div>
-                            <h1 className="text-3xl font-bold text-gray-800 mb-2 font-['Vazirmatn']">
+                            <h1 className="text-3xl font-bold text-gray-800 mb-2 font-['iransansX']">
                                 ارزیابی اثر هنری
                             </h1>
-                            <p className="text-gray-600 font-['Vazirmatn']">
+                            <p className="text-gray-600 font-['iransansX']">
                                 {art.title} - {art.artField?.name}
                             </p>
                         </div>
                         <Link
                             href={route('judge.dashboard')}
-                            className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors font-['Vazirmatn']"
+                            className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors font-['iransansX']"
                         >
                             بازگشت به داشبورد
                         </Link>
@@ -120,110 +120,110 @@ export default function ArtEvaluation({ art, existingEvaluation }) {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     {/* اطلاعات اثر */}
                     <div className="bg-white rounded-2xl shadow-lg p-6">
-                        <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
+                        <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['iransansX']">
                             اطلاعات اثر
                         </h2>
                         
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1 font-['Vazirmatn']">
+                                <label className="block text-sm font-medium text-gray-700 mb-1 font-['iransansX']">
                                     عنوان اثر
                                 </label>
-                                <p className="text-gray-900 font-['Vazirmatn']">{art.title}</p>
+                                <p className="text-gray-900 font-['iransansX']">{art.title}</p>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1 font-['Vazirmatn']">
+                                <label className="block text-sm font-medium text-gray-700 mb-1 font-['iransansX']">
                                     نام کارگردان/هنرمند
                                 </label>
-                                <p className="text-gray-900 font-['Vazirmatn']">{art.director_name}</p>
+                                <p className="text-gray-900 font-['iransansX']">{art.director_name}</p>
                             </div>
 
                             {art.writer_name && (
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1 font-['Vazirmatn']">
+                                    <label className="block text-sm font-medium text-gray-700 mb-1 font-['iransansX']">
                                         نام نویسنده
                                     </label>
-                                    <p className="text-gray-900 font-['Vazirmatn']">{art.writer_name}</p>
+                                    <p className="text-gray-900 font-['iransansX']">{art.writer_name}</p>
                                 </div>
                             )}
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1 font-['Vazirmatn']">
+                                <label className="block text-sm font-medium text-gray-700 mb-1 font-['iransansX']">
                                     رشته هنری
                                 </label>
-                                <p className="text-gray-900 font-['Vazirmatn']">{art.artField?.name}</p>
+                                <p className="text-gray-900 font-['iransansX']">{art.artField?.name}</p>
                             </div>
 
                             {art.technique && (
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1 font-['Vazirmatn']">
+                                    <label className="block text-sm font-medium text-gray-700 mb-1 font-['iransansX']">
                                         تکنیک/سبک
                                     </label>
-                                    <p className="text-gray-900 font-['Vazirmatn']">{art.technique}</p>
+                                    <p className="text-gray-900 font-['iransansX']">{art.technique}</p>
                                 </div>
                             )}
 
                             {art.duration && (
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1 font-['Vazirmatn']">
+                                    <label className="block text-sm font-medium text-gray-700 mb-1 font-['iransansX']">
                                         مدت زمان
                                     </label>
-                                    <p className="text-gray-900 font-['Vazirmatn']">{art.duration} دقیقه</p>
+                                    <p className="text-gray-900 font-['iransansX']">{art.duration} دقیقه</p>
                                 </div>
                             )}
 
                             {art.dimensions && (
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1 font-['Vazirmatn']">
+                                    <label className="block text-sm font-medium text-gray-700 mb-1 font-['iransansX']">
                                         ابعاد
                                     </label>
-                                    <p className="text-gray-900 font-['Vazirmatn']">{art.dimensions}</p>
+                                    <p className="text-gray-900 font-['iransansX']">{art.dimensions}</p>
                                 </div>
                             )}
 
                             {art.materials && (
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1 font-['Vazirmatn']">
+                                    <label className="block text-sm font-medium text-gray-700 mb-1 font-['iransansX']">
                                         مواد به‌کاررفته
                                     </label>
-                                    <p className="text-gray-900 font-['Vazirmatn']">{art.materials}</p>
+                                    <p className="text-gray-900 font-['iransansX']">{art.materials}</p>
                                 </div>
                             )}
 
                             {art.software_used && (
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1 font-['Vazirmatn']">
+                                    <label className="block text-sm font-medium text-gray-700 mb-1 font-['iransansX']">
                                         نرم‌افزارهای مورد استفاده
                                     </label>
-                                    <p className="text-gray-900 font-['Vazirmatn']">{art.software_used}</p>
+                                    <p className="text-gray-900 font-['iransansX']">{art.software_used}</p>
                                 </div>
                             )}
 
                             {art.subcategory && (
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1 font-['Vazirmatn']">
+                                    <label className="block text-sm font-medium text-gray-700 mb-1 font-['iransansX']">
                                         زیرشاخه
                                     </label>
-                                    <p className="text-gray-900 font-['Vazirmatn']">{art.subcategory}</p>
+                                    <p className="text-gray-900 font-['iransansX']">{art.subcategory}</p>
                                 </div>
                             )}
 
                             {art.year_created && (
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1 font-['Vazirmatn']">
+                                    <label className="block text-sm font-medium text-gray-700 mb-1 font-['iransansX']">
                                         سال ایجاد
                                     </label>
-                                    <p className="text-gray-900 font-['Vazirmatn']">{art.year_created}</p>
+                                    <p className="text-gray-900 font-['iransansX']">{art.year_created}</p>
                                 </div>
                             )}
 
                             {art.location && (
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1 font-['Vazirmatn']">
+                                    <label className="block text-sm font-medium text-gray-700 mb-1 font-['iransansX']">
                                         مکان
                                     </label>
-                                    <p className="text-gray-900 font-['Vazirmatn']">{art.location}</p>
+                                    <p className="text-gray-900 font-['iransansX']">{art.location}</p>
                                 </div>
                             )}
                         </div>
@@ -231,14 +231,14 @@ export default function ArtEvaluation({ art, existingEvaluation }) {
 
                     {/* فایل‌های اثر */}
                     <div className="bg-white rounded-2xl shadow-lg p-6">
-                        <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
+                        <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['iransansX']">
                             فایل‌های اثر
                         </h2>
                         
                         <div className="space-y-4">
                             {art.main_file && (
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
+                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['iransansX']">
                                         فایل اصلی اثر
                                     </label>
                                     <div className="border border-gray-300 rounded-lg p-4">
@@ -246,7 +246,7 @@ export default function ArtEvaluation({ art, existingEvaluation }) {
                                             href={`/storage/${art.main_file}`} 
                                             target="_blank" 
                                             rel="noopener noreferrer"
-                                            className="text-primary-600 hover:text-primary-700 font-['Vazirmatn']"
+                                            className="text-primary-600 hover:text-primary-700 font-['iransansX']"
                                         >
                                             مشاهده فایل اصلی
                                         </a>
@@ -256,7 +256,7 @@ export default function ArtEvaluation({ art, existingEvaluation }) {
 
                             {art.poster && (
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
+                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['iransansX']">
                                         پوستر اثر
                                     </label>
                                     <div className="border border-gray-300 rounded-lg p-4">
@@ -271,7 +271,7 @@ export default function ArtEvaluation({ art, existingEvaluation }) {
 
                             {art.additional_files && art.additional_files.length > 0 && (
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
+                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['iransansX']">
                                         فایل‌های اضافی
                                     </label>
                                     <div className="space-y-2">
@@ -281,7 +281,7 @@ export default function ArtEvaluation({ art, existingEvaluation }) {
                                                     href={`/storage/${file}`} 
                                                     target="_blank" 
                                                     rel="noopener noreferrer"
-                                                    className="text-primary-600 hover:text-primary-700 font-['Vazirmatn']"
+                                                    className="text-primary-600 hover:text-primary-700 font-['iransansX']"
                                                 >
                                                     فایل {index + 1}
                                                 </a>
@@ -293,7 +293,7 @@ export default function ArtEvaluation({ art, existingEvaluation }) {
 
                             {art.production_photos && art.production_photos.length > 0 && (
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
+                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['iransansX']">
                                         عکس‌های پشت صحنه
                                     </label>
                                     <div className="grid grid-cols-2 gap-2">
@@ -317,10 +317,10 @@ export default function ArtEvaluation({ art, existingEvaluation }) {
                 <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
                     {art.story_summary && (
                         <div className="bg-white rounded-2xl shadow-lg p-6">
-                            <h2 className="text-2xl font-bold text-gray-800 mb-4 font-['Vazirmatn']">
+                            <h2 className="text-2xl font-bold text-gray-800 mb-4 font-['iransansX']">
                                 خلاصه داستان
                             </h2>
-                            <p className="text-gray-700 leading-relaxed font-['Vazirmatn']">
+                            <p className="text-gray-700 leading-relaxed font-['iransansX']">
                                 {art.story_summary}
                             </p>
                         </div>
@@ -328,10 +328,10 @@ export default function ArtEvaluation({ art, existingEvaluation }) {
 
                     {art.artist_statement && (
                         <div className="bg-white rounded-2xl shadow-lg p-6">
-                            <h2 className="text-2xl font-bold text-gray-800 mb-4 font-['Vazirmatn']">
+                            <h2 className="text-2xl font-bold text-gray-800 mb-4 font-['iransansX']">
                                 سخن هنرمند
                             </h2>
-                            <p className="text-gray-700 leading-relaxed font-['Vazirmatn']">
+                            <p className="text-gray-700 leading-relaxed font-['iransansX']">
                                 {art.artist_statement}
                             </p>
                         </div>
@@ -341,10 +341,10 @@ export default function ArtEvaluation({ art, existingEvaluation }) {
                 {/* رزومه هنرمند */}
                 {art.resume && (
                     <div className="mt-8 bg-white rounded-2xl shadow-lg p-6">
-                        <h2 className="text-2xl font-bold text-gray-800 mb-4 font-['Vazirmatn']">
+                        <h2 className="text-2xl font-bold text-gray-800 mb-4 font-['iransansX']">
                             رزومه هنرمند
                         </h2>
-                        <p className="text-gray-700 leading-relaxed font-['Vazirmatn']">
+                        <p className="text-gray-700 leading-relaxed font-['iransansX']">
                             {art.resume}
                         </p>
                     </div>
@@ -352,14 +352,14 @@ export default function ArtEvaluation({ art, existingEvaluation }) {
 
                 {/* فرم ارزیابی */}
                 <div className="mt-8 bg-white rounded-2xl shadow-lg p-6">
-                    <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
+                    <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['iransansX']">
                         ارزیابی اثر
                     </h2>
                     
                     <form onSubmit={handleSubmit} className="space-y-6">
                         {/* امتیاز کلی */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
+                            <label className="block text-sm font-medium text-gray-700 mb-2 font-['iransansX']">
                                 امتیاز کلی (0-10) <span className="text-red-500">*</span>
                             </label>
                             <input
@@ -369,7 +369,7 @@ export default function ArtEvaluation({ art, existingEvaluation }) {
                                 step="0.1"
                                 value={data.score}
                                 onChange={e => setData('score', e.target.value)}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
+                                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['iransansX']"
                                 required
                             />
                             {errors.score && <p className="text-red-500 text-sm mt-1">{errors.score}</p>}
@@ -377,13 +377,13 @@ export default function ArtEvaluation({ art, existingEvaluation }) {
 
                         {/* امتیازات جزئی */}
                         <div>
-                            <h3 className="text-lg font-bold text-gray-800 mb-4 font-['Vazirmatn']">
+                            <h3 className="text-lg font-bold text-gray-800 mb-4 font-['iransansX']">
                                 امتیازات جزئی معیارها
                             </h3>
                             <div className="space-y-4">
                                 {Object.entries(criteria).map(([key, label]) => (
                                     <div key={key}>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
+                                        <label className="block text-sm font-medium text-gray-700 mb-2 font-['iransansX']">
                                             {label} (0-10)
                                         </label>
                                         <input
@@ -396,7 +396,7 @@ export default function ArtEvaluation({ art, existingEvaluation }) {
                                                 ...data.criteria_scores,
                                                 [key]: e.target.value
                                             })}
-                                            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
+                                            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['iransansX']"
                                         />
                                     </div>
                                 ))}
@@ -405,14 +405,14 @@ export default function ArtEvaluation({ art, existingEvaluation }) {
 
                         {/* نظرات */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
+                            <label className="block text-sm font-medium text-gray-700 mb-2 font-['iransansX']">
                                 نظرات و توضیحات
                             </label>
                             <textarea
                                 value={data.comments}
                                 onChange={e => setData('comments', e.target.value)}
                                 rows={6}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
+                                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['iransansX']"
                                 placeholder="نظرات خود را در مورد این اثر بنویسید..."
                             />
                             {errors.comments && <p className="text-red-500 text-sm mt-1">{errors.comments}</p>}
@@ -422,7 +422,7 @@ export default function ArtEvaluation({ art, existingEvaluation }) {
                         <div className="flex items-center justify-end space-x-4 space-x-reverse">
                             <Link
                                 href={route('judge.dashboard')}
-                                className="px-6 py-3 bg-gray-500 text-white rounded-xl hover:bg-gray-600 transition-colors font-['Vazirmatn']"
+                                className="px-6 py-3 bg-gray-500 text-white rounded-xl hover:bg-gray-600 transition-colors font-['iransansX']"
                             >
                                 انصراف
                             </Link>

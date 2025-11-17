@@ -15,11 +15,19 @@ class ArtField extends Model
         'name_en',
         'icon_name',
         'description',
+        'description_en',
+        'metadata',
         'is_active',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
+        'metadata' => 'array',
+    ];
+
+    protected $appends = [
+        'description_translated',
+        'metadata_translated',
     ];
 
     public function requirements(): HasMany
@@ -45,5 +53,33 @@ class ArtField extends Model
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
+    }
+
+    public function getDescriptionTranslatedAttribute(): ?string
+    {
+        $locale = app()->getLocale();
+        if ($locale === 'en' && $this->description_en) {
+            return $this->description_en;
+        }
+
+        return $this->description;
+    }
+
+    public function getMetadataTranslatedAttribute(): array
+    {
+        $metadata = $this->metadata ?? [];
+        $locale = app()->getLocale();
+
+        if (is_array($metadata)) {
+            if (isset($metadata[$locale]) && is_array($metadata[$locale])) {
+                return $metadata[$locale];
+            }
+
+            if ($locale === 'en' && isset($metadata['fa']) && is_array($metadata['fa'])) {
+                return $metadata['fa'];
+            }
+        }
+
+        return $metadata ?? [];
     }
 }

@@ -168,13 +168,13 @@ export default function AdminManagement({ auth }) {
     };
 
     return (
-        <FestivalLayout title="مدیریت مدیران و داوران - جشنواره بین الملی مسیر ایران">
+        <FestivalLayout title="مدیریت مدیران و داوران - جشنواره بین المللی مسیر ایران">
             <div className="max-w-7xl mx-auto">
                 <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-gray-800 mb-2 font-['Vazirmatn']">
+                    <h1 className="text-3xl font-bold text-gray-800 mb-2 font-['iransansX']">
                         مدیریت مدیران و داوران
                     </h1>
-                    <p className="text-gray-600 font-['Vazirmatn']">
+                    <p className="text-gray-600 font-['iransansX']">
                         مدیریت دسترسی‌ها و تایید داوران
                     </p>
                 </div>
@@ -183,14 +183,14 @@ export default function AdminManagement({ auth }) {
                 <div className="flex flex-wrap gap-4 mb-8">
                     <button
                         onClick={() => setShowAddAdminModal(true)}
-                        className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors font-['Vazirmatn'] flex items-center"
+                        className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors font-['iransansX'] flex items-center"
                     >
                         <AddIcon className="w-5 h-5 ml-2" />
                         اضافه کردن مدیر جدید
                     </button>
                     <button
                         onClick={() => setShowPendingJudgesModal(true)}
-                        className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors font-['Vazirmatn'] flex items-center"
+                        className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors font-['iransansX'] flex items-center"
                     >
                         <UserCheckIcon className="w-5 h-5 ml-2" />
                         تایید داوران ({pendingJudges.length})
@@ -199,7 +199,7 @@ export default function AdminManagement({ auth }) {
 
                 {/* Admins Table */}
                 <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
-                    <h3 className="text-xl font-bold text-gray-800 mb-6 font-['Vazirmatn'] flex items-center">
+                    <h3 className="text-xl font-bold text-gray-800 mb-6 font-['iransansX'] flex items-center">
                         <AdminIcon className="w-6 h-6 ml-2" />
                         لیست مدیران
                     </h3>
@@ -207,21 +207,21 @@ export default function AdminManagement({ auth }) {
                         <table className="w-full">
                             <thead>
                                 <tr className="border-b border-gray-200">
-                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">نام</th>
-                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">ایمیل</th>
-                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">نقش</th>
-                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">وضعیت</th>
-                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">تاریخ ایجاد</th>
+                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['iransansX']">نام</th>
+                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['iransansX']">ایمیل</th>
+                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['iransansX']">نقش</th>
+                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['iransansX']">وضعیت</th>
+                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['iransansX']">تاریخ ایجاد</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {admins.map((admin) => (
                                     <tr key={admin.id} className="border-b border-gray-100">
-                                        <td className="py-3 px-4 font-['Vazirmatn']">
+                                        <td className="py-3 px-4 font-['iransansX']">
                                             {admin.first_name} {admin.last_name}
                                         </td>
-                                        <td className="py-3 px-4 font-['Vazirmatn']">{admin.email}</td>
-                                        <td className="py-3 px-4 font-['Vazirmatn']">
+                                        <td className="py-3 px-4 font-['iransansX']">{admin.email}</td>
+                                        <td className="py-3 px-4 font-['iransansX']">
                                             {admin.role === 'super_admin' ? 'مدیر اصلی' : 
                                              admin.role === 'admin' ? 'مدیر' : 'ناظر'}
                                         </td>
@@ -235,7 +235,7 @@ export default function AdminManagement({ auth }) {
                                                 </span>
                                             }
                                         </td>
-                                        <td className="py-3 px-4 font-['Vazirmatn']">
+                                        <td className="py-3 px-4 font-['iransansX']">
                                             {new Date(admin.created_at).toLocaleDateString('fa-IR')}
                                         </td>
                                     </tr>
@@ -247,7 +247,7 @@ export default function AdminManagement({ auth }) {
 
                 {/* Judges Table */}
                 <div className="bg-white rounded-2xl shadow-lg p-6">
-                    <h3 className="text-xl font-bold text-gray-800 mb-6 font-['Vazirmatn'] flex items-center">
+                    <h3 className="text-xl font-bold text-gray-800 mb-6 font-['iransansX'] flex items-center">
                         <UserCheckIcon className="w-6 h-6 ml-2" />
                         لیست داوران
                     </h3>
@@ -255,25 +255,25 @@ export default function AdminManagement({ auth }) {
                         <table className="w-full">
                             <thead>
                                 <tr className="border-b border-gray-200">
-                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">نام</th>
-                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">ایمیل</th>
-                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">تخصص</th>
-                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">وضعیت تایید</th>
-                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['Vazirmatn']">تاریخ ثبت نام</th>
+                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['iransansX']">نام</th>
+                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['iransansX']">ایمیل</th>
+                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['iransansX']">تخصص</th>
+                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['iransansX']">وضعیت تایید</th>
+                                    <th className="text-right py-3 px-4 font-semibold text-gray-800 font-['iransansX']">تاریخ ثبت نام</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {judges.map((judge) => (
                                     <tr key={judge.id} className="border-b border-gray-100">
-                                        <td className="py-3 px-4 font-['Vazirmatn']">
+                                        <td className="py-3 px-4 font-['iransansX']">
                                             {judge.first_name} {judge.last_name}
                                         </td>
-                                        <td className="py-3 px-4 font-['Vazirmatn']">{judge.email}</td>
-                                        <td className="py-3 px-4 font-['Vazirmatn']">{judge.qualification}</td>
+                                        <td className="py-3 px-4 font-['iransansX']">{judge.email}</td>
+                                        <td className="py-3 px-4 font-['iransansX']">{judge.qualification}</td>
                                         <td className="py-3 px-4">
                                             {getStatusBadge(judge.verification_status)}
                                         </td>
-                                        <td className="py-3 px-4 font-['Vazirmatn']">
+                                        <td className="py-3 px-4 font-['iransansX']">
                                             {new Date(judge.created_at).toLocaleDateString('fa-IR')}
                                         </td>
                                     </tr>
@@ -286,7 +286,7 @@ export default function AdminManagement({ auth }) {
                 {/* Add Admin Modal */}
                 <Modal show={showAddAdminModal} onClose={() => setShowAddAdminModal(false)}>
                     <div className="p-6">
-                        <h2 className="text-xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
+                        <h2 className="text-xl font-bold text-gray-800 mb-6 font-['iransansX']">
                             اضافه کردن مدیر جدید
                         </h2>
                         
@@ -392,13 +392,13 @@ export default function AdminManagement({ auth }) {
                 {/* Pending Judges Modal */}
                 <Modal show={showPendingJudgesModal} onClose={() => setShowPendingJudgesModal(false)}>
                     <div className="p-6">
-                        <h2 className="text-xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
+                        <h2 className="text-xl font-bold text-gray-800 mb-6 font-['iransansX']">
                             داوران در انتظار تایید
                         </h2>
                         
                         <div className="space-y-4 max-h-96 overflow-y-auto">
                             {pendingJudges.length === 0 ? (
-                                <p className="text-gray-500 text-center py-8 font-['Vazirmatn']">
+                                <p className="text-gray-500 text-center py-8 font-['iransansX']">
                                     هیچ داور در انتظار تایید وجود ندارد
                                 </p>
                             ) : (
@@ -406,17 +406,17 @@ export default function AdminManagement({ auth }) {
                                     <div key={judge.id} className="bg-gray-50 p-4 rounded-lg">
                                         <div className="flex justify-between items-start">
                                             <div>
-                                                <h3 className="font-semibold text-gray-800 font-['Vazirmatn']">
+                                                <h3 className="font-semibold text-gray-800 font-['iransansX']">
                                                     {judge.first_name} {judge.last_name}
                                                 </h3>
-                                                <p className="text-sm text-gray-600 font-['Vazirmatn']">
+                                                <p className="text-sm text-gray-600 font-['iransansX']">
                                                     {judge.email}
                                                 </p>
-                                                <p className="text-sm text-gray-600 font-['Vazirmatn']">
+                                                <p className="text-sm text-gray-600 font-['iransansX']">
                                                     {judge.qualification}
                                                 </p>
                                                 {judge.organization && (
-                                                    <p className="text-sm text-gray-600 font-['Vazirmatn']">
+                                                    <p className="text-sm text-gray-600 font-['iransansX']">
                                                         {judge.organization}
                                                     </p>
                                                 )}
@@ -424,7 +424,7 @@ export default function AdminManagement({ auth }) {
                                             <div className="flex space-x-2">
                                                 <button
                                                     onClick={() => handleJudgeApproval(judge.id, 'approved')}
-                                                    className="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700 transition-colors font-['Vazirmatn'] flex items-center"
+                                                    className="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700 transition-colors font-['iransansX'] flex items-center"
                                                 >
                                                     <ShieldCheckIcon className="w-4 h-4 ml-1" />
                                                     تایید
@@ -436,7 +436,7 @@ export default function AdminManagement({ auth }) {
                                                             handleJudgeApproval(judge.id, 'rejected', reason);
                                                         }
                                                     }}
-                                                    className="bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700 transition-colors font-['Vazirmatn'] flex items-center"
+                                                    className="bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700 transition-colors font-['iransansX'] flex items-center"
                                                 >
                                                     <ShieldXIcon className="w-4 h-4 ml-1" />
                                                     رد

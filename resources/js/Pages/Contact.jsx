@@ -81,10 +81,10 @@ export default function Contact() {
                     <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 animate-bounceIn">
                         <ContactIcon className="w-8 h-8 sm:w-10 sm:h-10" />
                     </div>
-                    <h1 className="text-3xl sm:text-4xl font-bold mb-3 sm:mb-4 font-['Vazirmatn'] animate-fadeIn">
+                    <h1 className="text-3xl sm:text-4xl font-bold mb-3 sm:mb-4 font-['iransansX'] animate-fadeIn">
                         {trans('contact_title')}
                     </h1>
-                    <p className="text-lg sm:text-xl text-secondary-100 max-w-2xl mx-auto font-['Vazirmatn']">
+                    <p className="text-lg sm:text-xl text-secondary-100 max-w-2xl mx-auto font-['iransansX']">
                         {trans('contact_subtitle')}
                     </p>
                 </div>
@@ -99,13 +99,13 @@ export default function Contact() {
                                 <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full flex items-center justify-center mx-auto mb-4 transition-transform duration-300 hover:scale-125 cursor-pointer">
                                     <info.icon className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
                                 </div>
-                                <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-2 font-['Vazirmatn']">
+                                <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-2 font-['iransansX']">
                                     {info.title}
                                 </h3>
-                                <p className="text-primary-600 font-medium mb-2 font-['Vazirmatn'] text-sm sm:text-base">
+                                <p className="text-primary-600 font-medium mb-2 font-['iransansX'] text-sm sm:text-base">
                                     {info.details}
                                 </p>
-                                <p className="text-gray-600 text-xs sm:text-sm font-['Vazirmatn']">
+                                <p className="text-gray-600 text-xs sm:text-sm font-['iransansX']">
                                     {info.description}
                                 </p>
                             </div>
@@ -120,12 +120,12 @@ export default function Contact() {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
                         {/* Contact Form */}
                         <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 animate-slideDown">
-                            <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
+                            <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6 font-['iransansX']">
                                 {trans('send_message_title')}
                             </h2>
                             <form onSubmit={handleSubmit} className="space-y-6">
                                 <div>
-                                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
+                                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2 font-['iransansX']">
                                         {trans('full_name')}
                                     </label>
                                     <input
@@ -133,19 +133,19 @@ export default function Contact() {
                                         id="name"
                                         value={data.name}
                                         onChange={(e) => setData('name', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all font-['iransansX']"
                                         placeholder={trans('enter_name')}
                                         required
                                     />
                                     {errors.name && (
-                                        <p className="mt-1 text-sm text-red-600 font-['Vazirmatn']">
+                                        <p className="mt-1 text-sm text-red-600 font-['iransansX']">
                                             {errors.name}
                                         </p>
                                     )}
                                 </div>
 
                                 <div>
-                                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
+                                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2 font-['iransansX']">
                                         {trans('email')}
                                     </label>
                                     <input
@@ -153,19 +153,19 @@ export default function Contact() {
                                         id="email"
                                         value={data.email}
                                         onChange={(e) => setData('email', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all font-['iransansX']"
                                         placeholder={trans('enter_email')}
                                         required
                                     />
                                     {errors.email && (
-                                        <p className="mt-1 text-sm text-red-600 font-['Vazirmatn']">
+                                        <p className="mt-1 text-sm text-red-600 font-['iransansX']">
                                             {errors.email}
                                         </p>
                                     )}
                                 </div>
 
                                 <div>
-                                    <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
+                                    <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2 font-['iransansX']">
                                         {trans('subject')}
                                     </label>
                                     <input
@@ -173,19 +173,19 @@ export default function Contact() {
                                         id="subject"
                                         value={data.subject}
                                         onChange={(e) => setData('subject', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all font-['iransansX']"
                                         placeholder={trans('enter_subject')}
                                         required
                                     />
                                     {errors.subject && (
-                                        <p className="mt-1 text-sm text-red-600 font-['Vazirmatn']">
+                                        <p className="mt-1 text-sm text-red-600 font-['iransansX']">
                                             {errors.subject}
                                         </p>
                                     )}
                                 </div>
 
                                 <div>
-                                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
+                                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2 font-['iransansX']">
                                         {trans('message')}
                                     </label>
                                     <textarea
@@ -193,12 +193,12 @@ export default function Contact() {
                                         rows={5}
                                         value={data.message}
                                         onChange={(e) => setData('message', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all font-['iransansX']"
                                         placeholder={trans('write_message')}
                                         required
                                     />
                                     {errors.message && (
-                                        <p className="mt-1 text-sm text-red-600 font-['Vazirmatn']">
+                                        <p className="mt-1 text-sm text-red-600 font-['iransansX']">
                                             {errors.message}
                                         </p>
                                     )}
@@ -207,7 +207,7 @@ export default function Contact() {
                                 <button
                                     type="submit"
                                     disabled={processing}
-                                    className="w-full bg-gradient-to-r from-primary-600 to-primary-700 text-white py-3 px-6 rounded-xl font-bold text-base sm:text-lg hover:from-primary-700 hover:to-primary-800 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed font-['Vazirmatn']"
+                                    className="w-full bg-gradient-to-r from-primary-600 to-primary-700 text-white py-3 px-6 rounded-xl font-bold text-base sm:text-lg hover:from-primary-700 hover:to-primary-800 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed font-['iransansX']"
                                 >
                                     {processing ? trans('sending') : trans('send_message')}
                                 </button>
@@ -217,7 +217,7 @@ export default function Contact() {
                         {/* Social Media */}
                         <div className="space-y-6 sm:space-y-8">
                             <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 animate-slideDown">
-                                <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
+                                <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6 font-['iransansX']">
                                     {trans('follow_social')}
                                 </h2>
                                 <div className="space-y-4">
@@ -233,10 +233,10 @@ export default function Contact() {
                                                 <social.icon className="w-6 h-6 text-white" />
                                             </div>
                                             <div>
-                                                <h3 className="font-bold text-gray-800 font-['Vazirmatn']">
+                                                <h3 className="font-bold text-gray-800 font-['iransansX']">
                                                     {social.name}
                                                 </h3>
-                                                <p className="text-gray-600 text-sm font-['Vazirmatn']">
+                                                <p className="text-gray-600 text-sm font-['iransansX']">
                                                     {social.username}
                                                 </p>
                                             </div>
@@ -246,21 +246,21 @@ export default function Contact() {
                             </div>
 
                             <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 animate-slideDown">
-                                <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
+                                <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6 font-['iransansX']">
                                     {trans('working_hours')}
                                 </h2>
                                 <div className="space-y-3">
                                     <div className="flex justify-between items-center p-2 hover:bg-gray-50 rounded-lg transition-colors duration-200">
-                                        <span className="font-medium text-gray-800 font-['Vazirmatn']">{trans('saturday_to_wednesday')}</span>
-                                        <span className="text-gray-600 font-['Vazirmatn']">9:00 - 18:00</span>
+                                        <span className="font-medium text-gray-800 font-['iransansX']">{trans('saturday_to_wednesday')}</span>
+                                        <span className="text-gray-600 font-['iransansX']">9:00 - 18:00</span>
                                     </div>
                                     <div className="flex justify-between items-center p-2 hover:bg-gray-50 rounded-lg transition-colors duration-200">
-                                        <span className="font-medium text-gray-800 font-['Vazirmatn']">{trans('thursday')}</span>
-                                        <span className="text-gray-600 font-['Vazirmatn']">9:00 - 14:00</span>
+                                        <span className="font-medium text-gray-800 font-['iransansX']">{trans('thursday')}</span>
+                                        <span className="text-gray-600 font-['iransansX']">9:00 - 14:00</span>
                                     </div>
                                     <div className="flex justify-between items-center p-2 hover:bg-gray-50 rounded-lg transition-colors duration-200">
-                                        <span className="font-medium text-gray-800 font-['Vazirmatn']">{trans('friday')}</span>
-                                        <span className="text-gray-600 font-['Vazirmatn']">{trans('closed')}</span>
+                                        <span className="font-medium text-gray-800 font-['iransansX']">{trans('friday')}</span>
+                                        <span className="text-gray-600 font-['iransansX']">{trans('closed')}</span>
                                     </div>
                                 </div>
                             </div>
@@ -272,16 +272,16 @@ export default function Contact() {
             {/* FAQ Section */}
             <section className="py-12 sm:py-16">
                 <div className="container mx-auto px-4">
-                    <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-800 mb-8 sm:mb-12 font-['Vazirmatn']">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-800 mb-8 sm:mb-12 font-['iransansX']">
                         {trans('faq_title')}
                     </h2>
                     <div className="max-w-3xl mx-auto space-y-4 sm:space-y-6">
                         {faqs.map((faq, index) => (
                             <div key={index} className="bg-white p-5 sm:p-6 rounded-2xl shadow-lg transition-all duration-300 hover:shadow-xl animate-fadeIn" style={{ animationDelay: `${index * 0.1}s` }}>
-                                <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-2 sm:mb-3 font-['Vazirmatn']">
+                                <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-2 sm:mb-3 font-['iransansX']">
                                     {faq.question}
                                 </h3>
-                                <p className="text-gray-600 leading-relaxed font-['Vazirmatn'] text-sm sm:text-base">
+                                <p className="text-gray-600 leading-relaxed font-['iransansX'] text-sm sm:text-base">
                                     {faq.answer}
                                 </p>
                             </div>

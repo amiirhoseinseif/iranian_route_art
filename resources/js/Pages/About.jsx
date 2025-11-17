@@ -1,219 +1,235 @@
-import React from 'react';
+import React, { useState } from 'react';
 import FestivalLayout from '@/Layouts/FestivalLayout';
 import { useTranslation } from '@/Utils/translation';
-import { 
-    CreativityIcon, 
-    TrophyIcon, 
-    GlobalIcon,
-    MusicIcon,
-    PaintingIcon,
-    FilmIcon,
-    SculptureIcon,
-    GraphicIcon,
-    CalligraphyIcon,
-    PhotographyIcon,
-    ArchitectureIcon
-} from '@/Components/SvgIcons';
+import { InstagramIcon } from '@/Components/SvgIcons';
 
 export default function About() {
     const { trans } = useTranslation();
-    
-    const teamMembers = [
-        {
-            name: 'دکتر احمد محمدی',
-            role: 'مدیر هنری جشنواره',
-            description: 'استاد دانشگاه هنر و متخصص در زمینه نقاشی و هنرهای تجسمی',
-            image: '/images/team/ahmad.jpg'
-        },
-        {
-            name: 'خانم فاطمه احمدی',
-            role: 'مدیر اجرایی',
-            description: 'کارشناس ارشد مدیریت فرهنگی و متخصص در برگزاری رویدادهای هنری',
-            image: '/images/team/fateme.jpg'
-        },
-        {
-            name: 'استاد علی رضایی',
-            role: 'مشاور هنری',
-            description: 'آهنگساز و نوازنده برجسته و عضو هیئت علمی دانشگاه',
-            image: '/images/team/ali.jpg'
-        }
-    ];
-
-    const achievements = [
-        { year: '2020', title: 'تاسیس جشنواره', desc: 'شروع فعالیت با 50 هنرمند' },
-        { year: '2021', title: 'رشد قابل توجه', desc: 'شرکت 200 هنرمند و 300 اثر' },
-        { year: '2022', title: 'شناسایی ملی', desc: 'پوشش رسانه‌ای و استقبال عمومی' },
-        { year: '2023', title: 'توسعه بین‌المللی', desc: 'شرکت هنرمندان از کشورهای همسایه' },
-        { year: '2024', title: 'پلتفرم دیجیتال', desc: 'راه‌اندازی سایت و سیستم آنلاین' }
-    ];
+    const [activeTab, setActiveTab] = useState('first');
 
     return (
         <FestivalLayout title={trans('about_title')}>
             {/* Hero Section */}
             <section className="bg-gradient-to-r from-primary-600 via-primary-700 to-primary-800 text-white py-12 sm:py-16 lg:py-20 transition-all duration-300">
                 <div className="container mx-auto px-4 text-center">
-                    <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 font-['Vazirmatn'] animate-fadeIn">
+                    <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 font-['iransansX'] animate-fadeIn">
                         {trans('about_title')}
                     </h1>
-                    <p className="text-base sm:text-lg lg:text-xl text-secondary-100 max-w-3xl mx-auto leading-relaxed font-['Vazirmatn']">
-                        {trans('about_description')}
-                    </p>
                 </div>
             </section>
 
-            {/* Mission & Vision */}
-            <section className="py-12 sm:py-16 bg-gray-50">
+            {/* Tabs Navigation */}
+            <section className="bg-white border-b-2 border-gray-200 sticky top-0 z-50 shadow-sm">
                 <div className="container mx-auto px-4">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-                        <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 animate-slideDown">
-                            <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full flex items-center justify-center mb-4 sm:mb-6 animate-bounceIn">
-                                <CreativityIcon className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
-                            </div>
-                            <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4 font-['Vazirmatn']">
-                                {trans('our_mission')}
-                            </h2>
-                            <p className="text-gray-600 leading-relaxed font-['Vazirmatn'] text-sm sm:text-base">
-                                {trans('mission_text')}
-                            </p>
-                        </div>
-                        
-                        <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 animate-slideDown">
-                            <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-r from-primary-600 to-primary-800 rounded-full flex items-center justify-center mb-4 sm:mb-6 animate-bounceIn">
-                                <GlobalIcon className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
-                            </div>
-                            <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4 font-['Vazirmatn']">
-                                {trans('our_vision')}
-                            </h2>
-                            <p className="text-gray-600 leading-relaxed font-['Vazirmatn'] text-sm sm:text-base">
-                                {trans('vision_text')}
-                            </p>
-                        </div>
+                    <div className="flex justify-center gap-4">
+                        <button
+                            onClick={() => setActiveTab('first')}
+                            className={`px-6 py-4 text-lg font-bold font-['iransansX'] transition-all duration-300 relative ${
+                                activeTab === 'first'
+                                    ? 'text-primary-700 border-b-4 border-primary-700'
+                                    : 'text-gray-500 hover:text-gray-700'
+                            }`}
+                        >
+                            دوره اول
+                        </button>
+                        <button
+                            onClick={() => setActiveTab('second')}
+                            className={`px-6 py-4 text-lg font-bold font-['iransansX'] transition-all duration-300 relative ${
+                                activeTab === 'second'
+                                    ? 'text-primary-700 border-b-4 border-primary-700'
+                                    : 'text-gray-500 hover:text-gray-700'
+                            }`}
+                        >
+                            دوره دوم
+                        </button>
                     </div>
                 </div>
             </section>
 
-            {/* Art Fields */}
-            <section className="py-12 sm:py-16">
-                <div className="container mx-auto px-4">
-                    <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-800 mb-8 sm:mb-12 font-['Vazirmatn']">
-                        {trans('covered_art_fields')}
-                    </h2>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-4 sm:gap-6">
-                        {[
-                            { icon: MusicIcon, name: trans('music') },
-                            { icon: PaintingIcon, name: trans('painting') },
-                            { icon: FilmIcon, name: trans('filmmaking') },
-                            { icon: SculptureIcon, name: trans('sculpture') },
-                            { icon: GraphicIcon, name: trans('graphic') },
-                            { icon: CalligraphyIcon, name: trans('calligraphy') },
-                            { icon: PhotographyIcon, name: trans('photography') },
-                            { icon: ArchitectureIcon, name: trans('architecture') },
-                        ].map((field, index) => (
-                            <div key={index} className="text-center p-4 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 animate-fadeIn cursor-pointer">
-                                <field.icon className="w-10 h-10 sm:w-12 sm:h-12 text-primary-600 mx-auto mb-3 transition-transform duration-300 hover:scale-125" />
-                                <p className="text-xs sm:text-sm font-medium text-gray-800 font-['Vazirmatn']">
-                                    {field.name}
+            {/* First Edition Tab */}
+            {activeTab === 'first' && (
+                <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-gray-50 to-primary-50">
+                    <div className="container mx-auto px-4">
+                        <div className="max-w-5xl mx-auto space-y-10">
+                            {/* Title */}
+                            <div className="text-center mb-12">
+                                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary-800 mb-4 font-['iransansX']">
+                                    جشنواره بین المللی «مسیر ایران»
+                                </h2>
+                                <p className="text-2xl sm:text-3xl text-primary-600 font-bold font-['iransansX'] mb-2">
+                                    دوره اول ( مجازی)  ۱۴۰۱_۱۳۹۸
+                                </p>
+                                <p className="text-xl sm:text-2xl text-gray-700 font-['iransansX']">
+                                    به افتخار سه کوهنورد ایرانی
                                 </p>
                             </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
 
-            {/* Timeline */}
-            <section className="py-12 sm:py-16 bg-gray-50">
-                <div className="container mx-auto px-4">
-                    <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-800 mb-8 sm:mb-12 font-['Vazirmatn']">
-                        {trans('festival_history')}
-                    </h2>
-                    <div className="max-w-4xl mx-auto">
-                        <div className="space-y-6 sm:space-y-8">
-                            {achievements.map((achievement, index) => (
-                                <div key={index} className="flex items-center animate-fadeIn" style={{ animationDelay: `${index * 0.1}s` }}>
-                                    <div className="flex-shrink-0 w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full flex items-center justify-center transition-transform duration-300 hover:scale-110 cursor-pointer">
-                                        <span className="text-white font-bold text-sm sm:text-base">{achievement.year}</span>
+                            {/* Why the Name Section */}
+                            <div className="bg-white rounded-3xl p-8 sm:p-10 lg:p-12 shadow-2xl border-2 border-primary-200">
+                                <h3 className="text-2xl sm:text-3xl font-black text-primary-800 mb-8 font-['iransansX'] text-center border-b-4 border-primary-300 pb-4">
+                                    چرا جشنواره «مسیر ایران» نام دارد؟
+                                </h3>
+                                <div className="space-y-6 text-lg sm:text-xl text-gray-800 leading-relaxed font-['iransansX'] text-justify">
+                                    <p>
+                                        رویداد هنری «مسیر ایران»، با همراهی و همدلی دانشجویان و اساتید دانشگاه های هنر ایران، بصورت مجازی و به یاد عشق و فداکاری آیدین بزرگی، پویا کیوان و مجتبی جراهی برگزار شد.
+                                    </p>
+                                    <p>
+                                        سه کوهنورد جوان ایرانی که در تیر ماه سال ۱۳۹۲ موفق به گشایش مسیری جدید، به قله «برودپیک»، هیمالیا شدند. اما در راه بازگشت، مه غلیظی بمدت سه روز منطقه را فرا گرفت و نبود دید کافی باعث شد نتوانند مسیر بازگشت را پیدا کنند.
+                                    </p>
+                                    <p>
+                                        آنها یک به یک از دست رفتند و هرگز حاظر نشدند یکدیگر را رها کنند.
+                                    </p>
+                                    <p>
+                                        مسیر جدید بر فراز برودپیک به نام «مسیر ایرانی ها» در فضای کوهنوردی جهان شهره شد و هرگز نشانی از گشایندگان آن یافت نشد.
+                                    </p>
+                                    <p className="text-primary-700 font-bold text-xl sm:text-2xl mt-8 pt-6 border-t-2 border-primary-300 text-center">
+                                        هدف جشنواره این بود که با تولید آثار هنری نامشان را زنده نگاه داریم.
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Festival Experience */}
+                            <div className="bg-gradient-to-br from-primary-100 to-secondary-100 rounded-3xl p-8 sm:p-10 lg:p-12 shadow-xl border-2 border-primary-300">
+                                <div className="space-y-6 text-lg sm:text-xl text-gray-800 leading-relaxed font-['iransansX'] text-justify">
+                                    <p>
+                                        جشنواره «مسیر ایران» تجربه ای ارزشمند بود. جهت برگزاری جشنواره نیازی به پول نداشتیم و هیچ مبلغی از شخص و نهادی دریافت نکردیم، جشنواره با عشق و همکاری جمعی به سرانجام رسید.
+                                    </p>
+                                    <p>
+                                        نوروز ۱۴۰۱، مراسم اختتامیه جشنواره به صورت مجازی برگزار شد.
+                                    </p>
+                                </div>
+                                
+                                <div className="mt-8 bg-white rounded-2xl p-6 border-2 border-primary-200">
+                                    <p className="text-lg font-bold text-gray-800 mb-4 font-['iransansX']">
+                                        صفحه اینستاگرام دوره اول جشنواره:
+                                    </p>
+                                    <a 
+                                        href="https://www.instagram.com/iranian_route" 
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-3 text-primary-700 hover:text-primary-800 font-bold text-xl sm:text-2xl transition-colors duration-200 group"
+                                    >
+                                        <InstagramIcon className="w-8 h-8 sm:w-10 sm:h-10 text-pink-600 group-hover:scale-110 transition-transform duration-200" />
+                                        <span className="font-['iransansX'] border-b-2 border-primary-300 group-hover:border-primary-500 transition-colors duration-200">
+                                            @Iranian_Route
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+
+                            {/* Where did the idea come from */}
+                            <div className="bg-white rounded-3xl p-8 sm:p-10 lg:p-12 shadow-2xl border-2 border-secondary-200">
+                                <h3 className="text-2xl sm:text-3xl font-black text-secondary-800 mb-8 font-['iransansX'] text-center border-b-4 border-secondary-300 pb-4">
+                                    ایدهٔ برگزاری مجدد جشنواره از کجا آمد؟
+                                </h3>
+                                <div className="space-y-6 text-lg sm:text-xl text-gray-800 leading-relaxed font-['iransansX'] text-justify">
+                                    <p>
+                                        ایران سرزمین هنر، صلح و مهربانیست، اما با یورش آمریکا و متحدانش به ایران، جنگ چهرهٔ زشت خود را نشان داد.
+                                    </p>
+                                    <p>
+                                        در آن روزها، یک پرسش مشترک داشتیم:
+                                    </p>
+                                    <p className="text-2xl sm:text-3xl text-primary-700 font-black text-center py-6 border-y-4 border-primary-300 bg-primary-50 rounded-lg">
+                                        «ایران عزیز، چه کاری می‌توانم برایت انجام دهم؟»
+                                    </p>
+                                    <p>
+                                        دوست داشتیم برای ایران ساز بزنیم، نقش بزنیم و در فضایی برابر، کنار یکدیگر، آثارمان را به اشتراک بگذاریم.
+                                    </p>
+                                    <p>
+                                        اکنون، با تکیه بر تجربهٔ گذشته و همراهی اساتید و دانشجویان هنر، بر آنیم تا بار دیگر جشنوارهٔ «مسیر ایران» را برپا کنیم…
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Closing Statement */}
+                            <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-3xl p-8 sm:p-10 lg:p-12 text-white shadow-2xl text-center">
+                                <p className="text-xl sm:text-2xl lg:text-3xl font-bold leading-relaxed font-['iransansX']">
+                                    پایان یک آغاز، پایانی که آغازی بلند پروانه تر را نوید میدهد. پایانی که خود شالوده آغاز است.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            )}
+
+            {/* Second Edition Tab */}
+            {activeTab === 'second' && (
+                <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-gray-50 to-secondary-50">
+                    <div className="container mx-auto px-4">
+                        <div className="max-w-5xl mx-auto space-y-10">
+                            {/* Title - Bilingual */}
+                            <div className="text-center mb-12 bg-white rounded-3xl p-8 sm:p-10 shadow-2xl border-2 border-secondary-200">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                                    <div className="text-right md:order-2">
+                                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-secondary-800 mb-4 font-['iransansX']">
+                                            جشنوارهٔ بین‌المللی هنری مسیر ایران (مجازی)
+                                        </h2>
                                     </div>
-                                    <div className="mr-4 sm:mr-6 bg-white p-4 sm:p-6 rounded-xl shadow-lg flex-1 transition-all duration-300 hover:shadow-xl">
-                                        <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-2 font-['Vazirmatn']">
-                                            {achievement.title}
-                                        </h3>
-                                        <p className="text-gray-600 font-['Vazirmatn'] text-sm sm:text-base">
-                                            {achievement.desc}
+                                    <div className="text-left md:order-1 border-l-0 md:border-l-4 border-secondary-300 pl-0 md:pl-6">
+                                        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-secondary-700 font-['iransansX']">
+                                            International Iranian Route Art Festival (Virtual)
+                                        </h2>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Festival Call - Bilingual */}
+                            <div className="bg-white rounded-3xl p-8 sm:p-10 lg:p-12 shadow-2xl border-2 border-secondary-200">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                                    <div className="text-right md:order-2">
+                                        <p className="text-lg sm:text-xl lg:text-2xl text-gray-800 leading-relaxed font-['iransansX'] text-justify">
+                                            مسیر ایران، هنرمندان جهان را فرامی‌خواند تا با الهام از موضوع ایران، دست بر ساز، قلم و ابزار هنر ببرند.
+                                        </p>
+                                    </div>
+                                    <div className="text-left md:order-1 border-l-0 md:border-l-4 border-secondary-300 pl-0 md:pl-6">
+                                        <p className="text-base sm:text-lg lg:text-xl text-gray-700 leading-relaxed font-['iransansX']">
+                                            The Iranian Route calls upon global artists to embrace their creative implements, inspired by the theme of Iran.
                                         </p>
                                     </div>
                                 </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </section>
+                            </div>
 
-            {/* Team */}
-            <section className="py-12 sm:py-16">
-                <div className="container mx-auto px-4">
-                    <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-800 mb-8 sm:mb-12 font-['Vazirmatn']">
-                        {trans('festival_team')}
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-                        {teamMembers.map((member, index) => (
-                            <div key={index} className="bg-white p-6 rounded-2xl shadow-lg text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-2 animate-fadeIn" style={{ animationDelay: `${index * 0.15}s` }}>
-                                <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full flex items-center justify-center mx-auto mb-4 transition-transform duration-300 hover:scale-110 cursor-pointer">
-                                    <span className="text-2xl text-white font-bold">
-                                        {member.name.split(' ')[0].charAt(0)}
-                                    </span>
+                            {/* Three Pillars - Bilingual */}
+                            <div className="bg-gradient-to-r from-secondary-600 to-primary-600 rounded-3xl p-8 sm:p-10 lg:p-12 text-white shadow-2xl">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                                    <div className="text-right md:order-2">
+                                        <p className="text-xl sm:text-2xl lg:text-3xl font-black mb-4 font-['iransansX'] text-center md:text-right">
+                                            جشنواره بر سه محور استوار است: علم، هنر و دانشگاه.
+                                        </p>
+                                    </div>
+                                    <div className="text-left md:order-1 border-l-0 md:border-l-4 border-white/30 pl-0 md:pl-6">
+                                        <p className="text-lg sm:text-xl lg:text-2xl font-bold font-['iransansX'] text-center md:text-left">
+                                            The festival stands on three fundamental pillars: Science, Art, and Academia.
+                                        </p>
+                                    </div>
                                 </div>
-                                <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-2 font-['Vazirmatn']">
-                                    {member.name}
-                                </h3>
-                                <p className="text-primary-600 font-medium mb-3 font-['Vazirmatn'] text-sm sm:text-base">
-                                    {member.role}
-                                </p>
-                                <p className="text-gray-600 text-xs sm:text-sm leading-relaxed font-['Vazirmatn']">
-                                    {member.description}
-                                </p>
                             </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
 
-            {/* Values */}
-            <section className="py-12 sm:py-16 bg-gradient-to-r from-primary-600 via-primary-700 to-primary-800 text-white">
-                <div className="container mx-auto px-4">
-                    <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-12 font-['Vazirmatn']">
-                        {trans('our_values')}
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-                        <div className="text-center animate-fadeIn">
-                            <div className="w-14 h-14 sm:w-16 sm:h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4 transition-transform duration-300 hover:scale-125 cursor-pointer">
-                                <TrophyIcon className="w-7 h-7 sm:w-8 sm:h-8" />
+                            {/* Organizers - Bilingual */}
+                            <div className="bg-white rounded-3xl p-8 sm:p-10 lg:p-12 shadow-2xl border-2 border-secondary-200">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <div className="text-right md:order-2 space-y-4">
+                                        <p className="text-xl sm:text-2xl font-black text-gray-800 mb-4 font-['iransansX']">
+                                            برگزارکنندگان:
+                                        </p>
+                                        <p className="text-lg sm:text-xl text-gray-700 leading-relaxed font-['iransansX']">
+                                            دانشجویان و اساتید دانشگاه‌ها و دانشکده‌های هنر ایران.
+                                        </p>
+                                    </div>
+                                    <div className="text-left md:order-1 border-l-0 md:border-l-4 border-secondary-300 pl-0 md:pl-6 space-y-4">
+                                        <p className="text-lg sm:text-xl font-bold text-gray-800 mb-4 font-['iransansX']">
+                                            Organized by:
+                                        </p>
+                                        <p className="text-base sm:text-lg text-gray-700 leading-relaxed font-['iransansX']">
+                                            Students and professors from Iranian universities and art faculties.
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
-                            <h3 className="text-lg sm:text-xl font-bold mb-3 font-['Vazirmatn']">{trans('quality')}</h3>
-                            <p className="text-secondary-100 font-['Vazirmatn'] text-sm sm:text-base">
-                                {trans('quality_desc')}
-                            </p>
-                        </div>
-                        <div className="text-center animate-fadeIn" style={{ animationDelay: '0.1s' }}>
-                            <div className="w-14 h-14 sm:w-16 sm:h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4 transition-transform duration-300 hover:scale-125 cursor-pointer">
-                                <CreativityIcon className="w-7 h-7 sm:w-8 sm:h-8" />
-                            </div>
-                            <h3 className="text-lg sm:text-xl font-bold mb-3 font-['Vazirmatn']">{trans('creativity')}</h3>
-                            <p className="text-secondary-100 font-['Vazirmatn'] text-sm sm:text-base">
-                                {trans('creativity_desc')}
-                            </p>
-                        </div>
-                        <div className="text-center animate-fadeIn" style={{ animationDelay: '0.2s' }}>
-                            <div className="w-14 h-14 sm:w-16 sm:h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4 transition-transform duration-300 hover:scale-125 cursor-pointer">
-                                <GlobalIcon className="w-7 h-7 sm:w-8 sm:h-8" />
-                            </div>
-                            <h3 className="text-lg sm:text-xl font-bold mb-3 font-['Vazirmatn']">{trans('diversity')}</h3>
-                            <p className="text-secondary-100 font-['Vazirmatn'] text-sm sm:text-base">
-                                {trans('diversity_desc')}
-                            </p>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            )}
         </FestivalLayout>
     );
 }

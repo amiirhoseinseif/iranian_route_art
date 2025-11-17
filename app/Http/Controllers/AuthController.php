@@ -12,9 +12,25 @@ use Inertia\Inertia;
 
 class AuthController extends Controller
 {
-    public function showLoginForm()
+    public function showLoginForm(Request $request)
     {
-        return Inertia::render('Auth/Login');
+        // Pass redirect URL and art_field_id to login page if provided
+        $redirect = $request->query('redirect');
+        $artFieldId = $request->query('art_field_id');
+        
+        // If redirect URL is provided, store it in session
+        if ($redirect) {
+            $intendedUrl = $redirect;
+            if ($artFieldId) {
+                $intendedUrl .= '?art_field_id=' . $artFieldId;
+            }
+            $request->session()->put('url.intended', $intendedUrl);
+        }
+        
+        return Inertia::render('Auth/Login', [
+            'redirect' => $redirect,
+            'art_field_id' => $artFieldId,
+        ]);
     }
 
     public function login(Request $request)
@@ -74,7 +90,7 @@ class AuthController extends Controller
 
         if ($userType) {
             // Redirect based on detected user type
-            return $this->redirectBasedOnUserType($userType);
+            return $this->redirectBasedOnUserType($userType, $request);
         }
 
         // If no guard succeeded, check if email exists in any table
@@ -104,8 +120,34 @@ class AuthController extends Controller
         ])->withInput();
     }
 
-    private function redirectBasedOnUserType($userType)
+    private function redirectBasedOnUserType($userType, $request = null)
     {
+        // Check if there's an intended URL in session (set by ArtController or query parameter)
+        $intendedUrl = null;
+        if ($request) {
+            $intendedUrl = $request->session()->get('url.intended');
+            // Also check query parameter for redirect
+            if (!$intendedUrl && $request->has('redirect')) {
+                $redirectUrl = $request->input('redirect');
+                $artFieldId = $request->input('art_field_id');
+                if ($artFieldId) {
+                    $intendedUrl = $redirectUrl . '?art_field_id=' . $artFieldId;
+                } else {
+                    $intendedUrl = $redirectUrl;
+                }
+            }
+        }
+
+        // If there's an intended URL and user type matches, redirect there
+        if ($intendedUrl) {
+            if ($userType === 'artist' && strpos($intendedUrl, '/artist/arts/create') !== false) {
+                if ($request) {
+                    $request->session()->forget('url.intended');
+                }
+                return redirect($intendedUrl);
+            }
+        }
+
         switch ($userType) {
             case 'artist':
                 return redirect()->intended(route('artist.dashboard'));

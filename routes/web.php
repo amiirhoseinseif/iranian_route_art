@@ -4,9 +4,23 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', function () {
-    return Inertia::render('Home');
+    $artFields = \App\Models\ArtField::active()->orderBy('name')->get()->map(function ($field) {
+        return [
+            'id' => $field->id,
+            'name' => $field->name,
+            'name_en' => $field->name_en,
+            'description' => $field->description,
+            'description_translated' => $field->description_translated,
+            'icon_name' => $field->icon_name,
+        ];
+    });
+    
+    return Inertia::render('Home', [
+        'artFields' => $artFields,
+    ]);
 })->name('home');
 
 // Public pages
@@ -22,9 +36,7 @@ Route::get('/artists', function () {
     return Inertia::render('Artists');
 })->name('artists');
 
-Route::get('/arts', function () {
-    return Inertia::render('Arts');
-})->name('arts');
+// Arts route removed - only accessible to admins via /admin/arts
 
 // Auth pages
 Route::get('/login', [App\Http\Controllers\AuthController::class, 'showLoginForm'])->name('login');
@@ -197,10 +209,7 @@ Route::prefix('artist')->group(function () {
             return Inertia::render('Artist/Arts', ['arts' => $arts]);
         })->name('artist.arts');
         
-        Route::get('/arts/create', function () {
-            $artFields = \App\Models\ArtField::active()->get();
-            return Inertia::render('Artist/ArtCreate', ['artFields' => $artFields]);
-        })->name('artist.arts.create');
+        Route::get('/arts/create', [\App\Http\Controllers\ArtController::class, 'create'])->name('artist.arts.create');
         
         Route::post('/arts', [App\Http\Controllers\ArtController::class, 'store'])->name('artist.arts.store');
         
@@ -239,10 +248,19 @@ Route::prefix('admin')->middleware(['auth.admin'])->group(function () {
     Route::get('/arts', function () {
         return Inertia::render('Admin/Arts');
     })->name('admin.arts');
+
+    Route::get('/arts/{art}', [AdminController::class, 'viewArt'])->name('admin.arts.show');
     
     Route::get('/judges', function () {
         return Inertia::render('Admin/Judges');
     })->name('admin.judges');
+    
+    Route::get('/art-fields', function () {
+        $artFields = \App\Models\ArtField::orderBy('name')->get();
+        return Inertia::render('Admin/ArtFields', [
+            'artFields' => $artFields,
+        ]);
+    })->name('admin.art-fields');
     
     Route::get('/settings', function () {
         return Inertia::render('Admin/Settings');

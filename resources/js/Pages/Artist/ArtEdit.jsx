@@ -27,13 +27,13 @@ export default function ArtEdit({ art, artFields = [] }) {
     };
 
     return (
-        <FestivalLayout title="ویرایش اثر - جشنواره بین الملی مسیر ایران">
+        <FestivalLayout title="ویرایش اثر - جشنواره بین المللی مسیر ایران">
             <div className="max-w-4xl mx-auto">
                 <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-gray-800 mb-2 font-['Vazirmatn']">
+                    <h1 className="text-3xl font-bold text-gray-800 mb-2 font-['iransansX']">
                         ویرایش اثر
                     </h1>
-                    <p className="text-gray-600 font-['Vazirmatn']">
+                    <p className="text-gray-600 font-['iransansX']">
                         اثر هنری خود را ویرایش کنید
                     </p>
                 </div>
@@ -42,7 +42,7 @@ export default function ArtEdit({ art, artFields = [] }) {
                     <form onSubmit={handleSubmit} className="space-y-6">
                         {/* Basic Information */}
                         <div className="border-b border-gray-200 pb-6">
-                            <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
+                            <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['iransansX']">
                                 اطلاعات اصلی
                             </h2>
                             <div className="space-y-6">
@@ -53,7 +53,7 @@ export default function ArtEdit({ art, artFields = [] }) {
                                         type="text"
                                         value={data.title}
                                         onChange={e => setData('title', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['iransansX']"
                                         placeholder="عنوان اثر هنری خود را وارد کنید"
                                         required
                                     />
@@ -67,7 +67,7 @@ export default function ArtEdit({ art, artFields = [] }) {
                                         value={data.description}
                                         onChange={e => setData('description', e.target.value)}
                                         rows={4}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['iransansX']"
                                         placeholder="توضیحات کامل اثر هنری خود را بنویسید"
                                         required
                                     />
@@ -80,7 +80,7 @@ export default function ArtEdit({ art, artFields = [] }) {
                                         id="art_field_id"
                                         value={data.art_field_id}
                                         onChange={e => setData('art_field_id', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['iransansX']"
                                         required
                                     >
                                         <option value="">انتخاب رشته هنری</option>
@@ -100,7 +100,7 @@ export default function ArtEdit({ art, artFields = [] }) {
                                         type="number"
                                         value={data.year_created}
                                         onChange={e => setData('year_created', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['iransansX']"
                                         placeholder="1400"
                                         min="1300"
                                         max="1450"
@@ -112,7 +112,7 @@ export default function ArtEdit({ art, artFields = [] }) {
 
                         {/* Media Files */}
                         <div className="border-b border-gray-200 pb-6">
-                            <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
+                            <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['iransansX']">
                                 فایل‌های رسانه‌ای
                             </h2>
                             <div className="space-y-6">
@@ -123,9 +123,9 @@ export default function ArtEdit({ art, artFields = [] }) {
                                         type="file"
                                         onChange={handleImageChange}
                                         accept="image/*"
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['iransansX']"
                                     />
-                                    <p className="text-sm text-gray-500 mt-2 font-['Vazirmatn']">
+                                    <p className="text-sm text-gray-500 mt-2 font-['iransansX']">
                                         اگر تصویر جدید انتخاب نکنید، تصویر قبلی حفظ می‌شود
                                     </p>
                                     {errors.image && <p className="text-red-500 text-sm mt-1">{errors.image}</p>}
@@ -138,7 +138,7 @@ export default function ArtEdit({ art, artFields = [] }) {
                                         type="url"
                                         value={data.video_url}
                                         onChange={e => setData('video_url', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['iransansX']"
                                         placeholder="https://youtube.com/watch?v=..."
                                     />
                                     {errors.video_url && <p className="text-red-500 text-sm mt-1">{errors.video_url}</p>}
@@ -151,7 +151,7 @@ export default function ArtEdit({ art, artFields = [] }) {
                                         type="url"
                                         value={data.audio_url}
                                         onChange={e => setData('audio_url', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['iransansX']"
                                         placeholder="https://soundcloud.com/..."
                                     />
                                     {errors.audio_url && <p className="text-red-500 text-sm mt-1">{errors.audio_url}</p>}
@@ -161,7 +161,7 @@ export default function ArtEdit({ art, artFields = [] }) {
 
                         {/* Additional Information */}
                         <div className="pb-6">
-                            <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
+                            <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['iransansX']">
                                 اطلاعات تکمیلی
                             </h2>
                             <div>
@@ -171,10 +171,10 @@ export default function ArtEdit({ art, artFields = [] }) {
                                     type="text"
                                     value={data.tags}
                                     onChange={e => setData('tags', e.target.value)}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
+                                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['iransansX']"
                                     placeholder="نقاشی، انتزاعی، مدرن، هنر معاصر"
                                 />
-                                <p className="text-sm text-gray-500 mt-2 font-['Vazirmatn']">
+                                <p className="text-sm text-gray-500 mt-2 font-['iransansX']">
                                     برچسب‌ها را با کاما جدا کنید
                                 </p>
                                 {errors.tags && <p className="text-red-500 text-sm mt-1">{errors.tags}</p>}
@@ -185,7 +185,7 @@ export default function ArtEdit({ art, artFields = [] }) {
                         <div className="flex items-center justify-end space-x-4 space-x-reverse">
                             <Link
                                 href="/artist/arts"
-                                className="px-6 py-3 bg-gray-500 text-white rounded-xl hover:bg-gray-600 transition-colors font-['Vazirmatn']"
+                                className="px-6 py-3 bg-gray-500 text-white rounded-xl hover:bg-gray-600 transition-colors font-['iransansX']"
                             >
                                 انصراف
                             </Link>

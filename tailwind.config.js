@@ -13,7 +13,7 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Vazirmatn', 'Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['iransansX', 'Figtree', ...defaultTheme.fontFamily.sans],
             },
             colors: {
                 'primary': {

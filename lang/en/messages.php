@@ -7,7 +7,7 @@ return [
     'home' => 'Home',
     'about_festival' => 'About Festival',
     'artists' => 'Artists',
-    'festival_history' => 'Festival History / تاریخچه جشنواره',
+    'festival_history' => 'Festival History',
     'arts' => 'Artworks',
     'contact_us' => 'Contact Us',
     'login' => 'Login',
@@ -37,8 +37,14 @@ return [
     // Home Page
     'hero_title' => 'Iranian Route',
     'hero_subtitle' => 'Art Festival',
-    'hero_description' => 'A festival to introduce and showcase artworks of Iranian artists on the path of art and culture',
+    'hero_description' => 'Art Universities And Faculties In Iran',
     'hero_description_extra' => 'This festival serves as a bridge between Iranian artists and the international community, providing an opportunity to showcase talents and artistic creativity at various levels. We seek to discover, support, and introduce innovative artists in various artistic fields.',
+    'hero_title_fa' => 'جشنواره بین المللی',
+    'hero_subtitle_fa' => 'مسیر ایران',
+    'hero_description_fa' => 'دانشگاه ها و دانشکده های هنر سراسر کشور',
+    'hero_title_en' => 'Iranian Route',
+    'hero_subtitle_en' => 'Art Festival',
+    'hero_description_en' => 'Art Universities And Faculties In Iran',
     'register_now' => 'Register for Festival',
     'about_us' => 'About Festival',
     
@@ -53,6 +59,7 @@ return [
     
     // Art Fields
     'art_fields' => 'Festival Art Fields',
+    'field_requirements' => 'Field Requirements',
     'music' => 'Music',
     'music_desc' => 'Composition, Performance, Singing',
     'calligraphy' => 'Calligraphy',
@@ -80,7 +87,7 @@ return [
     'fashion_design' => 'Textile & Fashion Design',
     'fashion_design_desc' => 'Fashion, textile, and pattern design',
     'animation' => 'Animation',
-    'animation_desc' => '2D, 3D animation, and motion graphics',
+    'animation_desc' => ' ',
     'photography' => 'Photography',
     'photography_desc' => 'Artistic and documentary photography',
     'new_media_arts' => 'New Media Arts',
@@ -115,7 +122,7 @@ return [
     'faq' => 'FAQ',
     'social_networks' => 'Social Networks',
     'all_rights_reserved' => 'All rights reserved',
-    'site_description' => 'A festival to introduce and showcase artworks of Iranian artists on the path of art and culture',
+    'site_description' => 'Art Universities And Faculties In Iran',
     'location' => 'Tehran, Iran',
     
     // Auth Modal

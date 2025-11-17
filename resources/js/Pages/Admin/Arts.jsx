@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from '@inertiajs/react';
 import FestivalLayout from '@/Layouts/FestivalLayout';
 import { 
     MusicIcon, 
@@ -27,11 +28,7 @@ import {
     TrashIcon,
     DownloadIcon
 } from '@/Components/SvgIcons';
-import Modal from '@/Components/Modal';
-import PrimaryButton from '@/Components/PrimaryButton';
-import SecondaryButton from '@/Components/SecondaryButton';
 import TextInput from '@/Components/TextInput';
-import InputLabel from '@/Components/InputLabel';
 
 export default function AdminArts({ auth }) {
     const [arts, setArts] = useState([]);
@@ -39,8 +36,6 @@ export default function AdminArts({ auth }) {
     const [selectedField, setSelectedField] = useState('all');
     const [selectedStatus, setSelectedStatus] = useState('all');
     const [searchTerm, setSearchTerm] = useState('');
-    const [showArtModal, setShowArtModal] = useState(false);
-    const [selectedArt, setSelectedArt] = useState(null);
     const [loading, setLoading] = useState(true);
 
     const artFields = [
@@ -55,9 +50,9 @@ export default function AdminArts({ auth }) {
         { value: 'graphic', name: 'گرافیک و تصویرسازی', icon: IllustrationIcon },
         { value: 'literature', name: 'ادبیات', icon: LiteratureIcon },
         { value: 'carpet', name: 'فرش', icon: CarpetIcon },
-        { value: 'short_film', name: 'فیلم کوتاه', icon: ShortFilmIcon },
+        { value: 'short_film', name: 'سینما', icon: ShortFilmIcon },
         { value: 'theater', name: 'نمایش', icon: TheaterIcon },
-        { value: 'fashion_design', name: 'طراحی پارچه و لباس', icon: FashionDesignIcon },
+        { value: 'fashion_design', name: 'طراحی پارچه و طراحی لباس', icon: FashionDesignIcon },
         { value: 'animation', name: 'انیمیشن', icon: AnimationIcon },
         { value: 'photography', name: 'عکاسی', icon: PhotographyIcon },
         { value: 'new_media_arts', name: 'هنرهای جدید', icon: NewMediaArtsIcon },
@@ -103,7 +98,7 @@ export default function AdminArts({ auth }) {
 
         // Filter by field
         if (selectedField !== 'all') {
-            filtered = filtered.filter(art => art.art_field?.slug === selectedField);
+            filtered = filtered.filter(art => art.art_field?.icon_name === selectedField);
         }
 
         // Filter by status
@@ -166,11 +161,6 @@ export default function AdminArts({ auth }) {
         }
     };
 
-    const openArtModal = (art) => {
-        setSelectedArt(art);
-        setShowArtModal(true);
-    };
-
     const getStatusColor = (status) => {
         switch (status) {
             case 'approved': return 'bg-secondary-200 text-secondary-800';
@@ -200,7 +190,7 @@ export default function AdminArts({ auth }) {
                 <div className="flex justify-center items-center h-64">
                     <div className="text-center">
                         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
-                        <p className="text-gray-600 font-['Vazirmatn']">در حال بارگذاری...</p>
+                        <p className="text-gray-600 font-['iransansX']">در حال بارگذاری...</p>
                     </div>
                 </div>
             </FestivalLayout>
@@ -212,10 +202,10 @@ export default function AdminArts({ auth }) {
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-gray-800 mb-2 font-['Vazirmatn']">
+                    <h1 className="text-3xl font-bold text-gray-800 mb-2 font-['iransansX']">
                         مدیریت آثار هنری
                     </h1>
-                    <p className="text-gray-600 font-['Vazirmatn']">
+                    <p className="text-gray-600 font-['iransansX']">
                         مدیریت و بررسی آثار ارسالی هنرمندان
                     </p>
                 </div>
@@ -228,7 +218,7 @@ export default function AdminArts({ auth }) {
                                 <MusicIcon className="w-6 h-6 text-primary-600" />
                             </div>
                             <div className="mr-4">
-                                <p className="text-sm text-gray-600 font-['Vazirmatn']">کل آثار</p>
+                                <p className="text-sm text-gray-600 font-['iransansX']">کل آثار</p>
                                 <p className="text-2xl font-bold text-gray-800">{arts.length}</p>
                             </div>
                         </div>
@@ -240,7 +230,7 @@ export default function AdminArts({ auth }) {
                                 <CheckIcon className="w-6 h-6 text-secondary-700" />
                             </div>
                             <div className="mr-4">
-                                <p className="text-sm text-gray-600 font-['Vazirmatn']">تایید شده</p>
+                                <p className="text-sm text-gray-600 font-['iransansX']">تایید شده</p>
                                 <p className="text-2xl font-bold text-gray-800">
                                     {arts.filter(art => art.status === 'approved').length}
                                 </p>
@@ -254,7 +244,7 @@ export default function AdminArts({ auth }) {
                                 <ClockIcon className="w-6 h-6 text-secondary-600" />
                             </div>
                             <div className="mr-4">
-                                <p className="text-sm text-gray-600 font-['Vazirmatn']">در انتظار</p>
+                                <p className="text-sm text-gray-600 font-['iransansX']">در انتظار</p>
                                 <p className="text-2xl font-bold text-gray-800">
                                     {arts.filter(art => art.status === 'pending').length}
                                 </p>
@@ -268,7 +258,7 @@ export default function AdminArts({ auth }) {
                                 <CloseIcon className="w-6 h-6 text-red-600" />
                             </div>
                             <div className="mr-4">
-                                <p className="text-sm text-gray-600 font-['Vazirmatn']">رد شده</p>
+                                <p className="text-sm text-gray-600 font-['iransansX']">رد شده</p>
                                 <p className="text-2xl font-bold text-gray-800">
                                     {arts.filter(art => art.status === 'rejected').length}
                                 </p>
@@ -321,7 +311,7 @@ export default function AdminArts({ auth }) {
                         </div>
                     </div>
 
-                    <div className="text-sm text-gray-600 font-['Vazirmatn']">
+                    <div className="text-sm text-gray-600 font-['iransansX']">
                         نمایش {filteredArts.length} اثر از {arts.length} اثر کل
                     </div>
                 </div>
@@ -332,17 +322,17 @@ export default function AdminArts({ auth }) {
                         <table className="w-full">
                             <thead className="bg-gray-50">
                                 <tr>
-                                    <th className="text-right py-4 px-6 font-semibold text-gray-800 font-['Vazirmatn']">اثر</th>
-                                    <th className="text-right py-4 px-6 font-semibold text-gray-800 font-['Vazirmatn']">هنرمند</th>
-                                    <th className="text-right py-4 px-6 font-semibold text-gray-800 font-['Vazirmatn']">رشته</th>
-                                    <th className="text-right py-4 px-6 font-semibold text-gray-800 font-['Vazirmatn']">وضعیت</th>
-                                    <th className="text-right py-4 px-6 font-semibold text-gray-800 font-['Vazirmatn']">تاریخ ارسال</th>
-                                    <th className="text-right py-4 px-6 font-semibold text-gray-800 font-['Vazirmatn']">عملیات</th>
+                                    <th className="text-right py-4 px-6 font-semibold text-gray-800 font-['iransansX']">اثر</th>
+                                    <th className="text-right py-4 px-6 font-semibold text-gray-800 font-['iransansX']">هنرمند</th>
+                                    <th className="text-right py-4 px-6 font-semibold text-gray-800 font-['iransansX']">رشته</th>
+                                    <th className="text-right py-4 px-6 font-semibold text-gray-800 font-['iransansX']">وضعیت</th>
+                                    <th className="text-right py-4 px-6 font-semibold text-gray-800 font-['iransansX']">تاریخ ارسال</th>
+                                    <th className="text-right py-4 px-6 font-semibold text-gray-800 font-['iransansX']">عملیات</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {filteredArts.map((art) => {
-                                    const FieldIcon = getFieldIcon(art.art_field?.slug);
+                                    const FieldIcon = getFieldIcon(art.art_field?.icon_name);
                                     return (
                                         <tr key={art.id} className="border-b border-gray-100 hover:bg-gray-50">
                                             <td className="py-4 px-6">
@@ -351,19 +341,19 @@ export default function AdminArts({ auth }) {
                                                         <FieldIcon className="w-6 h-6 text-primary-600" />
                                                     </div>
                                                     <div>
-                                                        <div className="font-semibold text-gray-800 font-['Vazirmatn']">
+                                                        <div className="font-semibold text-gray-800 font-['iransansX']">
                                                             {art.title}
                                                         </div>
-                                                        <div className="text-sm text-gray-600 font-['Vazirmatn']">
+                                                        <div className="text-sm text-gray-600 font-['iransansX']">
                                                             {art.description?.substring(0, 50)}...
                                                         </div>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="py-4 px-6 font-['Vazirmatn']">
+                                            <td className="py-4 px-6 font-['iransansX']">
                                                 {art.artist?.first_name} {art.artist?.last_name}
                                             </td>
-                                            <td className="py-4 px-6 font-['Vazirmatn']">
+                                            <td className="py-4 px-6 font-['iransansX']">
                                                 {art.art_field?.name || 'نامشخص'}
                                             </td>
                                             <td className="py-4 px-6">
@@ -371,18 +361,18 @@ export default function AdminArts({ auth }) {
                                                     {getStatusText(art.status)}
                                                 </span>
                                             </td>
-                                            <td className="py-4 px-6 font-['Vazirmatn']">
+                                            <td className="py-4 px-6 font-['iransansX']">
                                                 {new Date(art.created_at).toLocaleDateString('fa-IR')}
                                             </td>
                                             <td className="py-4 px-6">
                                                 <div className="flex items-center gap-2">
-                                                    <button
-                                                        onClick={() => openArtModal(art)}
+                                                    <Link
+                                                        href={`/admin/arts/${art.id}`}
                                                         className="p-2 text-primary-600 hover:bg-primary-100 rounded-lg transition-colors"
                                                         title="مشاهده جزئیات"
                                                     >
                                                         <EyeIcon className="w-4 h-4" />
-                                                    </button>
+                                                    </Link>
                                                     
                                                     {art.status === 'pending' && (
                                                         <>
@@ -429,117 +419,16 @@ export default function AdminArts({ auth }) {
                             <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
                                 <MusicIcon className="w-12 h-12 text-gray-400" />
                             </div>
-                            <h3 className="text-xl font-bold text-gray-600 mb-2 font-['Vazirmatn']">
+                            <h3 className="text-xl font-bold text-gray-600 mb-2 font-['iransansX']">
                                 اثری یافت نشد
                             </h3>
-                            <p className="text-gray-500 font-['Vazirmatn']">
+                            <p className="text-gray-500 font-['iransansX']">
                                 با فیلترهای انتخاب شده اثری وجود ندارد
                             </p>
                         </div>
                     )}
                 </div>
             </div>
-
-            {/* Art Details Modal */}
-            <Modal show={showArtModal} onClose={() => setShowArtModal(false)}>
-                {selectedArt && (
-                    <div className="p-6 max-w-4xl">
-                        <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
-                            جزئیات اثر: {selectedArt.title}
-                        </h2>
-                        
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <h3 className="text-lg font-semibold text-gray-800 mb-4 font-['Vazirmatn']">
-                                    اطلاعات اثر
-                                </h3>
-                                <div className="space-y-3">
-                                    <div>
-                                        <label className="text-sm font-medium text-gray-600 font-['Vazirmatn']">عنوان:</label>
-                                        <p className="text-gray-800 font-['Vazirmatn']">{selectedArt.title}</p>
-                                    </div>
-                                    <div>
-                                        <label className="text-sm font-medium text-gray-600 font-['Vazirmatn']">توضیحات:</label>
-                                        <p className="text-gray-800 font-['Vazirmatn']">{selectedArt.description}</p>
-                                    </div>
-                                    <div>
-                                        <label className="text-sm font-medium text-gray-600 font-['Vazirmatn']">رشته هنری:</label>
-                                        <p className="text-gray-800 font-['Vazirmatn']">{selectedArt.art_field?.name}</p>
-                                    </div>
-                                    <div>
-                                        <label className="text-sm font-medium text-gray-600 font-['Vazirmatn']">وضعیت:</label>
-                                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(selectedArt.status)}`}>
-                                            {getStatusText(selectedArt.status)}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                <h3 className="text-lg font-semibold text-gray-800 mb-4 font-['Vazirmatn']">
-                                    اطلاعات هنرمند
-                                </h3>
-                                <div className="space-y-3">
-                                    <div>
-                                        <label className="text-sm font-medium text-gray-600 font-['Vazirmatn']">نام:</label>
-                                        <p className="text-gray-800 font-['Vazirmatn']">
-                                            {selectedArt.artist?.first_name} {selectedArt.artist?.last_name}
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <label className="text-sm font-medium text-gray-600 font-['Vazirmatn']">ایمیل:</label>
-                                        <p className="text-gray-800 font-['Vazirmatn']">{selectedArt.artist?.email}</p>
-                                    </div>
-                                    <div>
-                                        <label className="text-sm font-medium text-gray-600 font-['Vazirmatn']">تاریخ ارسال:</label>
-                                        <p className="text-gray-800 font-['Vazirmatn']">
-                                            {new Date(selectedArt.created_at).toLocaleDateString('fa-IR')}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {selectedArt.rejection_reason && (
-                            <div className="mt-6 p-4 bg-red-50 rounded-lg">
-                                <h4 className="font-semibold text-red-800 mb-2 font-['Vazirmatn']">دلیل رد شدن:</h4>
-                                <p className="text-red-700 font-['Vazirmatn']">{selectedArt.rejection_reason}</p>
-                            </div>
-                        )}
-
-                        <div className="flex justify-end mt-6 space-x-3">
-                            <SecondaryButton onClick={() => setShowArtModal(false)}>
-                                بستن
-                            </SecondaryButton>
-                            {selectedArt.status === 'pending' && (
-                                <>
-                                    <PrimaryButton 
-                                        onClick={() => {
-                                            handleArtStatusChange(selectedArt.id, 'approved');
-                                            setShowArtModal(false);
-                                        }}
-                                        className="bg-secondary-600 hover:bg-secondary-700"
-                                    >
-                                        تایید اثر
-                                    </PrimaryButton>
-                                    <button
-                                        onClick={() => {
-                                            const reason = prompt('دلیل رد شدن:');
-                                            if (reason) {
-                                                handleArtStatusChange(selectedArt.id, 'rejected', reason);
-                                                setShowArtModal(false);
-                                            }
-                                        }}
-                                        className="px-4 py-2 bg-primary-800 text-white rounded-lg hover:bg-primary-900 transition-colors font-['Vazirmatn']"
-                                    >
-                                        رد اثر
-                                    </button>
-                                </>
-                            )}
-                        </div>
-                    </div>
-                )}
-            </Modal>
         </FestivalLayout>
     );
 }

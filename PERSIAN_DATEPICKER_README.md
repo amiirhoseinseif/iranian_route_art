@@ -106,16 +106,16 @@ import {
 } from '@/Utils/persianDate';
 
 // فرمت کردن تاریخ
-const formatted = formatPersianDate('1403/06/25'); // "1403/06/25"
+const formatted = formatPersianDate('1404/06/25'); // "1404/06/25"
 
 // تبدیل به متن فارسی
-const text = formatPersianDateToText('1403/06/25'); // "دوشنبه، 25 شهریور 1403"
+const text = formatPersianDateToText('1404/06/25'); // "دوشنبه، 25 شهریور 1404"
 
 // اعتبارسنجی تاریخ
-const isValid = isValidPersianDate('1403/06/25'); // true
+const isValid = isValidPersianDate('1404/06/25'); // true
 
 // تاریخ امروز
-const today = getTodayPersian(); // "1403/06/25"
+const today = getTodayPersian(); // "1404/06/25"
 ```
 
 ## مثال کامل
@@ -184,7 +184,7 @@ function UserForm() {
 
 ## نکات مهم
 
-1. **فرمت تاریخ**: تمام تاریخ‌ها در فرمت `jYYYY/jMM/jDD` (مثل `1403/06/25`) ذخیره می‌شوند.
+1. **فرمت تاریخ**: تمام تاریخ‌ها در فرمت `jYYYY/jMM/jDD` (مثل `1404/06/25`) ذخیره می‌شوند.
 
 2. **RTL Support**: کامپوننت‌ها از RTL پشتیبانی می‌کنند.
 

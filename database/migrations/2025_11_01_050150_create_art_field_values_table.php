@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('art_field_values', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('art_id')->constrained()->onDelete('cascade');
-            $table->foreignId('field_requirement_id')->constrained()->onDelete('cascade');
+            $table->foreignId('art_id')->constrained('arts')->onDelete('cascade');
+            $table->foreignId('field_requirement_id')->constrained('field_requirements')->onDelete('cascade');
             $table->text('value')->nullable(); // مقدار فیلد (برای متن)
             $table->string('file_path')->nullable(); // مسیر فایل (برای فایل‌ها)
             $table->timestamps();
-            
+
             $table->unique(['art_id', 'field_requirement_id']);
         });
     }

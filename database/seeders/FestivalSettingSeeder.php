@@ -12,7 +12,7 @@ class FestivalSettingSeeder extends Seeder
         $settings = [
             [
                 'key' => 'festival_name',
-                'value' => 'جشنواره بین الملی مسیر ایران',
+                'value' => 'جشنواره بین المللی مسیر ایران',
                 'type' => 'string',
                 'description' => 'نام جشنواره',
                 'is_public' => true,
@@ -26,7 +26,7 @@ class FestivalSettingSeeder extends Seeder
             ],
             [
                 'key' => 'festival_description',
-                'value' => 'جشنواره‌ای برای معرفی و نمایش آثار هنری هنرمندان ایرانی در مسیر هنر و فرهنگ',
+                'value' => 'دانشگاه ها و دانشکده های هنر سراسر کشور',
                 'type' => 'text',
                 'description' => 'توضیحات جشنواره',
                 'is_public' => true,

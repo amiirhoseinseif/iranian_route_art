@@ -84,7 +84,7 @@ export default function AuthModal({ isOpen, onClose }) {
                     <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-br from-primary-100 via-primary-50 to-transparent rounded-t-3xl"></div>
                     {/* Header with better spacing */}
                     <div className="relative flex items-center justify-between p-6 border-b border-gray-100">
-                        <h2 className="text-2xl font-bold text-gray-900 font-['Vazirmatn'] relative z-10">
+                        <h2 className="text-2xl font-bold text-gray-900 font-['iransansX'] relative z-10">
                             {activeTab === 'login' ? trans('login') : trans('register')}
                         </h2>
                         <button
@@ -106,7 +106,7 @@ export default function AuthModal({ isOpen, onClose }) {
                             }`}
                         >
                             <UserIcon className="transition-transform duration-300 group-hover:scale-110" />
-                            <span className="font-['Vazirmatn']">{trans('login')}</span>
+                            <span className="font-['iransansX']">{trans('login')}</span>
                             {activeTab === 'login' && (
                                 <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary-600 to-primary-700 animate-slideDown"></div>
                             )}
@@ -120,7 +120,7 @@ export default function AuthModal({ isOpen, onClose }) {
                             }`}
                         >
                             <UserPlusIcon className="transition-transform duration-300 group-hover:scale-110" />
-                            <span className="font-['Vazirmatn']">{trans('register')}</span>
+                            <span className="font-['iransansX']">{trans('register')}</span>
                             {activeTab === 'register' && (
                                 <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary-600 to-primary-700 animate-slideDown"></div>
                             )}
@@ -132,7 +132,7 @@ export default function AuthModal({ isOpen, onClose }) {
                         {activeTab === 'login' ? (
                             <form onSubmit={handleLoginSubmit} className="space-y-5">
                                 <div className="relative group">
-                                    <label className="block text-sm font-semibold text-gray-700 mb-2 font-['Vazirmatn']">
+                                    <label className="block text-sm font-semibold text-gray-700 mb-2 font-['iransansX']">
                                         {trans('email')}
                                     </label>
                                     <div className="relative">
@@ -140,7 +140,7 @@ export default function AuthModal({ isOpen, onClose }) {
                                             type="email"
                                             value={loginForm.data.email}
                                             onChange={e => loginForm.setData('email', e.target.value)}
-                                            className="w-full px-4 py-3 pr-12 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 font-['Vazirmatn'] hover:border-primary-300"
+                                            className="w-full px-4 py-3 pr-12 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 font-['iransansX'] hover:border-primary-300"
                                             placeholder={trans('enter_email')}
                                             required
                                         />
@@ -151,11 +151,11 @@ export default function AuthModal({ isOpen, onClose }) {
                                         </div>
                                     </div>
                                     {loginForm.errors.email && (
-                                        <p className="text-red-500 text-sm mt-2 font-['Vazirmatn'] animate-fadeIn">{loginForm.errors.email}</p>
+                                        <p className="text-red-500 text-sm mt-2 font-['iransansX'] animate-fadeIn">{loginForm.errors.email}</p>
                                     )}
                                 </div>
                                 <div className="relative group">
-                                    <label className="block text-sm font-semibold text-gray-700 mb-2 font-['Vazirmatn']">
+                                    <label className="block text-sm font-semibold text-gray-700 mb-2 font-['iransansX']">
                                         {trans('password')}
                                     </label>
                                     <div className="relative">
@@ -163,7 +163,7 @@ export default function AuthModal({ isOpen, onClose }) {
                                             type="password"
                                             value={loginForm.data.password}
                                             onChange={e => loginForm.setData('password', e.target.value)}
-                                            className="w-full px-4 py-3 pr-12 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 font-['Vazirmatn'] hover:border-primary-300"
+                                            className="w-full px-4 py-3 pr-12 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 font-['iransansX'] hover:border-primary-300"
                                             placeholder={trans('enter_password')}
                                             required
                                         />
@@ -174,7 +174,7 @@ export default function AuthModal({ isOpen, onClose }) {
                                         </div>
                                     </div>
                                     {loginForm.errors.password && (
-                                        <p className="text-red-500 text-sm mt-2 font-['Vazirmatn'] animate-fadeIn">{loginForm.errors.password}</p>
+                                        <p className="text-red-500 text-sm mt-2 font-['iransansX'] animate-fadeIn">{loginForm.errors.password}</p>
                                     )}
                                 </div>
                                 <div className="flex items-center justify-between">
@@ -185,11 +185,11 @@ export default function AuthModal({ isOpen, onClose }) {
                                             onChange={e => loginForm.setData('remember', e.target.checked)}
                                             className="rounded border-2 border-gray-300 text-primary-600 focus:ring-2 focus:ring-primary-500 transition-all duration-200 group-hover:border-primary-400 cursor-pointer"
                                         />
-                                        <span className="mr-2 text-sm text-gray-700 font-['Vazirmatn'] group-hover:text-primary-600 transition-colors">{trans('remember_me')}</span>
+                                        <span className="mr-2 text-sm text-gray-700 font-['iransansX'] group-hover:text-primary-600 transition-colors">{trans('remember_me')}</span>
                                     </label>
                                     <Link
                                         href="/forgot-password"
-                                        className="text-sm text-primary-600 hover:text-primary-700 font-semibold transition-colors font-['Vazirmatn']"
+                                        className="text-sm text-primary-600 hover:text-primary-700 font-semibold transition-colors font-['iransansX']"
                                     >
                                         {trans('forgot_password')}
                                     </Link>
@@ -197,7 +197,7 @@ export default function AuthModal({ isOpen, onClose }) {
                                 <button 
                                     type="submit"
                                     disabled={loginForm.processing}
-                                    className="w-full bg-gradient-to-r from-primary-600 to-primary-700 text-white py-4 px-6 rounded-xl font-semibold hover:from-primary-700 hover:to-primary-800 transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] font-['Vazirmatn'] disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl disabled:hover:shadow-lg"
+                                    className="w-full bg-gradient-to-r from-primary-600 to-primary-700 text-white py-4 px-6 rounded-xl font-semibold hover:from-primary-700 hover:to-primary-800 transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] font-['iransansX'] disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl disabled:hover:shadow-lg"
                                 >
                                     {loginForm.processing ? (
                                         <span className="flex items-center justify-center gap-2">
@@ -215,14 +215,14 @@ export default function AuthModal({ isOpen, onClose }) {
                         ) : (
                             <form onSubmit={handleRegisterSubmit} className="space-y-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
+                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['iransansX']">
                                         {trans('full_name')}
                                     </label>
                                     <input
                                         type="text"
                                         value={registerForm.data.name}
                                         onChange={e => registerForm.setData('name', e.target.value)}
-                                        className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors font-['iransansX']"
                                         placeholder={trans('enter_full_name')}
                                         required
                                     />
@@ -231,14 +231,14 @@ export default function AuthModal({ isOpen, onClose }) {
                                     )}
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
+                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['iransansX']">
                                         {trans('email')}
                                     </label>
                                     <input
                                         type="email"
                                         value={registerForm.data.email}
                                         onChange={e => registerForm.setData('email', e.target.value)}
-                                        className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors font-['iransansX']"
                                         placeholder={trans('enter_email')}
                                         required
                                     />
@@ -247,14 +247,14 @@ export default function AuthModal({ isOpen, onClose }) {
                                     )}
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
+                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['iransansX']">
                                         {trans('password')}
                                     </label>
                                     <input
                                         type="password"
                                         value={registerForm.data.password}
                                         onChange={e => registerForm.setData('password', e.target.value)}
-                                        className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors font-['iransansX']"
                                         placeholder={trans('enter_password')}
                                         required
                                     />
@@ -263,14 +263,14 @@ export default function AuthModal({ isOpen, onClose }) {
                                     )}
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
+                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['iransansX']">
                                         {trans('confirm_password')}
                                     </label>
                                     <input
                                         type="password"
                                         value={registerForm.data.password_confirmation}
                                         onChange={e => registerForm.setData('password_confirmation', e.target.value)}
-                                        className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors font-['iransansX']"
                                         placeholder={trans('confirm_password')}
                                         required
                                     />
@@ -286,14 +286,14 @@ export default function AuthModal({ isOpen, onClose }) {
                                         className="rounded border-secondary-300 text-primary-600 focus:ring-primary-500"
                                         required
                                     />
-                                    <span className="mr-2 text-sm text-gray-600 font-['Vazirmatn']">
+                                    <span className="mr-2 text-sm text-gray-600 font-['iransansX']">
                                         {trans('agree_terms')}
                                     </span>
                                 </div>
                                 <button 
                                     type="submit"
                                     disabled={registerForm.processing}
-                                    className="w-full bg-gradient-to-r from-primary-600 to-primary-700 text-white py-3 px-4 rounded-lg font-medium hover:from-primary-700 hover:to-primary-800 transition-all duration-200 transform hover:scale-105 font-['Vazirmatn'] disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="w-full bg-gradient-to-r from-primary-600 to-primary-700 text-white py-3 px-4 rounded-lg font-medium hover:from-primary-700 hover:to-primary-800 transition-all duration-200 transform hover:scale-105 font-['iransansX'] disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     {registerForm.processing ? trans('registering') : trans('register')}
                                 </button>

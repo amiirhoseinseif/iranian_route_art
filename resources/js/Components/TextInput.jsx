@@ -16,7 +16,7 @@ export default forwardRef(function TextInput(
         }
     }, [isFocused]);
 
-    const baseClasses = 'w-full transition-all duration-200 font-["Vazirmatn"] placeholder:text-gray-400';
+    const baseClasses = 'w-full transition-all duration-200 font-["iransansX"] placeholder:text-gray-400';
     
     const variantClasses = {
         default: 'rounded-xl border-2 border-gray-200 bg-white px-4 py-3 shadow-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500 hover:border-gray-300',

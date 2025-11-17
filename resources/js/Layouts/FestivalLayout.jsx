@@ -7,28 +7,16 @@ import LanguageSwitcher, { LanguageSwitcherCompact } from '@/Components/Language
 import AuthModal from '@/Components/AuthModal';
 import { useTranslation } from '@/Utils/translation';
 
-export default function FestivalLayout({ children, title = 'جشنواره بین الملی مسیر ایران' }) {
+export default function FestivalLayout({ children, title = 'جشنواره بین المللی مسیر ایران' }) {
     const { auth } = usePage().props;
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
     const [showAuthModal, setShowAuthModal] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
-    const { trans, getLocale } = useTranslation();
-    const persianTitle = 'جشنواره بین الملی مسیر ایران';
+    const { trans } = useTranslation();
+    const persianTitle = 'جشنواره بین المللی مسیر ایران';
     const persianTagline = 'دانشگاه‌ها و دانشکده‌های هنر ایران';
-    const englishTitle = 'Iranian Route Festival';
-    const englishTagline = 'Universities and Faculties of Iranian Arts';
-    const locale = getLocale();
-    const isPersianLocale = locale === 'fa';
-    const mobilePersianShell = `w-full rounded-2xl px-4 py-3 shadow-lg transition-all duration-300 backdrop-blur-sm ${
-        isScrolled
-            ? 'bg-white/90 text-primary-700 border border-primary-100/70'
-            : 'bg-white/12 text-white border border-white/15'
-    }`;
-    const mobileEnglishShell = `w-full rounded-2xl px-4 py-3 shadow-lg transition-all duration-300 backdrop-blur-sm ${
-        isScrolled
-            ? 'bg-primary-50 text-primary-700 border border-primary-100/70'
-            : 'bg-white/10 text-white border border-white/15'
-    }`;
+    const englishTitle = 'Iranian Art Route Festival';
+    const englishTagline = 'universities and faculties of art in iran';
     
     useEffect(() => {
         const handleScroll = () => {
@@ -70,6 +58,8 @@ export default function FestivalLayout({ children, title = 'جشنواره بی�
                     { href: route('admin.dashboard'), label: trans('dashboard'), icon: HomeIcon },
                     { href: route('admin.artists'), label: trans('artists'), icon: UsersIcon },
                     { href: route('admin.arts'), label: trans('arts'), icon: PaletteIcon },
+                    { href: route('admin.art-fields'), label: trans('art_fields'), icon: AddIcon },
+                    { href: route('admin.field-requirements'), label: trans('field_requirements'), icon: ClipboardIcon },
                     { href: route('admin.judges'), label: trans('judges'), icon: ScaleIcon },
                     { href: route('admin.settings'), label: trans('settings'), icon: SettingsIcon },
                     { href: route('admin.reports'), label: trans('reports'), icon: ChartBarIcon },
@@ -90,7 +80,7 @@ export default function FestivalLayout({ children, title = 'جشنواره بی�
     return (
         <>
             <Head title={title} />
-            <div className="min-h-screen bg-gradient-to-br from-light-100 via-light-200 to-secondary-100">
+            <div className="min-h-screen bg-gradient-to-br from-light-100 via-light-200 to-primary-100">
                 {/* Modern Header with Glassmorphism */}
                 <header 
                     className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -141,31 +131,12 @@ export default function FestivalLayout({ children, title = 'جشنواره بی�
                             
                             {/* Logo */}
                             <Link href="/" className="flex items-center space-x-3 space-x-reverse flex-shrink-0 group">
-                                {/* <div className="relative">
-                                    <LogoIcon className="h-12 w-auto sm:h-14 lg:h-16 transition-transform duration-300 group-hover:scale-105" />
-                                </div> */}
                                 <div className="flex flex-col sm:flex-row sm:items-end sm:gap-6 gap-3 text-center sm:text-right">
-                                    {isPersianLocale ? (
-                                        <div className={`sm:hidden flex flex-col items-center gap-1 ${mobilePersianShell}`}>
-                                            <h1 className="text-base font-black font-['Vazirmatn'] leading-tight tracking-tight">
-                                                {persianTitle}
-                                            </h1>
-                                            <p className="text-[11px] font-medium">
-                                                {persianTagline}
-                                            </p>
-                                        </div>
-                                    ) : (
-                                        <div className={`sm:hidden flex flex-col items-center gap-1 ${mobileEnglishShell}`}>
-                                            <p className="text-xs font-semibold uppercase tracking-[0.18em]">
-                                                {englishTitle}
-                                            </p>
-                                            <p className="text-[10px] tracking-wide">
-                                                {englishTagline}
-                                            </p>
-                                        </div>
-                                    )}
+                                    <div className="sm:hidden flex justify-center">
+                                        <LogoIcon className="h-12 w-auto transition-transform duration-300 group-hover:scale-105" />
+                                    </div>
                                     <div className="hidden sm:flex flex-col items-center sm:items-end gap-1">
-                                        <h1 className={`text-lg md:text-2xl font-black font-['Vazirmatn'] leading-tight tracking-tight transition-colors duration-300 ${
+                                        <h1 className={`text-lg md:text-2xl font-black font-['iransansX'] leading-tight tracking-tight transition-colors duration-300 ${
                                             isScrolled ? 'text-primary-700' : 'text-white'
                                         }`}>
                                             {persianTitle}
@@ -193,12 +164,10 @@ export default function FestivalLayout({ children, title = 'جشنواره بی�
                             </Link>
 
                             {/* Desktop Navigation */}
-                            <nav className="hidden lg:flex items-center space-x-1 space-x-reverse">
+                            <nav className="hidden lg:flex items-center space-x-0.5 space-x-reverse">
                                 {[
                                     { href: '/', label: trans('home'), icon: HomeIcon },
                                     { href: '/about', label: trans('about_festival'), icon: AboutIcon },
-                                    { href: '/artists', label: trans('festival_history'), icon: UsersIcon },
-                                    { href: '/arts', label: trans('arts'), icon: PaletteIcon },
                                     { href: '/contact', label: trans('contact_us'), icon: ContactIcon },
                                 ].map((item, index) => {
                                     const IconComponent = item.icon;
@@ -206,7 +175,7 @@ export default function FestivalLayout({ children, title = 'جشنواره بی�
                                         <Link
                                             key={index}
                                             href={item.href}
-                                            className={`group relative px-4 py-2 rounded-xl text-sm font-semibold font-['Vazirmatn'] transition-all duration-300 ${
+                                            className={`group relative px-2 py-2 rounded-lg text-xs xl:text-sm font-semibold font-['iransansX'] transition-all duration-300 ${
                                                 isScrolled
                                                     ? 'text-gray-700 hover:text-secondary-600 hover:bg-secondary-50'
                                                     : 'text-white hover:text-secondary-200 hover:bg-white/10'
@@ -225,22 +194,22 @@ export default function FestivalLayout({ children, title = 'جشنواره بی�
                             {/* Auth Section */}
                             {auth.user ? (
                                 <div className="hidden lg:flex items-center space-x-3 space-x-reverse flex-shrink-0">
-                                    <div className="hidden xl:block text-right">
-                                        <p className={`text-sm font-semibold font-['Vazirmatn'] transition-colors duration-300 ${
+                                    {/* <div className="hidden xl:block text-right">
+                                        <p className={`text-sm font-semibold font-['iransansX'] transition-colors duration-300 ${
                                             isScrolled ? 'text-gray-800' : 'text-white'
                                         }`}>
                                             {trans('welcome')}، {auth.user.first_name || auth.user.name}
                                         </p>
-                                        <p className={`text-xs font-['Vazirmatn'] transition-colors duration-300 ${
+                                        <p className={`text-xs font-['iransansX'] transition-colors duration-300 ${
                                             isScrolled ? 'text-gray-600' : 'text-white/80'
                                         }`}>
                                             {getUserRoleDisplayName(auth.user_type)}
                                         </p>
-                                    </div>
+                                    </div> */}
                                     
                                     <Dropdown>
                                         <Dropdown.Trigger>
-                                            <button className={`flex items-center space-x-2 space-x-reverse px-4 py-2.5 rounded-xl font-semibold font-['Vazirmatn'] transition-all duration-300 shadow-lg hover:shadow-xl ${
+                                            <button className={`flex items-center space-x-2 space-x-reverse px-4 py-2.5 rounded-xl font-semibold font-['iransansX'] transition-all duration-300 shadow-lg hover:shadow-xl ${
                                                 isScrolled
                                                     ? 'bg-secondary-600 text-white hover:bg-secondary-700'
                                                     : 'bg-white text-secondary-600 hover:bg-secondary-100'
@@ -279,7 +248,7 @@ export default function FestivalLayout({ children, title = 'جشنواره بی�
                                     <LanguageSwitcher isScrolled={isScrolled} />
                                     <button 
                                         onClick={() => setShowAuthModal(true)}
-                                        className={`px-6 py-2.5 rounded-xl font-bold font-['Vazirmatn'] transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 ${
+                                        className={`px-6 py-2.5 rounded-xl font-bold font-['iransansX'] transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 ${
                                             isScrolled
                                                 ? 'bg-secondary-600 text-white hover:bg-secondary-700'
                                                 : 'bg-white text-secondary-600 hover:bg-secondary-100'
@@ -299,8 +268,6 @@ export default function FestivalLayout({ children, title = 'جشنواره بی�
                                 {[
                                     { href: '/', label: trans('home'), icon: HomeIcon },
                                     { href: '/about', label: trans('about_festival'), icon: AboutIcon },
-                                    { href: '/artists', label: trans('festival_history'), icon: UsersIcon },
-                                    { href: '/arts', label: trans('arts'), icon: PaletteIcon },
                                     { href: '/contact', label: trans('contact_us'), icon: ContactIcon },
                                 ].map((item, index) => {
                                     const IconComponent = item.icon;
@@ -308,7 +275,7 @@ export default function FestivalLayout({ children, title = 'جشنواره بی�
                                         <Link
                                             key={index}
                                             href={item.href}
-                                            className={`flex items-center space-x-3 space-x-reverse px-4 py-3 rounded-xl text-sm font-semibold font-['Vazirmatn'] transition-all duration-200 ${
+                                            className={`flex items-center space-x-3 space-x-reverse px-4 py-3 rounded-xl text-sm font-semibold font-['iransansX'] transition-all duration-200 ${
                                                 isScrolled
                                                     ? 'text-gray-700 hover:bg-secondary-50 hover:text-secondary-600'
                                                     : 'text-white hover:bg-white/10'
@@ -331,7 +298,7 @@ export default function FestivalLayout({ children, title = 'جشنواره بی�
                                             setShowAuthModal(true);
                                             setShowingNavigationDropdown(false);
                                         }}
-                                        className={`w-full px-4 py-3 rounded-xl font-bold font-['Vazirmatn'] transition-all duration-200 ${
+                                        className={`w-full px-4 py-3 rounded-xl font-bold font-['iransansX'] transition-all duration-200 ${
                                             isScrolled
                                                 ? 'bg-secondary-600 text-white hover:bg-secondary-700'
                                                 : 'bg-white text-secondary-600 hover:bg-secondary-100'
@@ -342,12 +309,12 @@ export default function FestivalLayout({ children, title = 'جشنواره بی�
                                 ) : (
                                     <>
                                         <div className="px-4 py-2 rounded-xl bg-white/10">
-                                            <p className={`text-sm font-semibold font-['Vazirmatn'] ${
+                                            <p className={`text-sm font-semibold font-['iransansX'] ${
                                                 isScrolled ? 'text-gray-800' : 'text-white'
                                             }`}>
                                                 {trans('welcome')}، {auth.user.first_name || auth.user.name}
                                             </p>
-                                            <p className={`text-xs font-['Vazirmatn'] ${
+                                            <p className={`text-xs font-['iransansX'] ${
                                                 isScrolled ? 'text-gray-600' : 'text-white/80'
                                             }`}>
                                                 {getUserRoleDisplayName(auth.user_type)}
@@ -359,7 +326,7 @@ export default function FestivalLayout({ children, title = 'جشنواره بی�
                                                 <Link
                                                     key={index}
                                                     href={shortcut.href}
-                                                    className={`flex items-center space-x-3 space-x-reverse px-4 py-3 rounded-xl text-sm font-semibold font-['Vazirmatn'] transition-all duration-200 ${
+                                                    className={`flex items-center space-x-3 space-x-reverse px-4 py-3 rounded-xl text-sm font-semibold font-['iransansX'] transition-all duration-200 ${
                                                         isScrolled
                                                             ? 'text-gray-700 hover:bg-secondary-50'
                                                             : 'text-white hover:bg-white/10'
@@ -375,7 +342,7 @@ export default function FestivalLayout({ children, title = 'جشنواره بی�
                                             href={route('logout')}
                                             method="post"
                                             as="button"
-                                            className="flex items-center space-x-3 space-x-reverse w-full px-4 py-3 rounded-xl text-sm font-semibold font-['Vazirmatn'] text-red-500 hover:bg-red-50 transition-all duration-200"
+                                            className="flex items-center space-x-3 space-x-reverse w-full px-4 py-3 rounded-xl text-sm font-semibold font-['iransansX'] text-red-500 hover:bg-red-50 transition-all duration-200"
                                             onClick={() => setShowingNavigationDropdown(false)}
                                         >
                                             <ExitIcon className="w-5 h-5" />
@@ -394,11 +361,11 @@ export default function FestivalLayout({ children, title = 'جشنواره بی�
                 </main>
 
                 {/* Modern Footer */}
-                <footer className="relative mt-20 bg-gradient-to-br from-gray-900 via-secondary-900 to-gray-900 text-white overflow-hidden">
+                <footer className="relative mt-20 bg-gradient-to-br from-gray-900 via-primary-900 to-gray-900 text-white overflow-hidden">
                     {/* Decorative Background Elements */}
                     <div className="absolute top-0 left-0 w-full h-full opacity-10">
-                        <div className="absolute top-20 right-20 w-72 h-72 bg-secondary-400 rounded-full filter blur-3xl"></div>
-                        <div className="absolute bottom-20 left-20 w-96 h-96 bg-secondary-300 rounded-full filter blur-3xl"></div>
+                        <div className="absolute top-20 right-20 w-72 h-72 bg-primary-400 rounded-full filter blur-3xl"></div>
+                        <div className="absolute bottom-20 left-20 w-96 h-96 bg-primary-300 rounded-full filter blur-3xl"></div>
                     </div>
                     
                     <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
@@ -408,8 +375,8 @@ export default function FestivalLayout({ children, title = 'جشنواره بی�
                                 <Link href="/" className="inline-block mb-6">
                                     <LogoIcon className="h-16 w-auto" />
                                 </Link>
-                                <h3 className="text-2xl font-black mb-4 font-['Vazirmatn']">جشنواره بین الملی مسیر ایران</h3>
-                                <p className="text-gray-300 text-sm leading-relaxed font-['Vazirmatn'] mb-6">
+                                <h3 className="text-2xl font-black mb-4 font-['iransansX']">جشنواره بین المللی مسیر ایران</h3>
+                                <p className="text-gray-300 text-sm leading-relaxed font-['iransansX'] mb-6">
                                     {trans('site_description')}
                                 </p>
                                 {/* Social Media */}
@@ -418,7 +385,7 @@ export default function FestivalLayout({ children, title = 'جشنواره بی�
                                         href="https://t.me/iranian_route" 
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="w-10 h-10 bg-white/10 hover:bg-secondary-600 rounded-xl flex items-center justify-center transition-all duration-300 transform hover:scale-110 group"
+                                        className="w-10 h-10 bg-white/10 hover:bg-primary-600 rounded-xl flex items-center justify-center transition-all duration-300 transform hover:scale-110 group"
                                         aria-label="Telegram"
                                     >
                                         <TelegramIcon className="w-5 h-5 text-white group-hover:text-white transition-colors" />
@@ -437,21 +404,19 @@ export default function FestivalLayout({ children, title = 'جشنواره بی�
 
                             {/* Quick Access */}
                             <div>
-                                <h4 className="text-lg font-bold mb-6 font-['Vazirmatn'] border-b border-white/20 pb-3">دسترسی سریع</h4>
+                                <h4 className="text-lg font-bold mb-6 font-['iransansX'] border-b border-white/20 pb-3">دسترسی سریع</h4>
                                 <ul className="space-y-3">
                                     {[
                                         { href: '/', label: trans('home') },
                                         { href: '/about', label: trans('about_us') },
-                                        { href: '/artists', label: trans('festival_history') },
-                                        { href: '/arts', label: trans('arts') },
                                         { href: '/contact', label: trans('contact_us') },
                                     ].map((link, index) => (
                                         <li key={index}>
                                             <Link 
                                                 href={link.href}
-                                                className="text-gray-300 hover:text-white transition-colors duration-300 font-['Vazirmatn'] flex items-center space-x-2 space-x-reverse group"
+                                                className="text-gray-300 hover:text-white transition-colors duration-300 font-['iransansX'] flex items-center space-x-2 space-x-reverse group"
                                             >
-                                                <span className="w-1.5 h-1.5 bg-secondary-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                                                <span className="w-1.5 h-1.5 bg-primary-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                                                 <span>{link.label}</span>
                                             </Link>
                                         </li>
@@ -461,38 +426,38 @@ export default function FestivalLayout({ children, title = 'جشنواره بی�
 
                             {/* Contact Info */}
                             <div>
-                                <h4 className="text-lg font-bold mb-6 font-['Vazirmatn'] border-b border-white/20 pb-3">{trans('contact_us')}</h4>
+                                <h4 className="text-lg font-bold mb-6 font-['iransansX'] border-b border-white/20 pb-3">{trans('contact_us')}</h4>
                                 <ul className="space-y-4">
                                     <li className="flex items-start space-x-3 space-x-reverse group">
-                                        <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-secondary-600 transition-colors duration-300">
+                                        <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-primary-600 transition-colors duration-300">
                                             <EmailIcon className="w-5 h-5" />
                                         </div>
                                         <div>
-                                            <p className="text-sm text-gray-400 font-['Vazirmatn'] mb-1">ایمیل</p>
-                                            <a href="mailto:info@iranianrouteart.ir" className="text-gray-300 hover:text-white transition-colors font-['Vazirmatn']">
+                                            <p className="text-sm text-gray-400 font-['iransansX'] mb-1">ایمیل</p>
+                                            <a href="mailto:info@iranianrouteart.ir" className="text-gray-300 hover:text-white transition-colors font-['iransansX']">
                                                 info@iranianrouteart.ir
                                             </a>
                                         </div>
                                     </li>
                                     <li className="flex items-start space-x-3 space-x-reverse group">
-                                        <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-secondary-600 transition-colors duration-300">
+                                        <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-primary-600 transition-colors duration-300">
                                             <PhoneIcon className="w-5 h-5" />
                                         </div>
                                         <div>
-                                            <p className="text-sm text-gray-400 font-['Vazirmatn'] mb-1">تلفن</p>
-                                            <a href="tel:+982112345678" className="text-gray-300 hover:text-white transition-colors font-['Vazirmatn']">
+                                            <p className="text-sm text-gray-400 font-['iransansX'] mb-1">تلفن</p>
+                                            <a href="tel:+982112345678" className="text-gray-300 hover:text-white transition-colors font-['iransansX']">
                                                 +98-21-12345678
                                             </a>
                                         </div>
                                     </li>
                                     <li className="flex items-start space-x-3 space-x-reverse group">
-                                        <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-secondary-600 transition-colors duration-300">
+                                        <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-primary-600 transition-colors duration-300">
                                             <LocationIcon className="w-5 h-5" />
                                         </div>
                                         <div>
-                                            <p className="text-sm text-gray-400 font-['Vazirmatn'] mb-1">آدرس</p>
-                                            <p className="text-gray-300 font-['Vazirmatn']">
-                                                {trans('location')}
+                                            <p className="text-sm text-gray-400 font-['iransansX'] mb-1">آدرس</p>
+                                            <p className="text-gray-300 font-['iransansX']">
+                                                {trans('address_details')}
                                             </p>
                                         </div>
                                     </li>
@@ -501,13 +466,13 @@ export default function FestivalLayout({ children, title = 'جشنواره بی�
 
                             {/* Newsletter / Info */}
                             <div>
-                                <h4 className="text-lg font-bold mb-6 font-['Vazirmatn'] border-b border-white/20 pb-3">اطلاعات بیشتر</h4>
-                                <p className="text-gray-300 text-sm leading-relaxed font-['Vazirmatn'] mb-6">
+                                <h4 className="text-lg font-bold mb-6 font-['iransansX'] border-b border-white/20 pb-3">اطلاعات بیشتر</h4>
+                                <p className="text-gray-300 text-sm leading-relaxed font-['iransansX'] mb-6">
                                     برای دریافت آخرین اخبار و اطلاعات جشنواره، ما را در شبکه‌های اجتماعی دنبال کنید.
                                 </p>
                                 <Link 
                                     href="/about"
-                                    className="inline-flex items-center space-x-2 space-x-reverse px-6 py-3 bg-secondary-600 hover:bg-secondary-700 rounded-xl font-semibold font-['Vazirmatn'] transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                                    className="inline-flex items-center space-x-2 space-x-reverse px-6 py-3 bg-primary-600 hover:bg-primary-700 rounded-xl font-semibold font-['iransansX'] transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
                                 >
                                     <span>درباره جشنواره</span>
                                     <svg className="w-5 h-5 transform -rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -520,14 +485,14 @@ export default function FestivalLayout({ children, title = 'جشنواره بی�
                         {/* Copyright */}
                         <div className="border-t border-white/20 pt-8 mt-8">
                             <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
-                                <p className="text-gray-400 text-sm text-center font-['Vazirmatn']">
-                                    © 2025 جشنواره بین الملی مسیر ایران. {trans('all_rights_reserved')}.
+                                <p className="text-gray-400 text-sm text-center font-['iransansX']">
+                                    © 2025 جشنواره بین المللی مسیر ایران. {trans('all_rights_reserved')}.
                                 </p>
                                 <div className="flex items-center space-x-6 space-x-reverse text-sm text-gray-400">
-                                    <Link href="/rules" className="hover:text-white transition-colors font-['Vazirmatn']">
+                                    <Link href="/rules" className="hover:text-white transition-colors font-['iransansX']">
                                         {trans('festival_rules')}
                                     </Link>
-                                    <Link href="/faq" className="hover:text-white transition-colors font-['Vazirmatn']">
+                                    <Link href="/faq" className="hover:text-white transition-colors font-['iransansX']">
                                         {trans('faq')}
                                     </Link>
                                 </div>

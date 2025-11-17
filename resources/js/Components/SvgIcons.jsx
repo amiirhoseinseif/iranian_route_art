@@ -442,9 +442,9 @@ export const DownloadIcon = ({ className = "w-6 h-6", ...props }) => (
 );
 
 // Logo Icon - Compact version for headers
-export const LogoIcon = ({ className = "w-8 h-8", ...props }) => (
+export const LogoIcon = ({ className = "w-8 h-8 mix-blend-multiply", ...props }) => (
     <img
-        src="/logo.png2.png"
+        src="/logo.png"
         alt="Iranian Route International Festival Logo"
         className={className}
         style={{

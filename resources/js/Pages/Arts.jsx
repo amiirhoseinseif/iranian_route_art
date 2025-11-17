@@ -67,7 +67,7 @@ export default function Arts() {
             artist: 'علی رضایی',
             field: 'film',
             fieldName: trans('filmmaking'),
-            description: 'فیلم کوتاه مستند درباره زندگی روزمره در تهران',
+            description: 'سینما مستند درباره زندگی روزمره در تهران',
             status: 'pending',
             statusName: trans('pending_status'),
             uploadDate: '1402/07/01',
@@ -92,7 +92,7 @@ export default function Arts() {
             artist: 'محمد حسینی',
             field: 'graphic',
             fieldName: trans('graphic'),
-            description: 'طراحی پوستر برای جشنواره هنری با استفاده از المان‌های سنتی',
+            description: 'طراحی پوستر برای جشنواره بین المللی با استفاده از المان‌های سنتی',
             status: 'approved',
             statusName: trans('approved_status'),
             uploadDate: '1402/07/10',
@@ -123,10 +123,10 @@ export default function Arts() {
             {/* Hero Section */}
             <section className="bg-gradient-to-r from-primary-600 via-primary-700 to-primary-800 text-white py-12 sm:py-16 lg:py-20 transition-all duration-300">
                 <div className="container mx-auto px-4 text-center">
-                    <h1 className="text-3xl sm:text-4xl font-bold mb-3 sm:mb-4 font-['Vazirmatn'] animate-fadeIn">
+                    <h1 className="text-3xl sm:text-4xl font-bold mb-3 sm:mb-4 font-['iransansX'] animate-fadeIn">
                         {trans('arts_title')}
                     </h1>
-                    <p className="text-base sm:text-lg lg:text-xl text-secondary-100 max-w-2xl mx-auto font-['Vazirmatn']">
+                    <p className="text-base sm:text-lg lg:text-xl text-secondary-100 max-w-2xl mx-auto font-['iransansX']">
                         {trans('arts_subtitle')}
                     </p>
                 </div>
@@ -137,7 +137,7 @@ export default function Arts() {
                 <div className="container mx-auto px-4">
                     <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-4 sm:mb-6">
                         <div className="flex flex-wrap justify-center gap-2">
-                            <span className="text-xs sm:text-sm font-medium text-gray-700 font-['Vazirmatn']">{trans('filter_by_field')}</span>
+                            <span className="text-xs sm:text-sm font-medium text-gray-700 font-['iransansX']">{trans('filter_by_field')}</span>
                             {artFields.map((field) => (
                                 <button
                                     key={field.value}
@@ -148,8 +148,8 @@ export default function Arts() {
                                             : 'bg-white text-gray-700 hover:bg-secondary-50'
                                     }`}
                                 >
-                                    <field.icon className="w-3 h-3 sm:w-4 sm:h-4 ml-1" />
-                                    <span className="font-['Vazirmatn']">{field.name}</span>
+                                    {/* <field.icon className="w-3 h-3 sm:w-4 sm:h-4 ml-1" /> */}
+                                    <span className="font-['iransansX']">{field.name}</span>
                                 </button>
                             ))}
                         </div>
@@ -157,7 +157,7 @@ export default function Arts() {
                     
                     <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
                         <div className="flex flex-wrap justify-center gap-2">
-                            <span className="text-xs sm:text-sm font-medium text-gray-700 font-['Vazirmatn']">{trans('filter_by_status')}</span>
+                            <span className="text-xs sm:text-sm font-medium text-gray-700 font-['iransansX']">{trans('filter_by_status')}</span>
                             {statuses.map((status) => (
                                 <button
                                     key={status.value}
@@ -169,7 +169,7 @@ export default function Arts() {
                                     }`}
                                 >
                                     <status.icon className="w-3 h-3 sm:w-4 sm:h-4 ml-1" />
-                                    <span className="font-['Vazirmatn']">{status.name}</span>
+                                    <span className="font-['iransansX']">{status.name}</span>
                                 </button>
                             ))}
                         </div>
@@ -181,14 +181,14 @@ export default function Arts() {
             <section className="py-12 sm:py-16">
                 <div className="container mx-auto px-4">
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 sm:mb-8">
-                        <h2 className="text-xl sm:text-2xl font-bold text-gray-800 font-['Vazirmatn']">
+                        <h2 className="text-xl sm:text-2xl font-bold text-gray-800 font-['iransansX']">
                             {filteredArts.length} {trans('arts_count')}
                         </h2>
                         <div className="flex flex-wrap items-center gap-4">
-                            <span className="text-xs sm:text-sm text-gray-600 font-['Vazirmatn']">
+                            <span className="text-xs sm:text-sm text-gray-600 font-['iransansX']">
                                 {selectedField === 'all' ? trans('all_fields') : artFields.find(f => f.value === selectedField)?.name}
                             </span>
-                            <span className="text-xs sm:text-sm text-gray-600 font-['Vazirmatn']">
+                            <span className="text-xs sm:text-sm text-gray-600 font-['iransansX']">
                                 {selectedStatus === 'all' ? trans('all_statuses') : statuses.find(s => s.value === selectedStatus)?.name}
                             </span>
                         </div>
@@ -199,11 +199,11 @@ export default function Arts() {
                             {filteredArts.map((art) => (
                                 <div key={art.id} className="bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2 animate-fadeIn">
                                     <div className="h-40 sm:h-48 bg-gradient-to-br from-primary-100 to-secondary-100 flex items-center justify-center transition-transform duration-300 hover:scale-105 cursor-pointer">
-                                        <div className="text-6xl text-primary-600">
+                                        {/* <div className="text-6xl text-primary-600">
                                             {artFields.find(f => f.value === art.field)?.icon && 
                                                 React.createElement(artFields.find(f => f.value === art.field)?.icon, { className: "w-12 h-12 sm:w-16 sm:h-16" })
                                             }
-                                        </div>
+                                        </div> */}
                                     </div>
                                     
                                     <div className="p-4 sm:p-6">
@@ -212,40 +212,40 @@ export default function Arts() {
                                                 art.status === 'approved' 
                                                     ? 'bg-secondary-200 text-secondary-800' 
                                                     : 'bg-secondary-100 text-secondary-700'
-                                            } font-['Vazirmatn']`}>
+                                            } font-['iransansX']`}>
                                                 {art.statusName}
                                             </span>
-                                            <span className="text-xs sm:text-sm text-gray-500 font-['Vazirmatn']">
+                                            <span className="text-xs sm:text-sm text-gray-500 font-['iransansX']">
                                                 {art.fieldName}
                                             </span>
                                         </div>
                                         
-                                        <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-2 font-['Vazirmatn']">
+                                        <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-2 font-['iransansX']">
                                             {art.title}
                                         </h3>
                                         
-                                        <p className="text-gray-600 text-xs sm:text-sm mb-3 font-['Vazirmatn']">
+                                        <p className="text-gray-600 text-xs sm:text-sm mb-3 font-['iransansX']">
                                             {trans('artist')}: {art.artist}
                                         </p>
                                         
-                                        <p className="text-gray-600 text-xs sm:text-sm leading-relaxed mb-4 font-['Vazirmatn']">
+                                        <p className="text-gray-600 text-xs sm:text-sm leading-relaxed mb-4 font-['iransansX']">
                                             {art.description}
                                         </p>
                                         
                                         <div className="flex justify-between items-center text-xs sm:text-sm text-gray-500 mb-4">
-                                            <span className="font-['Vazirmatn'] flex items-center">
+                                            <span className="font-['iransansX'] flex items-center">
                                                 <CalendarIcon className="w-3 h-3 sm:w-4 sm:h-4 ml-1" />
                                                 {art.uploadDate}
                                             </span>
                                             {art.duration && (
-                                                <span className="font-['Vazirmatn'] flex items-center">
+                                                <span className="font-['iransansX'] flex items-center">
                                                     <TimerIcon className="w-3 h-3 sm:w-4 sm:h-4 ml-1" />
                                                     {art.duration}
                                                 </span>
                                             )}
                                         </div>
                                         
-                                        <button className="w-full bg-gradient-to-r from-primary-600 to-primary-700 text-white py-2 px-4 rounded-lg font-medium hover:from-primary-700 hover:to-primary-800 transition-all transform hover:scale-105 font-['Vazirmatn']">
+                                        <button className="w-full bg-gradient-to-r from-primary-600 to-primary-700 text-white py-2 px-4 rounded-lg font-medium hover:from-primary-700 hover:to-primary-800 transition-all transform hover:scale-105 font-['iransansX']">
                                             {trans('view_artwork')}
                                         </button>
                                     </div>
@@ -257,10 +257,10 @@ export default function Arts() {
                             <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4 animate-bounceIn">
                                 <MusicIcon className="w-10 h-10 sm:w-12 sm:h-12 text-gray-400" />
                             </div>
-                            <h3 className="text-lg sm:text-xl font-bold text-gray-600 mb-2 font-['Vazirmatn']">
+                            <h3 className="text-lg sm:text-xl font-bold text-gray-600 mb-2 font-['iransansX']">
                                 {trans('no_artwork_found')}
                             </h3>
-                            <p className="text-gray-500 font-['Vazirmatn'] text-sm sm:text-base">
+                            <p className="text-gray-500 font-['iransansX'] text-sm sm:text-base">
                                 {trans('no_artwork_with_filter')}
                             </p>
                         </div>
@@ -271,7 +271,7 @@ export default function Arts() {
             {/* Statistics */}
             <section className="py-12 sm:py-16 bg-gray-50">
                 <div className="container mx-auto px-4">
-                    <h2 className="text-xl sm:text-2xl font-bold text-center text-gray-800 mb-6 sm:mb-8 font-['Vazirmatn']">
+                    <h2 className="text-xl sm:text-2xl font-bold text-center text-gray-800 mb-6 sm:mb-8 font-['iransansX']">
                         {trans('art_stats')}
                     </h2>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8">
@@ -285,7 +285,7 @@ export default function Arts() {
                                 <div className="text-2xl sm:text-3xl font-bold text-primary-600 mb-2">
                                     {stat.number}
                                 </div>
-                                <div className="text-xs sm:text-sm text-gray-600 font-['Vazirmatn']">
+                                <div className="text-xs sm:text-sm text-gray-600 font-['iransansX']">
                                     {stat.label}
                                 </div>
                             </div>

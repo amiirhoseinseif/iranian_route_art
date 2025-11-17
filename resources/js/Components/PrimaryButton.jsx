@@ -6,7 +6,7 @@ export default function PrimaryButton({
     variant = 'default', // 'default', 'gradient', 'outline'
     ...props
 }) {
-    const baseClasses = 'inline-flex items-center justify-center font-semibold text-white transition-all duration-300 transform focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 font-["Vazirmatn"] shadow-lg';
+    const baseClasses = 'inline-flex items-center justify-center font-semibold text-white transition-all duration-300 transform focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 font-["iransansX"] shadow-lg';
     
     const variantClasses = {
         default: 'rounded-xl border border-transparent bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-3 hover:from-primary-700 hover:to-primary-800 active:scale-95 hover:shadow-xl',

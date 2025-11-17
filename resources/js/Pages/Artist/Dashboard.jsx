@@ -22,17 +22,17 @@ export default function ArtistDashboard({ artist, statistics, recent_arts, festi
                 <div className="mb-8">
                     <div className="flex justify-between items-center">
                         <div>
-                            <h1 className="text-3xl font-bold text-gray-800 mb-2 font-['Vazirmatn']">
+                            <h1 className="text-3xl font-bold text-gray-800 mb-2 font-['iransansX']">
                                 {trans('dashboard')}
                             </h1>
-                            <p className="text-gray-600 font-['Vazirmatn']">
+                            <p className="text-gray-600 font-['iransansX']">
                                 {trans('welcome')} {artist?.first_name} {artist?.last_name}! {trans('artist_dashboard_intro')}
                             </p>
                         </div>
                         <Link
                             href="/logout"
                             method="post"
-                            className="bg-primary-700 text-white px-4 py-2 rounded-lg hover:bg-primary-800 transition-colors font-['Vazirmatn']"
+                            className="bg-primary-700 text-white px-4 py-2 rounded-lg hover:bg-primary-800 transition-colors font-['iransansX']"
                         >
                             {trans('logout')}
                         </Link>
@@ -48,7 +48,7 @@ export default function ArtistDashboard({ artist, statistics, recent_arts, festi
                                 <PaletteIcon className="w-7 h-7 text-white" />
                             </div>
                             <div className="mr-4">
-                                <p className="text-xs text-gray-500 font-['Vazirmatn'] uppercase tracking-wide mb-1">{trans('total_artworks')}</p>
+                                <p className="text-xs text-gray-500 font-['iransansX'] uppercase tracking-wide mb-1">{trans('total_artworks')}</p>
                                 <p className="text-3xl font-extrabold text-gray-800 group-hover:text-primary-600 transition-colors">{statistics?.total_arts || 0}</p>
                             </div>
                         </div>
@@ -61,7 +61,7 @@ export default function ArtistDashboard({ artist, statistics, recent_arts, festi
                                 <CheckIcon className="w-7 h-7 text-white" />
                             </div>
                             <div className="mr-4">
-                                <p className="text-xs text-gray-500 font-['Vazirmatn'] uppercase tracking-wide mb-1">{trans('approved_status')}</p>
+                                <p className="text-xs text-gray-500 font-['iransansX'] uppercase tracking-wide mb-1">{trans('approved_status')}</p>
                                 <p className="text-3xl font-extrabold text-gray-800 group-hover:text-secondary-700 transition-colors">{statistics?.approved_arts || 0}</p>
                             </div>
                         </div>
@@ -74,7 +74,7 @@ export default function ArtistDashboard({ artist, statistics, recent_arts, festi
                                 <ClockIcon className="w-7 h-7 text-white" />
                             </div>
                             <div className="mr-4">
-                                <p className="text-xs text-gray-500 font-['Vazirmatn'] uppercase tracking-wide mb-1">{trans('pending_status')}</p>
+                                <p className="text-xs text-gray-500 font-['iransansX'] uppercase tracking-wide mb-1">{trans('pending_status')}</p>
                                 <p className="text-3xl font-extrabold text-gray-800 group-hover:text-amber-600 transition-colors">{statistics?.pending_arts || 0}</p>
                             </div>
                         </div>
@@ -87,7 +87,7 @@ export default function ArtistDashboard({ artist, statistics, recent_arts, festi
                                 <ChartBarIcon className="w-7 h-7 text-white" />
                             </div>
                             <div className="mr-4">
-                                <p className="text-xs text-gray-500 font-['Vazirmatn'] uppercase tracking-wide mb-1">{trans('average_score')}</p>
+                                <p className="text-xs text-gray-500 font-['iransansX'] uppercase tracking-wide mb-1">{trans('average_score')}</p>
                                 <p className="text-3xl font-extrabold text-gray-800 group-hover:text-primary-700 transition-colors">{statistics?.average_score || 0}</p>
                             </div>
                         </div>
@@ -96,7 +96,7 @@ export default function ArtistDashboard({ artist, statistics, recent_arts, festi
 
                 {/* Quick Actions with modern cards */}
                 <div className="bg-gradient-to-br from-white to-gray-50 rounded-3xl shadow-xl p-8 mb-8 border border-gray-100">
-                    <h3 className="text-2xl font-extrabold text-gray-800 mb-8 font-['Vazirmatn'] relative">
+                    <h3 className="text-2xl font-extrabold text-gray-800 mb-8 font-['iransansX'] relative">
                         <span className="relative z-10">{trans('quick_actions')}</span>
                         <span className="absolute bottom-0 right-0 w-20 h-1 bg-gradient-to-r from-primary-600 to-transparent rounded-full"></span>
                     </h3>
@@ -112,8 +112,8 @@ export default function ArtistDashboard({ artist, statistics, recent_arts, festi
                                         <AddIcon className="w-8 h-8" />
                                     </div>
                                 </div>
-                                <h4 className="text-xl font-bold mb-2 font-['Vazirmatn']">{trans('submit_new_art')}</h4>
-                                <p className="text-primary-100 text-sm font-['Vazirmatn']">{trans('add_new_artwork')}</p>
+                                <h4 className="text-xl font-bold mb-2 font-['iransansX']">{trans('submit_new_art')}</h4>
+                                <p className="text-primary-100 text-sm font-['iransansX']">{trans('add_new_artwork')}</p>
                             </div>
                         </Link>
                         
@@ -128,8 +128,8 @@ export default function ArtistDashboard({ artist, statistics, recent_arts, festi
                                         <ProfileIcon className="w-8 h-8" />
                                     </div>
                                 </div>
-                                <h4 className="text-xl font-bold mb-2 font-['Vazirmatn']">{trans('edit_profile')}</h4>
-                                <p className="text-blue-100 text-sm font-['Vazirmatn']">{trans('update_personal_info')}</p>
+                                <h4 className="text-xl font-bold mb-2 font-['iransansX']">{trans('edit_profile')}</h4>
+                                <p className="text-blue-100 text-sm font-['iransansX']">{trans('update_personal_info')}</p>
                             </div>
                         </Link>
                         
@@ -144,8 +144,8 @@ export default function ArtistDashboard({ artist, statistics, recent_arts, festi
                                         <ListIcon className="w-8 h-8" />
                                     </div>
                                 </div>
-                                <h4 className="text-xl font-bold mb-2 font-['Vazirmatn']">{trans('view_all_artworks')}</h4>
-                                <p className="text-secondary-100 text-sm font-['Vazirmatn']">{trans('view_all_artworks_desc')}</p>
+                                <h4 className="text-xl font-bold mb-2 font-['iransansX']">{trans('view_all_artworks')}</h4>
+                                <p className="text-secondary-100 text-sm font-['iransansX']">{trans('view_all_artworks_desc')}</p>
                             </div>
                         </Link>
                     </div>
@@ -154,10 +154,10 @@ export default function ArtistDashboard({ artist, statistics, recent_arts, festi
                 {/* Recent Arts */}
                 <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
                     <div className="flex items-center justify-between mb-6">
-                        <h3 className="text-xl font-bold text-gray-800 font-['Vazirmatn']">{trans('recent_artworks')}</h3>
+                        <h3 className="text-xl font-bold text-gray-800 font-['iransansX']">{trans('recent_artworks')}</h3>
                         <Link 
                             href="/artist/arts" 
-                            className="text-primary-600 hover:text-primary-700 font-semibold font-['Vazirmatn']"
+                            className="text-primary-600 hover:text-primary-700 font-semibold font-['iransansX']"
                         >
                             {trans('view_all')}
                         </Link>
@@ -198,33 +198,33 @@ export default function ArtistDashboard({ artist, statistics, recent_arts, festi
                                         <div className="text-4xl mb-3 text-center">
                                             <PaletteIcon className="w-12 h-12 mx-auto text-gray-600" />
                                         </div>
-                                        <h4 className="font-semibold text-gray-800 mb-2 font-['Vazirmatn']">{art.title}</h4>
+                                        <h4 className="font-semibold text-gray-800 mb-2 font-['iransansX']">{art.title}</h4>
                                         <div className="flex items-center justify-between mb-3">
                                             <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                                                 art.status === 'approved' ? 'bg-secondary-200 text-secondary-800' :
                                                 art.status === 'pending' ? 'bg-secondary-100 text-secondary-700' :
                                                 'bg-primary-100 text-primary-800'
-                                            } font-['Vazirmatn']`}>
+                                            } font-['iransansX']`}>
                                                 {art.status === 'approved' ? trans('approved_status') :
                                                  art.status === 'pending' ? trans('pending_status') : trans('rejected_status')}
                                             </span>
                                             {art.average_score && (
-                                                <span className="text-sm text-gray-600 font-['Vazirmatn']">
+                                                <span className="text-sm text-gray-600 font-['iransansX']">
                                                     {trans('score_label')}: {art.average_score}
                                                 </span>
                                             )}
                                         </div>
-                                        <p className="text-xs text-gray-500 mb-3 font-['Vazirmatn']">{formatDate(art.created_at)}</p>
+                                        <p className="text-xs text-gray-500 mb-3 font-['iransansX']">{formatDate(art.created_at)}</p>
                                         <div className="flex space-x-2 space-x-reverse">
                                             <Link 
                                                 href={`/artist/arts/${art.id}`}
-                                                className="flex-1 bg-primary-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-primary-700 transition-colors font-['Vazirmatn'] text-center"
+                                                className="flex-1 bg-primary-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-primary-700 transition-colors font-['iransansX'] text-center"
                                             >
                                                 {trans('view')}
                                             </Link>
                                             <Link 
                                                 href={`/artist/arts/${art.id}/edit`}
-                                                className="flex-1 bg-gray-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-gray-700 transition-colors font-['Vazirmatn'] text-center"
+                                                className="flex-1 bg-gray-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-gray-700 transition-colors font-['iransansX'] text-center"
                                             >
                                                 {trans('edit')}
                                             </Link>
@@ -235,11 +235,11 @@ export default function ArtistDashboard({ artist, statistics, recent_arts, festi
                         ) : (
                             <div className="col-span-full text-center py-8">
                                 <PaletteIcon className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-                                <h3 className="text-lg font-semibold text-gray-600 mb-2 font-['Vazirmatn']">{trans('no_artwork_submitted')}</h3>
-                                <p className="text-gray-500 mb-4 font-['Vazirmatn']">{trans('submit_first_artwork')}</p>
+                                <h3 className="text-lg font-semibold text-gray-600 mb-2 font-['iransansX']">{trans('no_artwork_submitted')}</h3>
+                                <p className="text-gray-500 mb-4 font-['iransansX']">{trans('submit_first_artwork')}</p>
                                 <Link 
                                     href="/artist/arts/create"
-                                    className="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition-colors font-['Vazirmatn']"
+                                    className="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition-colors font-['iransansX']"
                                 >
                                     {trans('submit_new_art')}
                                 </Link>
@@ -250,7 +250,7 @@ export default function ArtistDashboard({ artist, statistics, recent_arts, festi
 
                 {/* Notifications */}
                 <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
-                    <h3 className="text-xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">{trans('notifications')}</h3>
+                    <h3 className="text-xl font-bold text-gray-800 mb-6 font-['iransansX']">{trans('notifications')}</h3>
                     <div className="space-y-4">
                         {notifications && notifications.length > 0 ? (
                             notifications.map((notification, index) => (
@@ -262,15 +262,15 @@ export default function ArtistDashboard({ artist, statistics, recent_arts, festi
                                         notification.type === 'error' ? 'bg-primary-800' : 'bg-primary-600'
                                     }`}></div>
                                     <div className="flex-1">
-                                        <p className="text-gray-800 font-['Vazirmatn']">{notification.message}</p>
-                                        <p className="text-sm text-gray-500 mt-1 font-['Vazirmatn']">{notification.time}</p>
+                                        <p className="text-gray-800 font-['iransansX']">{notification.message}</p>
+                                        <p className="text-sm text-gray-500 mt-1 font-['iransansX']">{notification.time}</p>
                                     </div>
                                 </div>
                             ))
                         ) : (
                             <div className="text-center py-8">
                                 <div className="text-4xl mb-4">🔔</div>
-                                <p className="text-gray-500 font-['Vazirmatn']">{trans('no_notifications')}</p>
+                                <p className="text-gray-500 font-['iransansX']">{trans('no_notifications')}</p>
                             </div>
                         )}
                     </div>
@@ -278,8 +278,8 @@ export default function ArtistDashboard({ artist, statistics, recent_arts, festi
 
                 {/* Festival Info */}
                 <div className="bg-gradient-to-r from-primary-50 to-secondary-100 rounded-2xl p-6">
-                    <h3 className="text-xl font-bold text-gray-800 mb-4 font-['Vazirmatn']">{trans('festival_info')}</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-700 font-['Vazirmatn']">
+                    <h3 className="text-xl font-bold text-gray-800 mb-4 font-['iransansX']">{trans('festival_info')}</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-700 font-['iransansX']">
                         <div>
                             <h4 className="font-semibold mb-2">{trans('important_deadlines')}:</h4>
                             <ul className="space-y-1">

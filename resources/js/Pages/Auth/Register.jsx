@@ -93,17 +93,17 @@ export default function Register({ artFields = [] }) {
                             <div className="w-20 h-20 bg-gradient-to-r from-primary-600 to-primary-700 rounded-full flex items-center justify-center mx-auto mb-4">
                                 <LogoIcon className="w-12 h-12 text-white" />
                             </div>
-                            <h1 className="text-4xl font-bold text-gray-800 mb-4 font-['Vazirmatn']">
+                            <h1 className="text-4xl font-bold text-gray-800 mb-4 font-['iransansX']">
                                 {trans('register_title')}
                             </h1>
-                            <p className="text-xl text-gray-600 font-['Vazirmatn']">
+                            <p className="text-xl text-gray-600 font-['iransansX']">
                                 {trans('register_subtitle')}
                             </p>
                         </div>
 
                         {/* User Type Selection */}
                         <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
-                            <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center font-['Vazirmatn']">
+                            <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center font-['iransansX']">
                                 {trans('select_user_type')}
                             </h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -122,17 +122,17 @@ export default function Register({ artFields = [] }) {
                                                 <type.icon className="w-6 h-6 text-white" />
                                             </div>
                                             <div>
-                                                <h3 className="text-xl font-bold text-gray-800 font-['Vazirmatn']">
+                                                <h3 className="text-xl font-bold text-gray-800 font-['iransansX']">
                                                     {type.label}
                                                 </h3>
-                                                <p className="text-gray-600 text-sm font-['Vazirmatn']">
+                                                <p className="text-gray-600 text-sm font-['iransansX']">
                                                     {type.description}
                                                 </p>
                                             </div>
                                         </div>
                                         <ul className="space-y-2">
                                             {type.features.map((feature, index) => (
-                                                <li key={index} className="flex items-center text-sm text-gray-600 font-['Vazirmatn']">
+                                                <li key={index} className="flex items-center text-sm text-gray-600 font-['iransansX']">
                                                     <div className="w-2 h-2 bg-primary-500 rounded-full ml-2"></div>
                                                     {feature}
                                                 </li>
@@ -146,14 +146,14 @@ export default function Register({ artFields = [] }) {
                         {/* Art Fields Preview */}
                         {selectedUserType === 'artist' && (
                             <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
-                                <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center font-['Vazirmatn']">
+                                <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center font-['iransansX']">
                                     {trans('festival_art_fields')}
                                 </h2>
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                     {artFieldsWithIcons.map((field) => (
                                         <div key={field.id} className="text-center p-4 border border-gray-200 rounded-xl hover:border-secondary-300 transition-colors">
-                                            <field.icon className="w-8 h-8 text-primary-600 mx-auto mb-2" />
-                                            <p className="text-sm font-medium text-gray-800 font-['Vazirmatn']">
+                                            {/* <field.icon className="w-8 h-8 text-primary-600 mx-auto mb-2" /> */}
+                                            <p className="text-sm font-medium text-gray-800 font-['iransansX']">
                                                 {field.name}
                                             </p>
                                         </div>
@@ -164,7 +164,7 @@ export default function Register({ artFields = [] }) {
 
                         {/* Registration Steps */}
                         <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
-                            <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center font-['Vazirmatn']">
+                            <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center font-['iransansX']">
                                 {trans('registration_steps')}
                             </h2>
                             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -178,10 +178,10 @@ export default function Register({ artFields = [] }) {
                                         <div className="w-16 h-16 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full flex items-center justify-center mx-auto mb-4">
                                             <span className="text-2xl font-bold text-white">{item.step}</span>
                                         </div>
-                                        <h3 className="text-lg font-bold text-gray-800 mb-2 font-['Vazirmatn']">
+                                        <h3 className="text-lg font-bold text-gray-800 mb-2 font-['iransansX']">
                                             {item.title}
                                         </h3>
-                                        <p className="text-gray-600 text-sm font-['Vazirmatn']">
+                                        <p className="text-gray-600 text-sm font-['iransansX']">
                                             {item.desc}
                                         </p>
                                     </div>
@@ -193,11 +193,11 @@ export default function Register({ artFields = [] }) {
                         <div className="text-center">
                             <Link
                                 href={selectedUserType === 'artist' ? '/artist/register' : '/judge/register'}
-                                className="bg-gradient-to-r from-primary-600 to-primary-700 text-white px-12 py-4 rounded-xl font-bold text-xl hover:from-primary-700 hover:to-primary-800 transition-all transform hover:scale-105 shadow-lg font-['Vazirmatn'] inline-block"
+                                className="bg-gradient-to-r from-primary-600 to-primary-700 text-white px-12 py-4 rounded-xl font-bold text-xl hover:from-primary-700 hover:to-primary-800 transition-all transform hover:scale-105 shadow-lg font-['iransansX'] inline-block"
                             >
                                 {trans('start_registration')}
                             </Link>
-                            <div className="mt-4 text-gray-600 font-['Vazirmatn']">
+                            <div className="mt-4 text-gray-600 font-['iransansX']">
                                 {trans('already_registered')}{' '}
                                 <Link
                                     href="/login"

@@ -30,11 +30,11 @@ export default function JudgeRegister() {
     const [selectedExpertiseAreas, setSelectedExpertiseAreas] = useState([]);
 
     const artFields = [
-        { id: 1, name: 'موسیقی', icon: MusicIcon, description: 'آهنگسازی، نوازندگی، خوانندگی و تولید موسیقی' },
+        { id: 1, name: 'موسیقی', icon: MusicIcon, description: 'آهنگسازی و نوازندگی و تولید موسیقی' },
         { id: 2, name: 'نقاشی', icon: PaintingIcon, description: 'نقاشی با رنگ روغن، آبرنگ، گواش و سایر تکنیک‌ها' },
         { id: 3, name: 'فیلم‌سازی', icon: FilmIcon, description: 'کارگردانی، فیلمنامه‌نویسی، تدوین و تولید فیلم' },
         { id: 4, name: 'مجسمه‌سازی', icon: SculptureIcon, description: 'مجسمه‌سازی با گچ، سنگ، فلز و سایر مواد' },
-        { id: 5, name: 'گرافیک', icon: GraphicIcon, description: 'طراحی گرافیک، پوستر، لوگو و تصویرسازی دیجیتال' },
+        { id: 5, name: 'گرافیک', icon: GraphicIcon, description: '  دیجیتال' },
         { id: 6, name: 'خوشنویسی', icon: CalligraphyIcon, description: 'خوشنویسی فارسی، عربی و ترکیبی' },
         { id: 7, name: 'عکاسی', icon: PhotographyIcon, description: 'عکاسی هنری، مستند و تجربی' },
         { id: 8, name: 'معماری', icon: ArchitectureIcon, description: 'طراحی معماری، نقشه‌کشی و طراحی داخلی' },
@@ -57,14 +57,14 @@ export default function JudgeRegister() {
     };
 
     return (
-        <FestivalLayout title="ثبت نام داور - جشنواره بین الملی مسیر ایران">
+        <FestivalLayout title="ثبت نام داور - جشنواره بین المللی مسیر ایران">
             <div className="max-w-4xl mx-auto">
                 <div className="text-center mb-12">
-                    <h1 className="text-4xl font-bold text-gray-800 mb-4 font-['Vazirmatn']">
+                    <h1 className="text-4xl font-bold text-gray-800 mb-4 font-['iransansX']">
                         ثبت نام داور
                     </h1>
-                    <p className="text-xl text-gray-600 font-['Vazirmatn']">
-                        برای داوری آثار هنری در جشنواره بین الملی مسیر ایران، لطفاً اطلاعات خود را تکمیل کنید
+                    <p className="text-xl text-gray-600 font-['iransansX']">
+                        برای داوری آثار هنری در جشنواره بین المللی مسیر ایران، لطفاً اطلاعات خود را تکمیل کنید
                     </p>
                 </div>
 
@@ -72,59 +72,59 @@ export default function JudgeRegister() {
                     <form onSubmit={handleSubmit} className="space-y-6">
                         {/* Personal Information */}
                         <div className="border-b border-gray-200 pb-6">
-                            <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
+                            <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['iransansX']">
                                 اطلاعات شخصی
                             </h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
+                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['iransansX']">
                                         نام <span className="text-red-500">*</span>
                                     </label>
                                     <input
                                         type="text"
                                         value={data.first_name}
                                         onChange={e => setData('first_name', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['iransansX']"
                                         required
                                     />
                                     {errors.first_name && <p className="text-red-500 text-sm mt-1">{errors.first_name}</p>}
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
+                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['iransansX']">
                                         نام خانوادگی <span className="text-red-500">*</span>
                                     </label>
                                     <input
                                         type="text"
                                         value={data.last_name}
                                         onChange={e => setData('last_name', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['iransansX']"
                                         required
                                     />
                                     {errors.last_name && <p className="text-red-500 text-sm mt-1">{errors.last_name}</p>}
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
+                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['iransansX']">
                                         شماره تماس <span className="text-red-500">*</span>
                                     </label>
                                     <input
                                         type="tel"
                                         value={data.phone}
                                         onChange={e => setData('phone', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['iransansX']"
                                         placeholder="09123456789"
                                         required
                                     />
                                     {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
+                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['iransansX']">
                                         ایمیل <span className="text-red-500">*</span>
                                     </label>
                                     <input
                                         type="email"
                                         value={data.email}
                                         onChange={e => setData('email', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['iransansX']"
                                         required
                                     />
                                     {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
@@ -134,31 +134,31 @@ export default function JudgeRegister() {
 
                         {/* Professional Information */}
                         <div className="border-b border-gray-200 pb-6">
-                            <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
+                            <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['iransansX']">
                                 اطلاعات حرفه‌ای
                             </h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
+                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['iransansX']">
                                         مدرک تحصیلی / صلاحیت
                                     </label>
                                     <input
                                         type="text"
                                         value={data.qualification}
                                         onChange={e => setData('qualification', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['iransansX']"
                                         placeholder="مثال: دکترای هنر، کارشناسی ارشد موسیقی"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
+                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['iransansX']">
                                         سازمان / موسسه
                                     </label>
                                     <input
                                         type="text"
                                         value={data.organization}
                                         onChange={e => setData('organization', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['iransansX']"
                                         placeholder="مثال: دانشگاه هنر تهران"
                                     />
                                 </div>
@@ -167,10 +167,10 @@ export default function JudgeRegister() {
 
                         {/* Expertise Areas */}
                         <div className="border-b border-gray-200 pb-6">
-                            <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
+                            <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['iransansX']">
                                 حوزه‌های تخصصی داوری
                             </h2>
-                            <p className="text-gray-600 mb-4 font-['Vazirmatn']">
+                            <p className="text-gray-600 mb-4 font-['iransansX']">
                                 حوزه‌هایی که در آن‌ها تجربه داوری دارید را انتخاب کنید:
                             </p>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -187,8 +187,8 @@ export default function JudgeRegister() {
                                         <div className="text-3xl mb-2 flex justify-center">
                                             <field.icon className="w-8 h-8 text-primary-600" />
                                         </div>
-                                        <h3 className="font-bold text-gray-800 mb-1 font-['Vazirmatn']">{field.name}</h3>
-                                        <p className="text-xs text-gray-600 font-['Vazirmatn']">{field.description}</p>
+                                        <h3 className="font-bold text-gray-800 mb-1 font-['iransansX']">{field.name}</h3>
+                                        <p className="text-xs text-gray-600 font-['iransansX']">{field.description}</p>
                                     </div>
                                 ))}
                             </div>
@@ -197,18 +197,18 @@ export default function JudgeRegister() {
 
                         {/* Bio */}
                         <div className="border-b border-gray-200 pb-6">
-                            <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
+                            <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['iransansX']">
                                 بیوگرافی و تجربیات
                             </h2>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
+                                <label className="block text-sm font-medium text-gray-700 mb-2 font-['iransansX']">
                                     درباره تجربیات داوری و هنری خود بنویسید
                                 </label>
                                 <textarea
                                     value={data.bio}
                                     onChange={e => setData('bio', e.target.value)}
                                     rows={6}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
+                                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['iransansX']"
                                     placeholder="تجربیات داوری، سوابق هنری، افتخارات، مقالات و..."
                                 />
                             </div>
@@ -216,32 +216,32 @@ export default function JudgeRegister() {
 
                         {/* Password */}
                         <div className="border-b border-gray-200 pb-6">
-                            <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['Vazirmatn']">
+                            <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['iransansX']">
                                 رمز عبور
                             </h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
+                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['iransansX']">
                                         رمز عبور <span className="text-red-500">*</span>
                                     </label>
                                     <input
                                         type="password"
                                         value={data.password}
                                         onChange={e => setData('password', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['iransansX']"
                                         required
                                     />
                                     {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['Vazirmatn']">
+                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['iransansX']">
                                         تکرار رمز عبور <span className="text-red-500">*</span>
                                     </label>
                                     <input
                                         type="password"
                                         value={data.password_confirmation}
                                         onChange={e => setData('password_confirmation', e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['Vazirmatn']"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['iransansX']"
                                         required
                                     />
                                     {errors.password_confirmation && <p className="text-red-500 text-sm mt-1">{errors.password_confirmation}</p>}
@@ -254,7 +254,7 @@ export default function JudgeRegister() {
                             <button
                                 type="submit"
                                 disabled={processing}
-                                className="bg-gradient-to-r from-primary-600 to-primary-700 text-white px-12 py-4 rounded-xl font-bold text-lg hover:from-primary-700 hover:to-primary-800 transition-all transform hover:scale-105 shadow-lg font-['Vazirmatn'] disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="bg-gradient-to-r from-primary-600 to-primary-700 text-white px-12 py-4 rounded-xl font-bold text-lg hover:from-primary-700 hover:to-primary-800 transition-all transform hover:scale-105 shadow-lg font-['iransansX'] disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {processing ? 'در حال ثبت نام...' : 'ثبت نام به عنوان داور'}
                             </button>
@@ -262,7 +262,7 @@ export default function JudgeRegister() {
 
                         {/* Login Link */}
                         <div className="text-center pt-4">
-                            <p className="text-gray-600 font-['Vazirmatn']">
+                            <p className="text-gray-600 font-['iransansX']">
                                 قبلاً ثبت نام کرده‌اید؟{' '}
                                 <Link href="/login" className="text-primary-600 hover:text-primary-700 font-semibold">
                                     وارد شوید
