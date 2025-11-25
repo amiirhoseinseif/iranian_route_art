@@ -39,17 +39,11 @@ class ArtController extends Controller
     {
         $userType = request()->session()->get('user_type');
         $userId = request()->session()->get('user_id');
-
-        if ($userType !== 'artist' || !$userId) {
-            // Store the intended URL in session for redirect after login
-            $intendedUrl = request()->fullUrl();
-            request()->session()->put('url.intended', $intendedUrl);
-            return redirect()->route('login');
-        }
-
-        $artist = \App\Models\Artist::find($userId);
-        if (!$artist) {
-            return redirect()->route('login');
+        $isAuthenticated = ($userType === 'artist' && $userId);
+        
+        $artist = null;
+        if ($isAuthenticated) {
+            $artist = \App\Models\Artist::find($userId);
         }
 
         // Get art_field_id from query parameter
@@ -105,6 +99,7 @@ class ArtController extends Controller
         return Inertia::render('Artist/ArtCreate', [
             'artFields' => $artFields,
             'artist' => $artist,
+            'isAuthenticated' => $isAuthenticated,
             'selectedArtFieldId' => $selectedArtFieldId ? (int) $selectedArtFieldId : null,
         ]);
     }

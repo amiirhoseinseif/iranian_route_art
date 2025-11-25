@@ -1,17 +1,20 @@
 import React from 'react';
 import FestivalLayout from '@/Layouts/FestivalLayout';
 import { BellIcon } from '@/Components/SvgIcons';
+import { useTranslation } from '@/Utils/translation';
 
 export default function ArtistNotifications() {
+    const { trans } = useTranslation();
+    
     return (
-        <FestivalLayout title="اعلان‌ها - جشنواره بین المللی مسیر ایران">
+        <FestivalLayout title={`${trans('notifications_title')} - ${trans('site_title')}`}>
             <div className="max-w-7xl mx-auto">
                 <div className="mb-8">
                     <h1 className="text-3xl font-bold text-gray-800 mb-2 font-['iransansX']">
-                        اعلان‌ها
+                        {trans('notifications_title')}
                     </h1>
                     <p className="text-gray-600 font-['iransansX']">
-                        اطلاعیه‌ها و پیام‌های مهم
+                        {trans('notifications_description')}
                     </p>
                 </div>
 
@@ -19,10 +22,10 @@ export default function ArtistNotifications() {
                     <div className="text-center py-12">
                         <BellIcon className="w-16 h-16 mx-auto text-gray-400 mb-4" />
                         <h3 className="text-xl font-bold text-gray-800 mb-2 font-['iransansX']">
-                            صفحه اعلان‌ها
+                            {trans('notifications_page_title')}
                         </h3>
                         <p className="text-gray-600 font-['iransansX']">
-                            این صفحه به زودی آماده خواهد شد
+                            {trans('settings_coming_soon')}
                         </p>
                     </div>
                 </div>

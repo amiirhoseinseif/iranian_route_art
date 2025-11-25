@@ -99,7 +99,7 @@ export default function Login({ csrf_token }) {
                                 <p className="text-sm text-gray-600 font-['iransansX']">
                                     {trans('not_registered')}{' '}
                                     <Link
-                                        href="/register"
+                                        href="/artist/register"
                                         className="font-medium text-primary-600 hover:text-primary-500"
                                     >
                                         {trans('register_here')}

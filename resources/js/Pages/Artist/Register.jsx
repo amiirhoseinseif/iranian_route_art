@@ -191,7 +191,7 @@ export default function ArtistRegister({ artFields = [] }) {
                                                         {description}
                                                     </p>
                                                 </div>
-                                                <Icon className="w-10 h-10 text-primary-500" />
+                                                {/* <Icon className="w-10 h-10 text-primary-500" /> */}
                                             </div>
                                         </button>
                                     );

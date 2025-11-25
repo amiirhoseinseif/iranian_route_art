@@ -35,8 +35,10 @@ import {
 const uniLogosSrc = new URL('../../../public/uni_logos.png', import.meta.url).href;
 
 export default function Home({ artFields = [] }) {
-    const { trans } = useTranslation();
+    const { trans, getLocale, isRTL } = useTranslation();
     const { auth } = usePage().props;
+    const locale = getLocale();
+    const rtl = isRTL();
     
     // Map icon names to icon components
     const iconMap = {
@@ -59,15 +61,9 @@ export default function Home({ artFields = [] }) {
     };
     
     const handleArtFieldClick = (fieldId) => {
-        const isAuthenticated = auth?.user && auth?.user_type === 'artist';
-        
-        if (isAuthenticated) {
-            // User is logged in as artist, redirect to create page with art_field_id
-            router.visit(`/artist/arts/create?art_field_id=${fieldId}`);
-        } else {
-            // User is not logged in, redirect to login with redirect URL
-            router.visit(`/login?redirect=/artist/arts/create&art_field_id=${fieldId}`);
-        }
+        // Always redirect to create page with art_field_id (public route)
+        // The page will show guide for everyone, and form fields only for authenticated users
+        router.visit(`/artist/arts/create?art_field_id=${fieldId}`);
     };
     const [scrollY, setScrollY] = useState(0);
     const [showScrollIndicator, setShowScrollIndicator] = useState(true);
@@ -114,6 +110,12 @@ export default function Home({ artFields = [] }) {
             descriptionTone: 'text-white/80',
         },
     ];
+    
+    // Set document direction based on locale
+    useEffect(() => {
+        document.documentElement.dir = locale === 'fa' ? 'rtl' : 'ltr';
+        document.documentElement.lang = locale;
+    }, [locale]);
     
     useEffect(() => {
         const handleScroll = () => {
@@ -273,7 +275,7 @@ export default function Home({ artFields = [] }) {
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[500px] lg:min-h-[600px]">
                         {/* Poster - Left Side (Right in RTL) */}
-                        <div className="order-2 lg:order-1 flex justify-center lg:justify-end">
+                        <div className="order-2 lg:order-1 flex flex-col justify-center lg:justify-end items-center lg:items-end gap-4">
                             <div className="relative w-full sm:w-auto">
                                 <div className="relative rounded-2xl overflow-hidden shadow-2xl transform hover:scale-[1.02] transition-transform duration-300 bg-white backdrop-blur-sm p-2 sm:p-3 lg:p-4">
                                     <img
@@ -294,6 +296,17 @@ export default function Home({ artFields = [] }) {
                                 <div className="absolute -top-4 -right-4 w-20 h-20 sm:w-24 sm:h-24 lg:w-32 lg:h-32 bg-secondary-400/30 rounded-full filter blur-2xl -z-10 hidden sm:block"></div>
                                 <div className="absolute -bottom-4 -left-4 w-24 h-24 sm:w-32 sm:h-32 lg:w-40 lg:h-40 bg-primary-400/30 rounded-full filter blur-2xl -z-10 hidden sm:block"></div>
                             </div>
+                            {/* Download Poster Button */}
+                            <a
+                                href="/poster.jpg"
+                                download="poster-jashnvare-masir-iran.jpg"
+                                className="group relative inline-flex items-center gap-3 px-6 py-3 bg-white/20 backdrop-blur-md border-2 border-white/30 text-white rounded-xl font-bold text-sm sm:text-base hover:bg-white/30 transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl font-['iransansX']"
+                            >
+                                <svg className="w-5 h-5 transform group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                                <span>دانلود پوستر</span>
+                            </a>
                         </div>
 
                         {/* Hero Content - Right Side (Left in RTL) */}
@@ -339,7 +352,7 @@ export default function Home({ artFields = [] }) {
                                 
                                 <div className="flex flex-col sm:flex-row gap-4 items-center">
                                     <Link 
-                                        href="/register" 
+                                        href="/artist/register" 
                                         className="group relative w-full sm:w-auto px-8 py-4 bg-white text-primary-700 rounded-2xl font-bold text-base sm:text-lg transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-2xl hover:shadow-3xl font-['iransansX'] overflow-hidden text-center"
                                     >
                                         <span className="relative z-10 flex items-center justify-center gap-3 group-hover:text-white transition-colors duration-300">
@@ -385,6 +398,153 @@ export default function Home({ artFields = [] }) {
                         </div>
                     </div>
                 )} */}
+            </section>
+
+            {/* Call for Entries Section - فراخوان */}
+            <section className="container mx-auto px-4 sm:px-6 lg:px-8 mb-24">
+                <div className="bg-gradient-to-br from-white via-gray-50 to-white rounded-[3rem] p-8 sm:p-12 lg:p-16 shadow-2xl border border-gray-100">
+                    {/* Header */}
+                    <div className="text-center mb-12">
+                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-primary-800 mb-4 font-['iransansX']">
+                            فراخوان
+                        </h2>
+                        <div className="w-24 h-1 bg-gradient-to-r from-primary-600 to-secondary-500 mx-auto mt-4 rounded-full"></div>
+                    </div>
+
+                    {/* Main Content */}
+                    <div dir="rtl" className="max-w-5xl mx-auto space-y-8">
+                        {/* Title Section */}
+                        <div className="text-center space-y-4 mb-10">
+                            <h3 className="text-3xl md:text-4xl font-black text-primary-700 font-['iransansX']">
+                                جشنواره بین‌المللی مسیر ایران
+                            </h3>
+                            <p className="text-xl md:text-2xl text-gray-700 font-semibold font-['iransansX']">
+                                دانشگاه‌ها و دانشکده‌های هنر ایران
+                            </p>
+                        </div>
+
+                        {/* Introduction */}
+                        <div className="bg-gradient-to-br from-primary-50 to-secondary-50 rounded-2xl p-6 sm:p-8 border-r-4 border-primary-500">
+                            <p className="text-base md:text-lg lg:text-xl text-gray-800 leading-relaxed font-['iransansX'] text-justify">
+                                مسیر ایران از هنرمندان جهان دعوت می‌کند تا به افتخار ایران، دست بر ساز، قلم و ابزار هنر ببرند.
+                            </p>
+                            <p className="text-base md:text-lg lg:text-xl text-gray-800 leading-relaxed font-['iransansX'] text-justify mt-4">
+                                جشنواره به صورت مجازی و با موضوع "ایران" برگزار می‌شود.
+                            </p>
+                        </div>
+
+                        {/* Art Fields Section */}
+                        <div className="space-y-6">
+                            <h4 className="text-2xl md:text-3xl font-bold text-primary-700 font-['iransansX'] text-right">
+                                مسیر ایران پذیرای آثار در رشته‌های زیر می‌باشد:
+                            </h4>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {/* First Column */}
+                                <div className="space-y-3">
+                                    <div className="bg-white rounded-xl p-4 shadow-md border-r-4 border-primary-400">
+                                        <p className="text-base md:text-lg text-gray-800 font-['iransansX'] leading-relaxed">
+                                            <span className="font-bold text-primary-700">موسیقی</span> (نوازندگی و آهنگسازی)، <span className="font-bold text-primary-700">سینما</span> (فیلم کوتاه)، <span className="font-bold text-primary-700">نمایش</span> (فیلم نمایش) و <span className="font-bold text-primary-700">انیمیشن</span>.
+                                        </p>
+                                    </div>
+                                    <div className="bg-white rounded-xl p-4 shadow-md border-r-4 border-secondary-400">
+                                        <p className="text-base md:text-lg text-gray-800 font-['iransansX'] leading-relaxed">
+                                            <span className="font-bold text-primary-700">نقاشی</span> (سبک، تکنیک و اندازه آزاد)، <span className="font-bold text-primary-700">مجسمه‌سازی</span>، <span className="font-bold text-primary-700">خوشنویسی</span>، <span className="font-bold text-primary-700">گرافیک</span> (طراحی پوستر، نشانه و طراحی متحرک)، <span className="font-bold text-primary-700">تصویرسازی</span>، <span className="font-bold text-primary-700">عکاسی</span> (تک عکس و مجموعه) و <span className="font-bold text-primary-700">هنرهای جدید</span>.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Second Column */}
+                                <div className="space-y-3">
+                                    <div className="bg-white rounded-xl p-4 shadow-md border-r-4 border-primary-500">
+                                        <p className="text-base md:text-lg text-gray-800 font-['iransansX'] leading-relaxed">
+                                            <span className="font-bold text-primary-700">معماری</span>، <span className="font-bold text-primary-700">طراحی صنعتی</span>، <span className="font-bold text-primary-700">طراحی لباس</span>، <span className="font-bold text-primary-700">طراحی پارچه</span>، <span className="font-bold text-primary-700">طراحی فرش</span>، <span className="font-bold text-primary-700">بافت فرش</span> و <span className="font-bold text-primary-700">صنایع دستی</span>.
+                                        </p>
+                                    </div>
+                                    <div className="bg-white rounded-xl p-4 shadow-md border-r-4 border-secondary-500">
+                                        <p className="text-base md:text-lg text-gray-800 font-['iransansX'] leading-relaxed">
+                                            <span className="font-bold text-primary-700">ادبیات</span>: داستان کوتاه و شعر.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="bg-gradient-to-r from-primary-100 to-secondary-100 rounded-xl p-4 border border-primary-200">
+                                <p className="text-base md:text-lg text-gray-800 font-['iransansX'] text-center">
+                                    <span className="font-bold text-primary-700">سبک، تکنیک و اندازه آزاد است.</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Important Notes */}
+                        <div className="space-y-4 mt-10">
+                            <div className="bg-white rounded-xl p-6 shadow-lg border-l-4 border-primary-600">
+                                <p className="text-base md:text-lg text-gray-800 leading-relaxed font-['iransansX'] text-justify mb-3">
+                                    جشنواره مسیر ایران هیچ‌گونه رتبه‌بندی و گزینش مقام اول و دوم ندارد.
+                                </p>
+                                <p className="text-base md:text-lg text-gray-800 leading-relaxed font-['iransansX'] text-justify mb-3">
+                                    مسیر ایران بستری برابر جهت انتشار و تقدیر از آثار پذیرفته شده در جشنواره است.
+                                </p>
+                                <p className="text-base md:text-lg text-gray-800 leading-relaxed font-['iransansX'] text-justify mb-3">
+                                    لوح جشنواره، با افتخار از طرف دانشگاه هنر ایران به تمامی آثار پذیرفته شده اعطا خواهد شد.
+                                </p>
+                                <p className="text-base md:text-lg text-gray-800 leading-relaxed font-['iransansX'] text-justify">
+                                    بازبینی آثار توسط اساتید هنر از دانشگاه‌های هنر ایران صورت می‌پذیرد.
+                                </p>
+                            </div>
+
+                            <div className="bg-red-50 rounded-xl p-6 border-r-4 border-red-400">
+                                <p className="text-base md:text-lg text-red-800 font-bold font-['iransansX'] text-center">
+                                    آثار باید مختص به جشنواره مسیر ایران تولید شده باشند.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Deadline Section */}
+                        <div className="bg-gradient-to-br from-primary-600 to-primary-700 rounded-2xl p-8 text-center shadow-xl mt-10">
+                            <div className="space-y-4">
+                                <h4 className="text-2xl md:text-3xl font-black text-white font-['iransansX']">
+                                    مهلت ارسال آثار
+                                </h4>
+                                <p className="text-3xl md:text-4xl font-black text-white font-['iransansX']">
+                                    نوروز ۱۴۰۵
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Website Link */}
+                        <div className="bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 border-2 border-primary-200 text-center mt-8">
+                            <p className="text-base md:text-lg text-gray-700 mb-4 font-['iransansX']">
+                                برای ارسال اثر و مطالعهٔ جزئیات کامل و شرایط فنی هر رشته (مانند فرمت‌های قابل قبول) به وب‌سایت رسمی جشنواره مراجعه بفرمایید:
+                            </p>
+                            <a 
+                                href="https://www.iranian-route.com" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="inline-block text-2xl md:text-3xl font-bold text-primary-700 hover:text-primary-800 transition-colors duration-300 font-['iransansX'] break-all"
+                            >
+                                WWW.IRANIAN-ROUTE.COM
+                            </a>
+                        </div>
+
+                        {/* Download PDF Button */}
+                        <div className="flex justify-center mt-8">
+                            <a
+                                href="/farakhan.pdf"
+                                download="farakhan-jashnvare-masir-iran.pdf"
+                                className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-primary-600 to-primary-700 text-white rounded-xl font-bold text-base sm:text-lg hover:from-primary-700 hover:to-primary-800 transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-xl hover:shadow-2xl font-['iransansX']"
+                            >
+                                <svg className="w-6 h-6 transform group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                </svg>
+                                <span>دانلود PDF متن فراخوان</span>
+                                <svg className="w-5 h-5 transform group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <section className="container mx-auto px-4 sm:px-6 lg:px-8 mb-20 bg-white rounded-2xl">
@@ -447,8 +607,12 @@ export default function Home({ artFields = [] }) {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8">
                     {artFields.map((field) => {
                         const IconComponent = field.icon_name ? (iconMap[field.icon_name] || PaletteIcon) : PaletteIcon;
-                        const fieldName = field.name || trans('art_field');
-                        const fieldDesc = field.description_translated || field.description || '';
+                        const fieldName = locale === 'en' 
+                            ? (field.name_en || field.name || trans('art_field'))
+                            : (field.name || trans('art_field'));
+                        const fieldDesc = locale === 'en'
+                            ? (field.description_en || field.description_translated || field.description || '')
+                            : (field.description_translated || field.description || '');
                         
                         return (
                             <div 
@@ -469,9 +633,9 @@ export default function Home({ artFields = [] }) {
                                     <h3 className="text-lg font-bold text-white mb-2 font-['iransansX'] group-hover:text-primary-700 transition-colors">
                                         {fieldName}
                                     </h3>
-                                    <p className="text-sm text-white font-['iransansX'] line-clamp-2">
+                                    {/* <p className="text-sm text-white font-['iransansX'] line-clamp-2">
                                         {fieldDesc}
-                                    </p>
+                                    </p> */}
                                 </div>
                                 
                                 {/* Shine Effect */}
@@ -590,7 +754,7 @@ export default function Home({ artFields = [] }) {
                         {trans('register_now_desc')}
                     </p>
                     <Link 
-                        href="/register" 
+                        href="/artist/register" 
                         className="inline-block px-12 py-6 bg-gradient-to-r from-primary-600 via-primary-700 to-primary-800 text-white rounded-2xl font-bold text-xl hover:from-primary-700 hover:via-primary-800 hover:to-primary-900 transition-all duration-300 transform hover:scale-110 active:scale-95 shadow-2xl hover:shadow-3xl font-['iransansX'] relative overflow-hidden group"
                     >
                         <span className="relative z-10 flex items-center gap-3">

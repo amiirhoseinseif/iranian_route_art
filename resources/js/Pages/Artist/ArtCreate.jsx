@@ -3,11 +3,12 @@ import { Link, useForm } from '@inertiajs/react';
 import FestivalLayout from '@/Layouts/FestivalLayout';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
+import { WarningIcon } from '@/Components/SvgIcons';
 import { route } from '@/Utils/route';
 import { useTranslation } from '@/Utils/translation';
 
-export default function ArtCreate({ artFields = [], selectedArtFieldId = null }) {
-    const { getLocale, isRTL } = useTranslation();
+export default function ArtCreate({ artFields = [], selectedArtFieldId = null, artist = null, isAuthenticated = false }) {
+    const { trans, getLocale, isRTL } = useTranslation();
     const locale = getLocale();
     const rtl = isRTL();
     const [selectedArtField, setSelectedArtField] = useState(null);
@@ -53,6 +54,9 @@ export default function ArtCreate({ artFields = [], selectedArtFieldId = null })
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (!isAuthenticated) {
+            return;
+        }
         post(route('artist.arts.store'), {
             forceFormData: true,
         });
@@ -382,32 +386,30 @@ export default function ArtCreate({ artFields = [], selectedArtFieldId = null })
     const notesText = metadataTranslated.notes;
 
     return (
-        <FestivalLayout title={locale === 'fa' ? 'ثبت اثر هنری - جشنواره بین‌المللی مسیر ایران' : 'Submit Artwork - Iranian Route International Festival'}>
-            <div className="max-w-6xl mx-auto">
-                <div className="mb-8 text-center">
-                    <h1 className={`text-4xl font-bold text-gray-800 mb-4 ${rtl ? "font-['iransansX']" : "font-['iransansX']"}`}>
-                        {locale === 'fa' ? 'ثبت اثر هنری' : 'Submit Your Artwork'}
+        <FestivalLayout title={`${trans('submit_artwork')} - ${trans('site_title')}`}>
+            <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                <div className="mb-6 sm:mb-8 text-center">
+                    <h1 className={`text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-3 sm:mb-4 ${rtl ? "font-['iransansX']" : "font-['iransansX']"}`}>
+                        {trans('submit_artwork_title')}
                     </h1>
-                    <p className={`text-xl text-gray-600 ${rtl ? "font-['iransansX']" : "font-['iransansX']"}`}>
-                        {locale === 'fa'
-                            ? 'جشنواره بین‌المللی مسیر ایران - مهلت ارسال: نوروز ۱۴۰۵'
-                            : 'Iranian Route International Festival – Submission deadline: Nowruz 2026'}
+                    <p className={`text-base sm:text-lg lg:text-xl text-gray-600 ${rtl ? "font-['iransansX']" : "font-['iransansX']"}`}>
+                        {trans('festival_subtitle')}
                     </p>
-                    <div className="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-200">
-                        <p className={`text-blue-800 ${rtl ? "font-['iransansX']" : "font-['iransansX']"}`}>
-                            <strong>{locale === 'fa' ? 'موضوع جشنواره:' : 'Festival Theme:'}</strong>{' '}
-                            {locale === 'fa' ? 'ایران است. فرهنگ و هنر ایران' : 'Iran – Celebrating Persian culture and art'}
+                    <div className="mt-3 sm:mt-4 p-3 sm:p-4 bg-blue-50 rounded-xl border border-blue-200">
+                        <p className={`text-sm sm:text-base text-blue-800 ${rtl ? "font-['iransansX']" : "font-['iransansX']"}`}>
+                            <strong>{trans('festival_theme')}:</strong>{' '}
+                            {trans('festival_theme_description')}
                         </p>
                     </div>
                 </div>
 
-                <div className="bg-white rounded-2xl shadow-lg p-8">
-                    <form onSubmit={handleSubmit} className="space-y-8">
-                        <div className="border-b border-gray-200 pb-8">
-                            <h2 className={`text-2xl font-bold text-gray-800 mb-6 ${rtl ? "font-['iransansX']" : "font-['iransansX']"}`}>
-                                {locale === 'fa' ? 'انتخاب رشته هنری' : 'Choose Your Discipline'} <span className="text-red-500">*</span>
+                <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 lg:p-8">
+                    <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
+                        <div className="border-b border-gray-200 pb-6 sm:pb-8">
+                            <h2 className={`text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 ${rtl ? "font-['iransansX']" : "font-['iransansX']"}`}>
+                                {trans('choose_discipline')} <span className="text-red-500">*</span>
                             </h2>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                                 {artFields.map((field) => (
                                     <div
                                         key={field.id}
@@ -434,13 +436,13 @@ export default function ArtCreate({ artFields = [], selectedArtFieldId = null })
                         </div>
 
                         {selectedArtField?.metadata_translated && (
-                            <div className="border-b border-gray-200 pb-8">
-                                <h2 className={`text-2xl font-bold text-gray-800 mb-4 ${rtl ? "font-['iransansX']" : "font-['iransansX']"}`}>
-                                    {metadataTranslated.headline || (locale === 'fa' ? selectedArtField.name : selectedArtField.name_en || selectedArtField.name)}
+                            <div className="border-b border-gray-200 pb-6 sm:pb-8">
+                                <h2 className={`text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4 ${rtl ? "font-['iransansX']" : "font-['iransansX']"}`}>
+                                    {trans('submission_guide')} - {metadataTranslated.headline || (locale === 'fa' ? selectedArtField.name : selectedArtField.name_en || selectedArtField.name)}
                                 </h2>
                                 {submissionDeadline && (
-                                    <div className={`${rtl ? "font-['iransansX']" : "font-['iransansX']"} text-lg text-primary-700 font-semibold mb-4`}>
-                                        {locale === 'fa' ? `مهلت ارسال آثار: ${submissionDeadline}` : `Submission deadline: ${submissionDeadline}`}
+                                    <div className={`${rtl ? "font-['iransansX']" : "font-['iransansX']"} text-base sm:text-lg text-primary-700 font-semibold mb-3 sm:mb-4`}>
+                                        {trans('submission_deadline')}: {submissionDeadline}
                                     </div>
                                 )}
                                 {guidelinesText && (
@@ -456,31 +458,59 @@ export default function ArtCreate({ artFields = [], selectedArtFieldId = null })
                             </div>
                         )}
 
-                        {selectedArtField && requiredFields.length > 0 && (
-                            <div className="border-b border-gray-200 pb-8">
-                                <h2 className={`text-2xl font-bold text-gray-800 mb-6 ${rtl ? "font-['iransansX']" : "font-['iransansX']"}`}>
-                                    {locale === 'fa' ? 'اطلاعات اصلی اثر' : 'Required Information'} <span className="text-red-500">*</span>
+                        {!isAuthenticated && selectedArtField && (
+                            <div className="border-b border-gray-200 pb-6 sm:pb-8">
+                                <div className="bg-yellow-50 border-2 border-yellow-300 rounded-xl p-4 sm:p-6">
+                                    <h3 className={`text-lg sm:text-xl font-bold text-yellow-800 mb-3 flex items-center gap-2 ${rtl ? "font-['iransansX']" : "font-['iransansX']"}`}>
+                                        <WarningIcon className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-600 flex-shrink-0" />
+                                        <span>{trans('registration_required_message')}</span>
+                                    </h3>
+                                    <p className={`text-sm sm:text-base text-yellow-700 mb-4 ${rtl ? "font-['iransansX']" : "font-['iransansX']"}`}>
+                                        {trans('registration_required_description')}
+                                    </p>
+                                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                                        <Link
+                                            href="/artist/register"
+                                            className={`flex-1 px-4 sm:px-6 py-2 sm:py-3 bg-primary-600 text-white rounded-xl hover:bg-primary-700 transition-colors text-center text-sm sm:text-base ${rtl ? "font-['iransansX']" : "font-['iransansX']"}`}
+                                        >
+                                            {trans('register')}
+                                        </Link>
+                                        <Link
+                                            href="/login"
+                                            className={`flex-1 px-4 sm:px-6 py-2 sm:py-3 bg-gray-600 text-white rounded-xl hover:bg-gray-700 transition-colors text-center text-sm sm:text-base ${rtl ? "font-['iransansX']" : "font-['iransansX']"}`}
+                                        >
+                                            {trans('login')}
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {isAuthenticated && selectedArtField && requiredFields.length > 0 && (
+                            <div className="border-b border-gray-200 pb-6 sm:pb-8">
+                                <h2 className={`text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 ${rtl ? "font-['iransansX']" : "font-['iransansX']"}`}>
+                                    {trans('required_information')} <span className="text-red-500">*</span>
                                 </h2>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                                     {requiredFields.map(requirement => renderField(requirement))}
                                 </div>
                             </div>
                         )}
 
-                        {selectedArtField && optionalFields.length > 0 && (
-                            <div className="border-b border-gray-200 pb-8">
-                                <h2 className={`text-2xl font-bold text-gray-800 mb-6 ${rtl ? "font-['iransansX']" : "font-['iransansX']"}`}>
-                                    {locale === 'fa' ? 'اطلاعات اختیاری' : 'Optional Information'}
+                        {isAuthenticated && selectedArtField && optionalFields.length > 0 && (
+                            <div className="border-b border-gray-200 pb-6 sm:pb-8">
+                                <h2 className={`text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 ${rtl ? "font-['iransansX']" : "font-['iransansX']"}`}>
+                                    {trans('optional_information')}
                                 </h2>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                                     {optionalFields.map(requirement => renderField(requirement))}
                                 </div>
                             </div>
                         )}
 
-                        <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-6">
-                            <h3 className={`text-lg font-bold text-yellow-800 mb-4 ${rtl ? "font-['iransansX']" : "font-['iransansX']"}`}>
-                                {locale === 'fa' ? 'نکات مهم' : 'Important Notes'}
+                        <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 sm:p-6">
+                            <h3 className={`text-base sm:text-lg font-bold text-yellow-800 mb-3 sm:mb-4 ${rtl ? "font-['iransansX']" : "font-['iransansX']"}`}>
+                                {trans('important_notes')}
                             </h3>
                             <ul className={`space-y-2 text-yellow-700 ${rtl ? "font-['iransansX']" : "font-['iransansX']"}`}>
                                 <li>{locale === 'fa' ? '• فایل‌ها نباید شامل نام هنرمند، واترمارک یا هرگونه علامت شناسایی باشند' : '• Files must not contain your name, watermarks, or any identifying marks.'}</li>
@@ -490,17 +520,19 @@ export default function ArtCreate({ artFields = [], selectedArtFieldId = null })
                             </ul>
                         </div>
 
-                        <div className="flex items-center justify-end space-x-4 space-x-reverse">
-                            <Link
-                                href="/artist/arts"
-                                className={`px-6 py-3 bg-gray-500 text-white rounded-xl hover:bg-gray-600 transition-colors ${rtl ? "font-['iransansX']" : "font-['iransansX']"}`}
-                            >
-                                {locale === 'fa' ? 'انصراف' : 'Cancel'}
-                            </Link>
-                            <PrimaryButton disabled={processing || !data.art_field_id}>
-                                {processing ? (locale === 'fa' ? 'در حال ثبت...' : 'Submitting...') : (locale === 'fa' ? 'ثبت اثر' : 'Submit Artwork')}
-                            </PrimaryButton>
-                        </div>
+                        {isAuthenticated && (
+                            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3 sm:gap-4 space-x-0 sm:space-x-4 space-x-reverse">
+                                <Link
+                                    href="/artist/arts"
+                                    className={`w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-gray-500 text-white rounded-xl hover:bg-gray-600 transition-colors text-center text-sm sm:text-base ${rtl ? "font-['iransansX']" : "font-['iransansX']"}`}
+                                >
+                                    {trans('cancel')}
+                                </Link>
+                                <PrimaryButton disabled={processing || !data.art_field_id} className="w-full sm:w-auto">
+                                    {processing ? trans('submitting') : trans('submit_artwork_button')}
+                                </PrimaryButton>
+                            </div>
+                        )}
                     </form>
                 </div>
             </div>

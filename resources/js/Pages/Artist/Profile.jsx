@@ -5,8 +5,10 @@ import PersianDateInput from '@/Components/PersianDateInput';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import { route } from '@/Utils/route';
+import { useTranslation } from '@/Utils/translation';
 
 export default function ArtistProfile({ artist }) {
+    const { trans } = useTranslation();
     const { data, setData, patch, processing, errors } = useForm({
         first_name: artist?.first_name || '',
         last_name: artist?.last_name || '',
@@ -26,14 +28,14 @@ export default function ArtistProfile({ artist }) {
     };
 
     return (
-        <FestivalLayout title="پروفایل هنرمند - جشنواره بین المللی مسیر ایران">
+        <FestivalLayout title={`${trans('artist_profile_title')} - ${trans('site_title')}`}>
             <div className="max-w-4xl mx-auto">
                 <div className="mb-8">
                     <h1 className="text-3xl font-bold text-gray-800 mb-2 font-['iransansX']">
-                        پروفایل هنرمند
+                        {trans('artist_profile_title')}
                     </h1>
                     <p className="text-gray-600 font-['iransansX']">
-                        اطلاعات شخصی و هنری خود را مدیریت کنید
+                        {trans('artist_profile_description')}
                     </p>
                 </div>
 
@@ -42,7 +44,7 @@ export default function ArtistProfile({ artist }) {
                         {/* Personal Information */}
                         <div className="border-b border-gray-200 pb-6">
                             <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['iransansX']">
-                                اطلاعات شخصی
+                                {trans('personal_information')}
                             </h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
@@ -115,11 +117,11 @@ export default function ArtistProfile({ artist }) {
                         {/* Social Media */}
                         <div className="border-b border-gray-200 pb-6">
                             <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['iransansX']">
-                                شبکه‌های اجتماعی (اختیاری)
+                                {trans('social_media_optional')}
                             </h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <InputLabel htmlFor="telegram_id" value="آیدی تلگرام" />
+                                    <InputLabel htmlFor="telegram_id" value={trans('telegram_id_label')} />
                                     <input
                                         id="telegram_id"
                                         type="text"
@@ -131,7 +133,7 @@ export default function ArtistProfile({ artist }) {
                                 </div>
                                 
                                 <div>
-                                    <InputLabel htmlFor="whatsapp_id" value="آیدی واتساپ" />
+                                    <InputLabel htmlFor="whatsapp_id" value={trans('whatsapp_id_label')} />
                                     <input
                                         id="whatsapp_id"
                                         type="text"
@@ -143,7 +145,7 @@ export default function ArtistProfile({ artist }) {
                                 </div>
                                 
                                 <div>
-                                    <InputLabel htmlFor="instagram_id" value="آیدی اینستاگرام" />
+                                    <InputLabel htmlFor="instagram_id" value={trans('instagram_id_label')} />
                                     <input
                                         id="instagram_id"
                                         type="text"
@@ -155,7 +157,7 @@ export default function ArtistProfile({ artist }) {
                                 </div>
                                 
                                 <div>
-                                    <InputLabel htmlFor="linkedin_id" value="آیدی لینکدین" />
+                                    <InputLabel htmlFor="linkedin_id" value={trans('linkedin_id_label')} />
                                     <input
                                         id="linkedin_id"
                                         type="text"
@@ -171,17 +173,17 @@ export default function ArtistProfile({ artist }) {
                         {/* Bio */}
                         <div className="pb-6">
                             <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['iransansX']">
-                                بیوگرافی (اختیاری)
+                                {trans('bio_label')}
                             </h2>
                             <div>
-                                <InputLabel htmlFor="bio" value="درباره خودتان بنویسید" />
+                                <InputLabel htmlFor="bio" value={trans('bio_placeholder')} />
                                 <textarea
                                     id="bio"
                                     value={data.bio}
                                     onChange={e => setData('bio', e.target.value)}
                                     rows={4}
                                     className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['iransansX']"
-                                    placeholder="تجربیات هنری، سبک کاری، افتخارات و..."
+                                    placeholder={trans('bio_hint')}
                                 />
                             </div>
                         </div>
@@ -192,10 +194,10 @@ export default function ArtistProfile({ artist }) {
                                 href="/artist/dashboard"
                                 className="px-6 py-3 bg-gray-500 text-white rounded-xl hover:bg-gray-600 transition-colors font-['iransansX']"
                             >
-                                انصراف
+                                {trans('cancel')}
                             </Link>
                             <PrimaryButton disabled={processing}>
-                                {processing ? 'در حال ذخیره...' : 'ذخیره تغییرات'}
+                                {processing ? trans('saving') : trans('save_changes')}
                             </PrimaryButton>
                         </div>
                     </form>

@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import { Head } from '@inertiajs/react';
-import { LogoIcon, HomeIcon, AboutIcon, ContactIcon, TelegramIcon, InstagramIcon, WhatsAppIcon, PaletteIcon, AddIcon, UploadIcon, ProfileIcon, BellIcon, SettingsIcon, UsersIcon, ScaleIcon, ClipboardIcon, StarIcon, ExitIcon, ChartBarIcon, EmailIcon, PhoneIcon, LocationIcon } from '@/Components/SvgIcons';
+import { LogoIcon, HomeIcon, AboutIcon, ContactIcon, TelegramIcon, InstagramIcon, WhatsAppIcon, PaletteIcon, AddIcon, UploadIcon, ProfileIcon, BellIcon, SettingsIcon, UsersIcon, ScaleIcon, ClipboardIcon, StarIcon, ExitIcon, ChartBarIcon, EmailIcon, LocationIcon } from '@/Components/SvgIcons';
 import Dropdown from '@/Components/Dropdown';
 import LanguageSwitcher, { LanguageSwitcherCompact } from '@/Components/LanguageSwitcher';
 import AuthModal from '@/Components/AuthModal';
 import { useTranslation } from '@/Utils/translation';
 
-export default function FestivalLayout({ children, title = 'جشنواره بین المللی مسیر ایران' }) {
-    const { auth } = usePage().props;
+export default function FestivalLayout({ children, title }) {
+    const { auth, locale } = usePage().props;
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
     const [showAuthModal, setShowAuthModal] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
@@ -17,6 +17,13 @@ export default function FestivalLayout({ children, title = 'جشنواره بی�
     const persianTagline = 'دانشگاه‌ها و دانشکده‌های هنر ایران';
     const englishTitle = 'Iranian Art Route Festival';
     const englishTagline = 'universities and faculties of art in iran';
+    
+    // Set document direction based on locale
+    useEffect(() => {
+        const currentLocale = locale || 'fa';
+        document.documentElement.dir = currentLocale === 'fa' ? 'rtl' : 'ltr';
+        document.documentElement.lang = currentLocale;
+    }, [locale]);
     
     useEffect(() => {
         const handleScroll = () => {
@@ -79,7 +86,7 @@ export default function FestivalLayout({ children, title = 'جشنواره بی�
 
     return (
         <>
-            <Head title={title} />
+            <Head title={title || trans('site_title')} />
             <div className="min-h-screen bg-gradient-to-br from-light-100 via-light-200 to-primary-100">
                 {/* Modern Header with Glassmorphism */}
                 <header 
@@ -193,56 +200,61 @@ export default function FestivalLayout({ children, title = 'جشنواره بی�
 
                             {/* Auth Section */}
                             {auth.user ? (
-                                <div className="hidden lg:flex items-center space-x-3 space-x-reverse flex-shrink-0">
-                                    {/* <div className="hidden xl:block text-right">
-                                        <p className={`text-sm font-semibold font-['iransansX'] transition-colors duration-300 ${
-                                            isScrolled ? 'text-gray-800' : 'text-white'
-                                        }`}>
-                                            {trans('welcome')}، {auth.user.first_name || auth.user.name}
-                                        </p>
-                                        <p className={`text-xs font-['iransansX'] transition-colors duration-300 ${
-                                            isScrolled ? 'text-gray-600' : 'text-white/80'
-                                        }`}>
-                                            {getUserRoleDisplayName(auth.user_type)}
-                                        </p>
-                                    </div> */}
-                                    
-                                    <Dropdown>
-                                        <Dropdown.Trigger>
-                                            <button className={`flex items-center space-x-2 space-x-reverse px-4 py-2.5 rounded-xl font-semibold font-['iransansX'] transition-all duration-300 shadow-lg hover:shadow-xl ${
-                                                isScrolled
-                                                    ? 'bg-secondary-600 text-white hover:bg-secondary-700'
-                                                    : 'bg-white text-secondary-600 hover:bg-secondary-100'
+                                <>
+                                    <div className="hidden lg:flex items-center space-x-3 space-x-reverse flex-shrink-0">
+                                        {/* <div className="hidden xl:block text-right">
+                                            <p className={`text-sm font-semibold font-['iransansX'] transition-colors duration-300 ${
+                                                isScrolled ? 'text-gray-800' : 'text-white'
                                             }`}>
-                                                <ProfileIcon className="w-5 h-5" />
-                                                <span className="hidden xl:inline">{auth.user.first_name || auth.user.name}</span>
-                                                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                                                </svg>
-                                            </button>
-                                        </Dropdown.Trigger>
-                                        <Dropdown.Content>
-                                            {getRoleBasedShortcuts(auth.user_type).map((shortcut, index) => {
-                                                const IconComponent = shortcut.icon;
-                                                return (
-                                                    <Dropdown.Link key={index} href={shortcut.href}>
-                                                        <span className="flex items-center space-x-2 space-x-reverse">
-                                                            <IconComponent className="w-4 h-4" />
-                                                            <span>{shortcut.label}</span>
-                                                        </span>
-                                                    </Dropdown.Link>
-                                                );
-                                            })}
-                                            <div className="border-t border-gray-200 my-1"></div>
-                                            <Dropdown.Link href={route('logout')} method="post" as="button">
-                                                <span className="flex items-center space-x-2 space-x-reverse text-red-600">
-                                                    <ExitIcon className="w-4 h-4" />
-                                                    <span>{trans('logout')}</span>
-                                                </span>
-                                            </Dropdown.Link>
-                                        </Dropdown.Content>
-                                    </Dropdown>
-                                </div>
+                                                {trans('welcome')}، {auth.user.first_name || auth.user.name}
+                                            </p>
+                                            <p className={`text-xs font-['iransansX'] transition-colors duration-300 ${
+                                                isScrolled ? 'text-gray-600' : 'text-white/80'
+                                            }`}>
+                                                {getUserRoleDisplayName(auth.user_type)}
+                                            </p>
+                                        </div> */}
+                                        
+                                        <Dropdown>
+                                            <Dropdown.Trigger>
+                                                <button className={`flex items-center space-x-2 space-x-reverse px-4 py-2.5 rounded-xl font-semibold font-['iransansX'] transition-all duration-300 shadow-lg hover:shadow-xl ${
+                                                    isScrolled
+                                                        ? 'bg-secondary-600 text-white hover:bg-secondary-700'
+                                                        : 'bg-white text-secondary-600 hover:bg-secondary-100'
+                                                }`}>
+                                                    <ProfileIcon className="w-5 h-5" />
+                                                    <span className="hidden xl:inline">{auth.user.first_name || auth.user.name}</span>
+                                                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                                                    </svg>
+                                                </button>
+                                            </Dropdown.Trigger>
+                                            <Dropdown.Content>
+                                                {getRoleBasedShortcuts(auth.user_type).map((shortcut, index) => {
+                                                    const IconComponent = shortcut.icon;
+                                                    return (
+                                                        <Dropdown.Link key={index} href={shortcut.href}>
+                                                            <span className="flex items-center space-x-2 space-x-reverse">
+                                                                <IconComponent className="w-4 h-4" />
+                                                                <span>{shortcut.label}</span>
+                                                            </span>
+                                                        </Dropdown.Link>
+                                                    );
+                                                })}
+                                                <div className="border-t border-gray-200 my-1"></div>
+                                                <Dropdown.Link href={route('logout')} method="post" as="button">
+                                                    <span className="flex items-center space-x-2 space-x-reverse text-red-600">
+                                                        <ExitIcon className="w-4 h-4" />
+                                                        <span>{trans('logout')}</span>
+                                                    </span>
+                                                </Dropdown.Link>
+                                            </Dropdown.Content>
+                                        </Dropdown>
+                                    </div>
+                                    <div className="hidden lg:flex items-center space-x-3 space-x-reverse flex-shrink-0">
+                                        <LanguageSwitcher isScrolled={isScrolled} />
+                                    </div>
+                                </>
                             ) : (
                                 <div className="hidden lg:flex items-center space-x-3 space-x-reverse flex-shrink-0">
                                     <LanguageSwitcher isScrolled={isScrolled} />
@@ -375,7 +387,7 @@ export default function FestivalLayout({ children, title = 'جشنواره بی�
                                 <Link href="/" className="inline-block mb-6">
                                     <LogoIcon className="h-16 w-auto" />
                                 </Link>
-                                <h3 className="text-2xl font-black mb-4 font-['iransansX']">جشنواره بین المللی مسیر ایران</h3>
+                                <h3 className="text-2xl font-black mb-4 font-['iransansX']">{trans('site_title')}</h3>
                                 <p className="text-gray-300 text-sm leading-relaxed font-['iransansX'] mb-6">
                                     {trans('site_description')}
                                 </p>
@@ -404,7 +416,7 @@ export default function FestivalLayout({ children, title = 'جشنواره بی�
 
                             {/* Quick Access */}
                             <div>
-                                <h4 className="text-lg font-bold mb-6 font-['iransansX'] border-b border-white/20 pb-3">دسترسی سریع</h4>
+                                <h4 className="text-lg font-bold mb-6 font-['iransansX'] border-b border-white/20 pb-3">{trans('quick_access')}</h4>
                                 <ul className="space-y-3">
                                     {[
                                         { href: '/', label: trans('home') },
@@ -433,7 +445,7 @@ export default function FestivalLayout({ children, title = 'جشنواره بی�
                                             <EmailIcon className="w-5 h-5" />
                                         </div>
                                         <div>
-                                            <p className="text-sm text-gray-400 font-['iransansX'] mb-1">ایمیل</p>
+                                            <p className="text-sm text-gray-400 font-['iransansX'] mb-1">{trans('email')}</p>
                                             <a href="mailto:info@iranianrouteart.ir" className="text-gray-300 hover:text-white transition-colors font-['iransansX']">
                                                 info@iranianrouteart.ir
                                             </a>
@@ -441,12 +453,12 @@ export default function FestivalLayout({ children, title = 'جشنواره بی�
                                     </li>
                                     <li className="flex items-start space-x-3 space-x-reverse group">
                                         <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-primary-600 transition-colors duration-300">
-                                            <PhoneIcon className="w-5 h-5" />
+                                            <TelegramIcon className="w-5 h-5" />
                                         </div>
                                         <div>
-                                            <p className="text-sm text-gray-400 font-['iransansX'] mb-1">تلفن</p>
-                                            <a href="tel:+982112345678" className="text-gray-300 hover:text-white transition-colors font-['iransansX']">
-                                                +98-21-12345678
+                                            <p className="text-sm text-gray-400 font-['iransansX'] mb-1">{trans('telegram')}</p>
+                                            <a href="https://t.me/iranian_route" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white transition-colors font-['iransansX']">
+                                                @iranian_route
                                             </a>
                                         </div>
                                     </li>
@@ -455,7 +467,7 @@ export default function FestivalLayout({ children, title = 'جشنواره بی�
                                             <LocationIcon className="w-5 h-5" />
                                         </div>
                                         <div>
-                                            <p className="text-sm text-gray-400 font-['iransansX'] mb-1">آدرس</p>
+                                            <p className="text-sm text-gray-400 font-['iransansX'] mb-1">{trans('address')}</p>
                                             <p className="text-gray-300 font-['iransansX']">
                                                 {trans('address_details')}
                                             </p>
@@ -466,15 +478,15 @@ export default function FestivalLayout({ children, title = 'جشنواره بی�
 
                             {/* Newsletter / Info */}
                             <div>
-                                <h4 className="text-lg font-bold mb-6 font-['iransansX'] border-b border-white/20 pb-3">اطلاعات بیشتر</h4>
+                                <h4 className="text-lg font-bold mb-6 font-['iransansX'] border-b border-white/20 pb-3">{trans('more_info')}</h4>
                                 <p className="text-gray-300 text-sm leading-relaxed font-['iransansX'] mb-6">
-                                    برای دریافت آخرین اخبار و اطلاعات جشنواره، ما را در شبکه‌های اجتماعی دنبال کنید.
+                                    {trans('follow_social_media')}
                                 </p>
                                 <Link 
                                     href="/about"
                                     className="inline-flex items-center space-x-2 space-x-reverse px-6 py-3 bg-primary-600 hover:bg-primary-700 rounded-xl font-semibold font-['iransansX'] transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
                                 >
-                                    <span>درباره جشنواره</span>
+                                    <span>{trans('about_festival')}</span>
                                     <svg className="w-5 h-5 transform -rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                                     </svg>
@@ -486,16 +498,8 @@ export default function FestivalLayout({ children, title = 'جشنواره بی�
                         <div className="border-t border-white/20 pt-8 mt-8">
                             <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
                                 <p className="text-gray-400 text-sm text-center font-['iransansX']">
-                                    © 2025 جشنواره بین المللی مسیر ایران. {trans('all_rights_reserved')}.
+                                    © 2025 {trans('site_title')}. {trans('all_rights_reserved')}.
                                 </p>
-                                <div className="flex items-center space-x-6 space-x-reverse text-sm text-gray-400">
-                                    <Link href="/rules" className="hover:text-white transition-colors font-['iransansX']">
-                                        {trans('festival_rules')}
-                                    </Link>
-                                    <Link href="/faq" className="hover:text-white transition-colors font-['iransansX']">
-                                        {trans('faq')}
-                                    </Link>
-                                </div>
                             </div>
                         </div>
                     </div>

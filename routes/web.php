@@ -13,6 +13,7 @@ Route::get('/', function () {
             'name' => $field->name,
             'name_en' => $field->name_en,
             'description' => $field->description,
+            'description_en' => $field->description_en,
             'description_translated' => $field->description_translated,
             'icon_name' => $field->icon_name,
         ];
@@ -43,11 +44,6 @@ Route::get('/login', [App\Http\Controllers\AuthController::class, 'showLoginForm
 Route::post('/login', [App\Http\Controllers\AuthController::class, 'login'])->name('login.store');
 Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 
-Route::get('/register', function () {
-    $artFields = \App\Models\ArtField::active()->get();
-    return Inertia::render('Auth/Register', ['artFields' => $artFields]);
-})->name('register');
-
 Route::get('/forgot-password', function () {
     return Inertia::render('Auth/ForgotPassword');
 })->name('forgot-password');
@@ -59,6 +55,8 @@ Route::prefix('artist')->group(function () {
     
     Route::post('/register', [App\Http\Controllers\ArtistController::class, 'register'])->name('artist.register.store');
     
+    // Public route for viewing art submission guide (accessible without login)
+    Route::get('/arts/create', [\App\Http\Controllers\ArtController::class, 'create'])->name('artist.arts.create');
     
     // Protected artist routes (require authentication)
     Route::middleware(['auth.artist'])->group(function () {
@@ -208,8 +206,6 @@ Route::prefix('artist')->group(function () {
             $arts = $artist->arts()->with('artField')->latest()->get();
             return Inertia::render('Artist/Arts', ['arts' => $arts]);
         })->name('artist.arts');
-        
-        Route::get('/arts/create', [\App\Http\Controllers\ArtController::class, 'create'])->name('artist.arts.create');
         
         Route::post('/arts', [App\Http\Controllers\ArtController::class, 'store'])->name('artist.arts.store');
         

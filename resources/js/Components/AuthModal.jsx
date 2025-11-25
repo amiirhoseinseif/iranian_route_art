@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useForm } from '@inertiajs/react';
 import { useTranslation } from '../Utils/translation';
 import { route } from '../Utils/route';
@@ -24,22 +24,12 @@ const XIcon = () => (
 
 export default function AuthModal({ isOpen, onClose }) {
     const { trans } = useTranslation();
-    const [activeTab, setActiveTab] = useState('login');
 
     // Login Form
     const loginForm = useForm({
         email: '',
         password: '',
         remember: false,
-    });
-
-    // Register Form
-    const registerForm = useForm({
-        name: '',
-        email: '',
-        password: '',
-        password_confirmation: '',
-        agree_terms: false,
     });
 
     const handleLoginSubmit = (e) => {
@@ -56,15 +46,6 @@ export default function AuthModal({ isOpen, onClose }) {
                 console.log('Login errors:', errors);
             }
         });
-    };
-
-    const handleRegisterSubmit = (e) => {
-        e.preventDefault();
-        console.log('Register form submitted:', registerForm.data);
-        
-        // For now, redirect to full artist registration page
-        // since simple registration requires more fields (art field, phone, etc.)
-        window.location.href = route('artist.register');
     };
 
     if (!isOpen) return null;
@@ -85,7 +66,7 @@ export default function AuthModal({ isOpen, onClose }) {
                     {/* Header with better spacing */}
                     <div className="relative flex items-center justify-between p-6 border-b border-gray-100">
                         <h2 className="text-2xl font-bold text-gray-900 font-['iransansX'] relative z-10">
-                            {activeTab === 'login' ? trans('login') : trans('register')}
+                            {trans('login')}
                         </h2>
                         <button
                             onClick={onClose}
@@ -95,42 +76,9 @@ export default function AuthModal({ isOpen, onClose }) {
                         </button>
                     </div>
 
-                    {/* Tab Navigation with improved design */}
-                    <div className="relative flex border-b border-gray-100 bg-gradient-to-b from-gray-50 to-transparent">
-                        <button
-                            onClick={() => setActiveTab('login')}
-                            className={`relative flex-1 flex items-center justify-center gap-2 py-4 px-6 font-semibold transition-all duration-300 group ${
-                                activeTab === 'login'
-                                    ? 'text-primary-600'
-                                    : 'text-gray-600 hover:text-primary-600'
-                            }`}
-                        >
-                            <UserIcon className="transition-transform duration-300 group-hover:scale-110" />
-                            <span className="font-['iransansX']">{trans('login')}</span>
-                            {activeTab === 'login' && (
-                                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary-600 to-primary-700 animate-slideDown"></div>
-                            )}
-                        </button>
-                        <button
-                            onClick={() => setActiveTab('register')}
-                            className={`relative flex-1 flex items-center justify-center gap-2 py-4 px-6 font-semibold transition-all duration-300 group ${
-                                activeTab === 'register'
-                                    ? 'text-primary-600'
-                                    : 'text-gray-600 hover:text-primary-600'
-                            }`}
-                        >
-                            <UserPlusIcon className="transition-transform duration-300 group-hover:scale-110" />
-                            <span className="font-['iransansX']">{trans('register')}</span>
-                            {activeTab === 'register' && (
-                                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary-600 to-primary-700 animate-slideDown"></div>
-                            )}
-                        </button>
-                    </div>
-
                     {/* Content */}
                     <div className="relative p-6 space-y-6">
-                        {activeTab === 'login' ? (
-                            <form onSubmit={handleLoginSubmit} className="space-y-5">
+                        <form onSubmit={handleLoginSubmit} className="space-y-5">
                                 <div className="relative group">
                                     <label className="block text-sm font-semibold text-gray-700 mb-2 font-['iransansX']">
                                         {trans('email')}
@@ -212,93 +160,21 @@ export default function AuthModal({ isOpen, onClose }) {
                                     )}
                                 </button>
                             </form>
-                        ) : (
-                            <form onSubmit={handleRegisterSubmit} className="space-y-4">
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['iransansX']">
-                                        {trans('full_name')}
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={registerForm.data.name}
-                                        onChange={e => registerForm.setData('name', e.target.value)}
-                                        className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors font-['iransansX']"
-                                        placeholder={trans('enter_full_name')}
-                                        required
-                                    />
-                                    {registerForm.errors.name && (
-                                        <p className="text-red-500 text-sm mt-1">{registerForm.errors.name}</p>
-                                    )}
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['iransansX']">
-                                        {trans('email')}
-                                    </label>
-                                    <input
-                                        type="email"
-                                        value={registerForm.data.email}
-                                        onChange={e => registerForm.setData('email', e.target.value)}
-                                        className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors font-['iransansX']"
-                                        placeholder={trans('enter_email')}
-                                        required
-                                    />
-                                    {registerForm.errors.email && (
-                                        <p className="text-red-500 text-sm mt-1">{registerForm.errors.email}</p>
-                                    )}
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['iransansX']">
-                                        {trans('password')}
-                                    </label>
-                                    <input
-                                        type="password"
-                                        value={registerForm.data.password}
-                                        onChange={e => registerForm.setData('password', e.target.value)}
-                                        className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors font-['iransansX']"
-                                        placeholder={trans('enter_password')}
-                                        required
-                                    />
-                                    {registerForm.errors.password && (
-                                        <p className="text-red-500 text-sm mt-1">{registerForm.errors.password}</p>
-                                    )}
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2 font-['iransansX']">
-                                        {trans('confirm_password')}
-                                    </label>
-                                    <input
-                                        type="password"
-                                        value={registerForm.data.password_confirmation}
-                                        onChange={e => registerForm.setData('password_confirmation', e.target.value)}
-                                        className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors font-['iransansX']"
-                                        placeholder={trans('confirm_password')}
-                                        required
-                                    />
-                                    {registerForm.errors.password_confirmation && (
-                                        <p className="text-red-500 text-sm mt-1">{registerForm.errors.password_confirmation}</p>
-                                    )}
-                                </div>
-                                <div className="flex items-center">
-                                    <input
-                                        type="checkbox"
-                                        checked={registerForm.data.agree_terms}
-                                        onChange={e => registerForm.setData('agree_terms', e.target.checked)}
-                                        className="rounded border-secondary-300 text-primary-600 focus:ring-primary-500"
-                                        required
-                                    />
-                                    <span className="mr-2 text-sm text-gray-600 font-['iransansX']">
-                                        {trans('agree_terms')}
-                                    </span>
-                                </div>
-                                <button 
-                                    type="submit"
-                                    disabled={registerForm.processing}
-                                    className="w-full bg-gradient-to-r from-primary-600 to-primary-700 text-white py-3 px-4 rounded-lg font-medium hover:from-primary-700 hover:to-primary-800 transition-all duration-200 transform hover:scale-105 font-['iransansX'] disabled:opacity-50 disabled:cursor-not-allowed"
+                            
+                            {/* Register Link */}
+                            <div className="pt-4 border-t border-gray-200">
+                                <p className="text-center text-sm text-gray-600 mb-3 font-['iransansX']">
+                                    {trans('not_registered')}
+                                </p>
+                                <Link
+                                    href={route('artist.register')}
+                                    onClick={onClose}
+                                    className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl font-semibold transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] font-['iransansX']"
                                 >
-                                    {registerForm.processing ? trans('registering') : trans('register')}
-                                </button>
-                            </form>
-                        )}
+                                    <UserPlusIcon className="w-5 h-5" />
+                                    <span>{trans('register_as_artist')}</span>
+                                </Link>
+                            </div>
                     </div>
                 </div>
             </div>

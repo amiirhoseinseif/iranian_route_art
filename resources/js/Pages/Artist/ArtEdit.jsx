@@ -4,8 +4,10 @@ import FestivalLayout from '@/Layouts/FestivalLayout';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import { route } from '@/Utils/route';
+import { useTranslation } from '@/Utils/translation';
 
 export default function ArtEdit({ art, artFields = [] }) {
+    const { trans } = useTranslation();
     const { data, setData, patch, processing, errors } = useForm({
         title: art?.title || '',
         description: art?.description || '',
@@ -27,14 +29,14 @@ export default function ArtEdit({ art, artFields = [] }) {
     };
 
     return (
-        <FestivalLayout title="ویرایش اثر - جشنواره بین المللی مسیر ایران">
+        <FestivalLayout title={`${trans('edit_artwork_title')} - ${trans('site_title')}`}>
             <div className="max-w-4xl mx-auto">
                 <div className="mb-8">
                     <h1 className="text-3xl font-bold text-gray-800 mb-2 font-['iransansX']">
-                        ویرایش اثر
+                        {trans('edit_artwork_title')}
                     </h1>
                     <p className="text-gray-600 font-['iransansX']">
-                        اثر هنری خود را ویرایش کنید
+                        {trans('edit_artwork_description')}
                     </p>
                 </div>
 
@@ -43,39 +45,39 @@ export default function ArtEdit({ art, artFields = [] }) {
                         {/* Basic Information */}
                         <div className="border-b border-gray-200 pb-6">
                             <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['iransansX']">
-                                اطلاعات اصلی
+                                {trans('basic_information')}
                             </h2>
                             <div className="space-y-6">
                                 <div>
-                                    <InputLabel htmlFor="title" value="عنوان اثر" />
+                                    <InputLabel htmlFor="title" value={trans('artwork_title_label')} />
                                     <input
                                         id="title"
                                         type="text"
                                         value={data.title}
                                         onChange={e => setData('title', e.target.value)}
                                         className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['iransansX']"
-                                        placeholder="عنوان اثر هنری خود را وارد کنید"
+                                        placeholder={trans('artwork_title_placeholder')}
                                         required
                                     />
                                     {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title}</p>}
                                 </div>
                                 
                                 <div>
-                                    <InputLabel htmlFor="description" value="توضیحات اثر" />
+                                    <InputLabel htmlFor="description" value={trans('artwork_description_label')} />
                                     <textarea
                                         id="description"
                                         value={data.description}
                                         onChange={e => setData('description', e.target.value)}
                                         rows={4}
                                         className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['iransansX']"
-                                        placeholder="توضیحات کامل اثر هنری خود را بنویسید"
+                                        placeholder={trans('artwork_description_placeholder')}
                                         required
                                     />
                                     {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
                                 </div>
                                 
                                 <div>
-                                    <InputLabel htmlFor="art_field_id" value="رشته هنری" />
+                                    <InputLabel htmlFor="art_field_id" value={trans('art_field_label')} />
                                     <select
                                         id="art_field_id"
                                         value={data.art_field_id}
@@ -83,7 +85,7 @@ export default function ArtEdit({ art, artFields = [] }) {
                                         className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['iransansX']"
                                         required
                                     >
-                                        <option value="">انتخاب رشته هنری</option>
+                                        <option value="">{trans('select_art_field')}</option>
                                         {artFields.map((field) => (
                                             <option key={field.id} value={field.id}>
                                                 {field.name}
@@ -94,7 +96,7 @@ export default function ArtEdit({ art, artFields = [] }) {
                                 </div>
                                 
                                 <div>
-                                    <InputLabel htmlFor="year_created" value="سال ایجاد اثر (شمسی)" />
+                                    <InputLabel htmlFor="year_created" value={trans('year_created_label')} />
                                     <input
                                         id="year_created"
                                         type="number"
@@ -113,11 +115,11 @@ export default function ArtEdit({ art, artFields = [] }) {
                         {/* Media Files */}
                         <div className="border-b border-gray-200 pb-6">
                             <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['iransansX']">
-                                فایل‌های رسانه‌ای
+                                {trans('media_files')}
                             </h2>
                             <div className="space-y-6">
                                 <div>
-                                    <InputLabel htmlFor="image" value="تصویر جدید (اختیاری)" />
+                                    <InputLabel htmlFor="image" value={trans('new_image_optional')} />
                                     <input
                                         id="image"
                                         type="file"
@@ -126,13 +128,13 @@ export default function ArtEdit({ art, artFields = [] }) {
                                         className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['iransansX']"
                                     />
                                     <p className="text-sm text-gray-500 mt-2 font-['iransansX']">
-                                        اگر تصویر جدید انتخاب نکنید، تصویر قبلی حفظ می‌شود
+                                        {trans('image_keep_previous')}
                                     </p>
                                     {errors.image && <p className="text-red-500 text-sm mt-1">{errors.image}</p>}
                                 </div>
                                 
                                 <div>
-                                    <InputLabel htmlFor="video_url" value="لینک ویدیو (اختیاری)" />
+                                    <InputLabel htmlFor="video_url" value={trans('video_url_label')} />
                                     <input
                                         id="video_url"
                                         type="url"
@@ -145,7 +147,7 @@ export default function ArtEdit({ art, artFields = [] }) {
                                 </div>
                                 
                                 <div>
-                                    <InputLabel htmlFor="audio_url" value="لینک فایل صوتی (اختیاری)" />
+                                    <InputLabel htmlFor="audio_url" value={trans('audio_url_label')} />
                                     <input
                                         id="audio_url"
                                         type="url"
@@ -162,20 +164,20 @@ export default function ArtEdit({ art, artFields = [] }) {
                         {/* Additional Information */}
                         <div className="pb-6">
                             <h2 className="text-2xl font-bold text-gray-800 mb-6 font-['iransansX']">
-                                اطلاعات تکمیلی
+                                {trans('additional_information')}
                             </h2>
                             <div>
-                                <InputLabel htmlFor="tags" value="برچسب‌ها (اختیاری)" />
+                                <InputLabel htmlFor="tags" value={trans('tags_label')} />
                                 <input
                                     id="tags"
                                     type="text"
                                     value={data.tags}
                                     onChange={e => setData('tags', e.target.value)}
                                     className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent font-['iransansX']"
-                                    placeholder="نقاشی، انتزاعی، مدرن، هنر معاصر"
+                                    placeholder={trans('tags_placeholder')}
                                 />
                                 <p className="text-sm text-gray-500 mt-2 font-['iransansX']">
-                                    برچسب‌ها را با کاما جدا کنید
+                                    {trans('tags_hint')}
                                 </p>
                                 {errors.tags && <p className="text-red-500 text-sm mt-1">{errors.tags}</p>}
                             </div>
@@ -187,10 +189,10 @@ export default function ArtEdit({ art, artFields = [] }) {
                                 href="/artist/arts"
                                 className="px-6 py-3 bg-gray-500 text-white rounded-xl hover:bg-gray-600 transition-colors font-['iransansX']"
                             >
-                                انصراف
+                                {trans('cancel')}
                             </Link>
                             <PrimaryButton disabled={processing}>
-                                {processing ? 'در حال ذخیره...' : 'ذخیره تغییرات'}
+                                {processing ? trans('saving') : trans('save_changes')}
                             </PrimaryButton>
                         </div>
                     </form>

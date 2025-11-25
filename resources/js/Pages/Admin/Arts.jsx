@@ -2,22 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from '@inertiajs/react';
 import FestivalLayout from '@/Layouts/FestivalLayout';
 import { 
-    MusicIcon, 
-    PaintingIcon, 
-    ShortFilmIcon, 
-    SculptureIcon, 
-    IllustrationIcon, 
-    CalligraphyIcon, 
-    PhotographyIcon, 
-    ArchitectureIcon,
-    HandicraftsIcon,
-    IndustrialDesignIcon,
-    LiteratureIcon,
-    CarpetIcon,
-    TheaterIcon,
-    FashionDesignIcon,
-    AnimationIcon,
-    NewMediaArtsIcon,
+    PaletteIcon,
     CheckIcon,
     ClockIcon,
     CloseIcon,
@@ -29,8 +14,10 @@ import {
     DownloadIcon
 } from '@/Components/SvgIcons';
 import TextInput from '@/Components/TextInput';
+import { useTranslation } from '@/Utils/translation';
 
 export default function AdminArts({ auth }) {
+    const { trans } = useTranslation();
     const [arts, setArts] = useState([]);
     const [filteredArts, setFilteredArts] = useState([]);
     const [selectedField, setSelectedField] = useState('all');
@@ -39,30 +26,30 @@ export default function AdminArts({ auth }) {
     const [loading, setLoading] = useState(true);
 
     const artFields = [
-        { value: 'all', name: 'همه رشته‌ها', icon: MusicIcon },
-        { value: 'music', name: 'موسیقی', icon: MusicIcon },
-        { value: 'calligraphy', name: 'خوشنویسی', icon: CalligraphyIcon },
-        { value: 'painting', name: 'نقاشی', icon: PaintingIcon },
-        { value: 'sculpture', name: 'مجسمه‌سازی', icon: SculptureIcon },
-        { value: 'handicrafts', name: 'صنایع دستی', icon: HandicraftsIcon },
-        { value: 'architecture', name: 'معماری', icon: ArchitectureIcon },
-        { value: 'industrial_design', name: 'طراحی صنعتی', icon: IndustrialDesignIcon },
-        { value: 'graphic', name: 'گرافیک و تصویرسازی', icon: IllustrationIcon },
-        { value: 'literature', name: 'ادبیات', icon: LiteratureIcon },
-        { value: 'carpet', name: 'فرش', icon: CarpetIcon },
-        { value: 'short_film', name: 'سینما', icon: ShortFilmIcon },
-        { value: 'theater', name: 'نمایش', icon: TheaterIcon },
-        { value: 'fashion_design', name: 'طراحی پارچه و طراحی لباس', icon: FashionDesignIcon },
-        { value: 'animation', name: 'انیمیشن', icon: AnimationIcon },
-        { value: 'photography', name: 'عکاسی', icon: PhotographyIcon },
-        { value: 'new_media_arts', name: 'هنرهای جدید', icon: NewMediaArtsIcon },
+        { value: 'all', name: trans('all_fields') },
+        { value: 'music', name: trans('music') },
+        { value: 'calligraphy', name: trans('calligraphy') },
+        { value: 'painting', name: trans('painting') },
+        { value: 'sculpture', name: trans('sculpture') },
+        { value: 'handicrafts', name: trans('handicrafts') },
+        { value: 'architecture', name: trans('architecture') },
+        { value: 'industrial_design', name: trans('industrial_design') },
+        { value: 'graphic', name: trans('graphic') },
+        { value: 'literature', name: trans('literature') },
+        { value: 'carpet', name: trans('carpet') },
+        { value: 'short_film', name: trans('short_film') },
+        { value: 'theater', name: trans('theater') },
+        { value: 'fashion_design', name: trans('fashion_design') },
+        { value: 'animation', name: trans('animation') },
+        { value: 'photography', name: trans('photography') },
+        { value: 'new_media_arts', name: trans('new_media_arts') },
     ];
 
     const statuses = [
-        { value: 'all', name: 'همه وضعیت‌ها', icon: CheckIcon },
-        { value: 'approved', name: 'تایید شده', icon: CheckIcon },
-        { value: 'pending', name: 'در انتظار', icon: ClockIcon },
-        { value: 'rejected', name: 'رد شده', icon: CloseIcon },
+        { value: 'all', name: trans('all_statuses'), icon: CheckIcon },
+        { value: 'approved', name: trans('status_approved'), icon: CheckIcon },
+        { value: 'pending', name: trans('status_pending'), icon: ClockIcon },
+        { value: 'rejected', name: trans('status_rejected'), icon: CloseIcon },
     ];
 
     useEffect(() => {
@@ -142,7 +129,7 @@ export default function AdminArts({ auth }) {
     };
 
     const handleDeleteArt = async (artId) => {
-        if (window.confirm('آیا مطمئن هستید که می‌خواهید این اثر را حذف کنید؟')) {
+        if (window.confirm(trans('confirm_delete'))) {
             try {
                 const response = await fetch(`/api/admin/arts/${artId}`, {
                     method: 'DELETE',
@@ -172,25 +159,21 @@ export default function AdminArts({ auth }) {
 
     const getStatusText = (status) => {
         switch (status) {
-            case 'approved': return 'تایید شده';
-            case 'pending': return 'در انتظار';
-            case 'rejected': return 'رد شده';
-            default: return 'نامشخص';
+            case 'approved': return trans('status_approved');
+            case 'pending': return trans('status_pending');
+            case 'rejected': return trans('status_rejected');
+            default: return trans('unknown');
         }
     };
 
-    const getFieldIcon = (fieldSlug) => {
-        const field = artFields.find(f => f.value === fieldSlug);
-        return field ? field.icon : MusicIcon;
-    };
 
     if (loading) {
         return (
-            <FestivalLayout title="مدیریت آثار - پنل مدیریت">
+            <FestivalLayout title={`${trans('admin_arts_title')} - ${trans('admin_panel_title')}`}>
                 <div className="flex justify-center items-center h-64">
                     <div className="text-center">
                         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
-                        <p className="text-gray-600 font-['iransansX']">در حال بارگذاری...</p>
+                        <p className="text-gray-600 font-['iransansX']">{trans('loading')}</p>
                     </div>
                 </div>
             </FestivalLayout>
@@ -198,15 +181,15 @@ export default function AdminArts({ auth }) {
     }
 
     return (
-        <FestivalLayout title="مدیریت آثار - پنل مدیریت">
+        <FestivalLayout title={`${trans('admin_arts_title')} - ${trans('admin_panel_title')}`}>
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="mb-8">
                     <h1 className="text-3xl font-bold text-gray-800 mb-2 font-['iransansX']">
-                        مدیریت آثار هنری
+                        {trans('admin_arts_title')}
                     </h1>
                     <p className="text-gray-600 font-['iransansX']">
-                        مدیریت و بررسی آثار ارسالی هنرمندان
+                        {trans('admin_arts_description')}
                     </p>
                 </div>
 
@@ -215,10 +198,10 @@ export default function AdminArts({ auth }) {
                     <div className="bg-white p-6 rounded-2xl shadow-lg">
                         <div className="flex items-center">
                             <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
-                                <MusicIcon className="w-6 h-6 text-primary-600" />
+                                <PaletteIcon className="w-6 h-6 text-primary-600" />
                             </div>
                             <div className="mr-4">
-                                <p className="text-sm text-gray-600 font-['iransansX']">کل آثار</p>
+                                <p className="text-sm text-gray-600 font-['iransansX']">{trans('total_arts')}</p>
                                 <p className="text-2xl font-bold text-gray-800">{arts.length}</p>
                             </div>
                         </div>
@@ -230,7 +213,7 @@ export default function AdminArts({ auth }) {
                                 <CheckIcon className="w-6 h-6 text-secondary-700" />
                             </div>
                             <div className="mr-4">
-                                <p className="text-sm text-gray-600 font-['iransansX']">تایید شده</p>
+                                <p className="text-sm text-gray-600 font-['iransansX']">{trans('status_approved')}</p>
                                 <p className="text-2xl font-bold text-gray-800">
                                     {arts.filter(art => art.status === 'approved').length}
                                 </p>
@@ -244,7 +227,7 @@ export default function AdminArts({ auth }) {
                                 <ClockIcon className="w-6 h-6 text-secondary-600" />
                             </div>
                             <div className="mr-4">
-                                <p className="text-sm text-gray-600 font-['iransansX']">در انتظار</p>
+                                <p className="text-sm text-gray-600 font-['iransansX']">{trans('status_pending')}</p>
                                 <p className="text-2xl font-bold text-gray-800">
                                     {arts.filter(art => art.status === 'pending').length}
                                 </p>
@@ -258,7 +241,7 @@ export default function AdminArts({ auth }) {
                                 <CloseIcon className="w-6 h-6 text-red-600" />
                             </div>
                             <div className="mr-4">
-                                <p className="text-sm text-gray-600 font-['iransansX']">رد شده</p>
+                                <p className="text-sm text-gray-600 font-['iransansX']">{trans('status_rejected')}</p>
                                 <p className="text-2xl font-bold text-gray-800">
                                     {arts.filter(art => art.status === 'rejected').length}
                                 </p>
@@ -274,7 +257,7 @@ export default function AdminArts({ auth }) {
                             <SearchIcon className="w-5 h-5 text-gray-400" />
                             <TextInput
                                 type="text"
-                                placeholder="جستجو در آثار..."
+                                placeholder={trans('search_arts')}
                                 className="w-64"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -312,7 +295,7 @@ export default function AdminArts({ auth }) {
                     </div>
 
                     <div className="text-sm text-gray-600 font-['iransansX']">
-                        نمایش {filteredArts.length} اثر از {arts.length} اثر کل
+                        {trans('showing_arts').replace('{count}', filteredArts.length).replace('{total}', arts.length)}
                     </div>
                 </div>
 
@@ -322,23 +305,22 @@ export default function AdminArts({ auth }) {
                         <table className="w-full">
                             <thead className="bg-gray-50">
                                 <tr>
-                                    <th className="text-right py-4 px-6 font-semibold text-gray-800 font-['iransansX']">اثر</th>
-                                    <th className="text-right py-4 px-6 font-semibold text-gray-800 font-['iransansX']">هنرمند</th>
-                                    <th className="text-right py-4 px-6 font-semibold text-gray-800 font-['iransansX']">رشته</th>
-                                    <th className="text-right py-4 px-6 font-semibold text-gray-800 font-['iransansX']">وضعیت</th>
-                                    <th className="text-right py-4 px-6 font-semibold text-gray-800 font-['iransansX']">تاریخ ارسال</th>
-                                    <th className="text-right py-4 px-6 font-semibold text-gray-800 font-['iransansX']">عملیات</th>
+                                    <th className="text-right py-4 px-6 font-semibold text-gray-800 font-['iransansX']">{trans('artwork')}</th>
+                                    <th className="text-right py-4 px-6 font-semibold text-gray-800 font-['iransansX']">{trans('artist_name')}</th>
+                                    <th className="text-right py-4 px-6 font-semibold text-gray-800 font-['iransansX']">{trans('art_field_name')}</th>
+                                    <th className="text-right py-4 px-6 font-semibold text-gray-800 font-['iransansX']">{trans('status')}</th>
+                                    <th className="text-right py-4 px-6 font-semibold text-gray-800 font-['iransansX']">{trans('submission_date')}</th>
+                                    <th className="text-right py-4 px-6 font-semibold text-gray-800 font-['iransansX']">{trans('edit')}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {filteredArts.map((art) => {
-                                    const FieldIcon = getFieldIcon(art.art_field?.icon_name);
                                     return (
                                         <tr key={art.id} className="border-b border-gray-100 hover:bg-gray-50">
                                             <td className="py-4 px-6">
                                                 <div className="flex items-center">
                                                     <div className="w-12 h-12 bg-gradient-to-br from-primary-100 to-secondary-100 rounded-lg flex items-center justify-center ml-3">
-                                                        <FieldIcon className="w-6 h-6 text-primary-600" />
+                                                        <PaletteIcon className="w-6 h-6 text-primary-600" />
                                                     </div>
                                                     <div>
                                                         <div className="font-semibold text-gray-800 font-['iransansX']">
@@ -354,7 +336,7 @@ export default function AdminArts({ auth }) {
                                                 {art.artist?.first_name} {art.artist?.last_name}
                                             </td>
                                             <td className="py-4 px-6 font-['iransansX']">
-                                                {art.art_field?.name || 'نامشخص'}
+                                                {art.art_field?.name || trans('unknown')}
                                             </td>
                                             <td className="py-4 px-6">
                                                 <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(art.status)}`}>
@@ -369,7 +351,7 @@ export default function AdminArts({ auth }) {
                                                     <Link
                                                         href={`/admin/arts/${art.id}`}
                                                         className="p-2 text-primary-600 hover:bg-primary-100 rounded-lg transition-colors"
-                                                        title="مشاهده جزئیات"
+                                                        title={trans('view_details')}
                                                     >
                                                         <EyeIcon className="w-4 h-4" />
                                                     </Link>
@@ -379,19 +361,19 @@ export default function AdminArts({ auth }) {
                                                             <button
                                                                 onClick={() => handleArtStatusChange(art.id, 'approved')}
                                                                 className="p-2 text-secondary-700 hover:bg-secondary-100 rounded-lg transition-colors"
-                                                                title="تایید اثر"
+                                                                title={trans('approve_artwork')}
                                                             >
                                                                 <CheckIcon className="w-4 h-4" />
                                                             </button>
                                                             <button
                                                                 onClick={() => {
-                                                                    const reason = prompt('دلیل رد شدن:');
+                                                                    const reason = prompt(trans('reject_reason_prompt'));
                                                                     if (reason) {
                                                                         handleArtStatusChange(art.id, 'rejected', reason);
                                                                     }
                                                                 }}
                                                                 className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition-colors"
-                                                                title="رد اثر"
+                                                                title={trans('reject_artwork')}
                                                             >
                                                                 <CloseIcon className="w-4 h-4" />
                                                             </button>
@@ -401,7 +383,7 @@ export default function AdminArts({ auth }) {
                                                     <button
                                                         onClick={() => handleDeleteArt(art.id)}
                                                         className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition-colors"
-                                                        title="حذف اثر"
+                                                        title={trans('delete_artwork')}
                                                     >
                                                         <TrashIcon className="w-4 h-4" />
                                                     </button>
@@ -417,13 +399,13 @@ export default function AdminArts({ auth }) {
                     {filteredArts.length === 0 && (
                         <div className="text-center py-12">
                             <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <MusicIcon className="w-12 h-12 text-gray-400" />
+                                <PaletteIcon className="w-12 h-12 text-gray-400" />
                             </div>
                             <h3 className="text-xl font-bold text-gray-600 mb-2 font-['iransansX']">
-                                اثری یافت نشد
+                                {trans('no_artwork_found')}
                             </h3>
                             <p className="text-gray-500 font-['iransansX']">
-                                با فیلترهای انتخاب شده اثری وجود ندارد
+                                {trans('no_artwork_with_filters')}
                             </p>
                         </div>
                     )}

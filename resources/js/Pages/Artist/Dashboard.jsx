@@ -165,22 +165,6 @@ export default function ArtistDashboard({ artist, statistics, recent_arts, festi
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {recent_arts && recent_arts.length > 0 ? (
                             recent_arts.map((art) => {
-                                const getArtIcon = (artField) => {
-                                    const fieldIcons = {
-                                        'نقاشی': '🖼️',
-                                        'موسیقی': '🎵',
-                                        'مجسمه‌سازی': '🗿',
-                                        'فیلم': '🎬',
-                                        'خوشنویسی': '✍️',
-                                        'عکاسی': '📸',
-                                        'طراحی': '🎨',
-                                        'معماری': '🏛️',
-                                        'تئاتر': '🎭',
-                                        'رقص': '💃'
-                                    };
-                                    return fieldIcons[artField] || '🎨';
-                                };
-
                                 const formatDate = (dateString) => {
                                     const date = new Date(dateString);
                                     const now = new Date();

@@ -4,15 +4,23 @@ import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { LanguageSwitcherAuth } from '@/Components/LanguageSwitcher';
 import { Link, usePage } from '@inertiajs/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from '@/Utils/translation';
 
 export default function AuthenticatedLayout({ header, children }) {
-    const user = usePage().props.auth.user;
+    const { auth, locale } = usePage().props;
+    const user = auth.user;
     const { trans } = useTranslation();
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
+    
+    // Set document direction based on locale
+    useEffect(() => {
+        const currentLocale = locale || 'fa';
+        document.documentElement.dir = currentLocale === 'fa' ? 'rtl' : 'ltr';
+        document.documentElement.lang = currentLocale;
+    }, [locale]);
 
     return (
         <div className="min-h-screen bg-light-100">
@@ -140,6 +148,10 @@ export default function AuthenticatedLayout({ header, children }) {
                         >
                             {trans('dashboard')}
                         </ResponsiveNavLink>
+                    </div>
+
+                    <div className="border-t border-secondary-200 pb-3 pt-2 px-4">
+                        <LanguageSwitcherAuth />
                     </div>
 
                     <div className="border-t border-secondary-200 pb-1 pt-4">

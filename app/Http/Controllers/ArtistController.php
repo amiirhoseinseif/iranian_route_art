@@ -76,6 +76,9 @@ class ArtistController extends Controller
         // Log in the artist using web guard and create Passport token
         auth()->guard('web')->login($artist);
         
+        // Regenerate session for security
+        $request->session()->regenerate();
+        
         // Create access token for Passport
         $token = $artist->createToken('Registration Token', ['*'])->accessToken;
         
