@@ -29,6 +29,9 @@ Route::get('/about', function () {
     return Inertia::render('About');
 })->name('about');
 
+// PDF Download Route
+Route::get('/farakhan.pdf', [App\Http\Controllers\FarakhanController::class, 'download'])->name('farakhan.download');
+
 Route::get('/contact', function () {
     return Inertia::render('Contact');
 })->name('contact');
