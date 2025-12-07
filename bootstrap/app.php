@@ -28,6 +28,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'auth.judge' => \App\Http\Middleware\JudgeAuth::class,
             'judge.verification' => \App\Http\Middleware\JudgeVerification::class,
         ]);
+        
+        // Exclude S3 test route from CSRF protection (for testing purposes)
+        $middleware->validateCsrfTokens(except: [
+            's3/test',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

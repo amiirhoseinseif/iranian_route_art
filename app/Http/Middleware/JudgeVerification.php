@@ -17,10 +17,10 @@ class JudgeVerification
     {
         // Check if user is authenticated via session
         $userType = $request->session()->get('user_type');
-        $userData = $request->session()->get('user_data');
+        $userId = $request->session()->get('user_id');
         $accessToken = $request->session()->get('access_token');
         
-        if (!$userType || !$userData || !$accessToken) {
+        if (!$userType || !$userId || !$accessToken) {
             return redirect()->route('login');
         }
 
@@ -30,9 +30,9 @@ class JudgeVerification
         }
 
         // Get judge data
-        $judge = \App\Models\Judge::find($request->session()->get('user_id'));
+        $judge = \App\Models\Judge::find($userId);
         if (!$judge) {
-            $request->session()->forget(['access_token', 'user_type', 'user_id', 'user_data']);
+            $request->session()->forget(['access_token', 'user_type', 'user_id']);
             return redirect()->route('login');
         }
 

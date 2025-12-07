@@ -546,7 +546,59 @@ class AdminController extends Controller
     }
 
     /**
-     * Get arts with pagination and filters.
+     * Display arts page for admin (Inertia).
+     */
+    public function indexArts(Request $request)
+    {
+        $query = \App\Models\Art::with([
+            'artist:id,first_name,last_name,email,phone',
+            'artField:id,name,name_en,icon_name,description,description_en,metadata',
+            'fieldValues.fieldRequirement'
+        ]);
+
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%")
+                    ->orWhereHas('artist', function ($artistQuery) use ($search) {
+                        $artistQuery->where('first_name', 'like', "%{$search}%")
+                            ->orWhere('last_name', 'like', "%{$search}%")
+                            ->orWhere('email', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        if ($request->has('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->has('art_field_id')) {
+            $query->where('art_field_id', $request->art_field_id);
+        }
+
+        $arts = $query->orderBy('created_at', 'desc')->paginate(15);
+
+        $arts->getCollection()->transform(function ($art) {
+            return $this->prepareArtResource($art);
+        });
+
+        // Get art fields for filter
+        $artFields = \App\Models\ArtField::active()->get();
+
+        return Inertia::render('Admin/Arts', [
+            'arts' => $arts,
+            'artFields' => $artFields,
+            'filters' => [
+                'search' => $request->search,
+                'status' => $request->status,
+                'art_field_id' => $request->art_field_id,
+            ]
+        ]);
+    }
+
+    /**
+     * Get arts with pagination and filters (API).
      */
     public function getArts(Request $request)
     {
@@ -662,20 +714,65 @@ class AdminController extends Controller
     {
         $art->load('fieldValues');
 
-        if ($art->cover_image) {
-            Storage::disk('public')->delete($art->cover_image);
+        if ($art->cover_image && !empty(trim($art->cover_image))) {
+            // Try S3 first, then fallback to public
+            try {
+                if (Storage::disk('s3')->exists($art->cover_image)) {
+                    Storage::disk('s3')->delete($art->cover_image);
+                } elseif (Storage::disk('public')->exists($art->cover_image)) {
+                    Storage::disk('public')->delete($art->cover_image);
+                }
+            } catch (\Exception $e) {
+                // Log error but continue
+                \Log::warning('Failed to delete cover_image: ' . $e->getMessage());
+            }
         }
-        if ($art->art_file) {
-            Storage::disk('public')->delete($art->art_file);
+        if ($art->art_file && !empty(trim($art->art_file))) {
+            // Try S3 first, then fallback to public
+            try {
+                if (Storage::disk('s3')->exists($art->art_file)) {
+                    Storage::disk('s3')->delete($art->art_file);
+                } elseif (Storage::disk('public')->exists($art->art_file)) {
+                    Storage::disk('public')->delete($art->art_file);
+                }
+            } catch (\Exception $e) {
+                // Log error but continue
+                \Log::warning('Failed to delete art_file: ' . $e->getMessage());
+            }
         }
 
         foreach ($art->fieldValues as $fieldValue) {
-            if ($fieldValue->file_path) {
-                Storage::disk('public')->delete($fieldValue->file_path);
+            if ($fieldValue->file_path && !empty(trim($fieldValue->file_path))) {
+                // Try S3 first, then fallback to public
+                try {
+                    if (Storage::disk('s3')->exists($fieldValue->file_path)) {
+                        Storage::disk('s3')->delete($fieldValue->file_path);
+                    } elseif (Storage::disk('public')->exists($fieldValue->file_path)) {
+                        Storage::disk('public')->delete($fieldValue->file_path);
+                    }
+                } catch (\Exception $e) {
+                    // Log error but continue
+                    \Log::warning('Failed to delete file_path: ' . $e->getMessage());
+                }
             }
             $decoded = $this->normalizeFieldValueForResponse($fieldValue->value);
             foreach ($this->extractStoragePaths($decoded) as $path) {
-                Storage::disk('public')->delete($path);
+                // Validate path is not empty
+                if (empty($path) || trim($path) === '') {
+                    continue;
+                }
+                
+                // Try S3 first, then fallback to public
+                try {
+                    if (Storage::disk('s3')->exists($path)) {
+                        Storage::disk('s3')->delete($path);
+                    } elseif (Storage::disk('public')->exists($path)) {
+                        Storage::disk('public')->delete($path);
+                    }
+                } catch (\Exception $e) {
+                    // Log error but continue
+                    \Log::warning('Failed to delete path: ' . $e->getMessage());
+                }
             }
         }
 
@@ -917,11 +1014,78 @@ class AdminController extends Controller
             return null;
         }
 
-        if (Str::startsWith($path, ['http://', 'https://', '/storage/'])) {
+        // If it's already a full URL, return it
+        if (Str::startsWith($path, ['http://', 'https://'])) {
             return $path;
         }
 
-        return Storage::disk('public')->url($path);
+        // If it's a storage path, check public disk FIRST (for backward compatibility)
+        if (Str::startsWith($path, ['arts/', 'storage/'])) {
+            // Remove /storage/ prefix if exists
+            $cleanPath = Str::replaceFirst('/storage/', '', $path);
+            $cleanPath = Str::replaceFirst('storage/', '', $cleanPath);
+            
+            // Validate cleanPath is not empty
+            if (empty($cleanPath) || trim($cleanPath) === '') {
+                return null;
+            }
+            
+            // 1. Check public disk FIRST (most existing files are here)
+            try {
+                if (Storage::disk('public')->exists($cleanPath)) {
+                    return Storage::disk('public')->url($cleanPath);
+                }
+            } catch (\Exception $e) {
+                // Continue to S3 check
+            }
+            
+            // 2. If not in public, try S3 (with error handling, but don't log warnings)
+            try {
+                // Check if file exists in S3
+                if (Storage::disk('s3')->exists($cleanPath)) {
+                    return Storage::disk('s3')->url($cleanPath);
+                }
+            } catch (\Exception $e) {
+                // Silently continue - S3 might not be configured or accessible
+            }
+            
+            // 3. Try to generate presigned URL for S3 (if file might exist but exists() failed)
+            try {
+                return Storage::disk('s3')->temporaryUrl($cleanPath, now()->addHours(1));
+            } catch (\Exception $e) {
+                // Silently continue
+            }
+            
+            // 4. Final fallback: return public URL even if file doesn't exist (for display)
+            return Storage::disk('public')->url($cleanPath);
+        }
+
+        // For other paths, check public disk first, then S3
+        if (!empty($path) && trim($path) !== '') {
+            // 1. Check public disk first
+            try {
+                if (Storage::disk('public')->exists($path)) {
+                    return Storage::disk('public')->url($path);
+                }
+            } catch (\Exception $e) {
+                // Continue to S3
+            }
+            
+            // 2. Try S3 (with error handling, but don't log)
+            try {
+                if (Storage::disk('s3')->exists($path)) {
+                    return Storage::disk('s3')->url($path);
+                }
+            } catch (\Exception $e) {
+                // Silently continue
+            }
+            
+            // 3. Final fallback: return public URL
+            return Storage::disk('public')->url($path);
+        }
+
+        // If path is empty, return null
+        return null;
     }
 
     private function convertValueAndCollectFiles($value, array &$files)

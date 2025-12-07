@@ -7,6 +7,7 @@ use App\Models\ArtField;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -117,6 +118,20 @@ class ArtController extends Controller
         $artist = \App\Models\Artist::find($userId);
         if (!$artist) {
             return back()->withErrors(['auth' => 'هنرمند یافت نشد'])->withInput();
+        }
+        
+        // Verify S3 configuration
+        $bucket = config('filesystems.disks.s3.bucket');
+        $key = config('filesystems.disks.s3.key');
+        $secret = config('filesystems.disks.s3.secret');
+        
+        if (empty($bucket) || empty($key) || empty($secret)) {
+            Log::error('S3 configuration is incomplete', [
+                'bucket_set' => !empty($bucket),
+                'key_set' => !empty($key),
+                'secret_set' => !empty($secret)
+            ]);
+            return back()->withErrors(['general' => 'خطا در پیکربندی ذخیره‌سازی فایل. لطفاً با مدیر سیستم تماس بگیرید.'])->withInput();
         }
 
         // Validate art_field_id
@@ -318,21 +333,158 @@ class ArtController extends Controller
                     if (is_array($files)) {
                         foreach ($files as $file) {
                             if ($file) {
-                                $storedPaths[] = $file->store('arts/field_files/' . $fieldName, 'public');
+                                try {
+                                    // Try to store in S3
+                                    $storedPath = $file->store('arts/field_files/' . $fieldName, 's3');
+                                    
+                                    if (!empty($storedPath) && trim($storedPath) !== '') {
+                                        // If store() returned a path, assume it's stored successfully
+                                        // Don't check exists() as it might fail even if file is stored
+                                        $storedPaths[] = $storedPath;
+                                        Log::info('File stored in S3', [
+                                            'path' => $storedPath,
+                                            'field' => $fieldName,
+                                            'file' => $file->getClientOriginalName()
+                                        ]);
+                                    } else {
+                                        // If store() returned empty, try public disk
+                                        Log::warning('S3 store returned empty path, trying public disk', [
+                                            'field' => $fieldName
+                                        ]);
+                                        $publicPath = $file->store('arts/field_files/' . $fieldName, 'public');
+                                        if ($publicPath) {
+                                            $storedPaths[] = $publicPath;
+                                        }
+                                    }
+                                } catch (\Exception $e) {
+                                    Log::error('Failed to store file in S3, trying public disk', [
+                                        'error' => $e->getMessage(),
+                                        'field' => $fieldName,
+                                        'file' => $file->getClientOriginalName(),
+                                        'trace' => $e->getTraceAsString()
+                                    ]);
+                                    // Fallback to public disk
+                                    try {
+                                        $publicPath = $file->store('arts/field_files/' . $fieldName, 'public');
+                                        if ($publicPath) {
+                                            $storedPaths[] = $publicPath;
+                                            Log::info('File stored in public disk as fallback', [
+                                                'path' => $publicPath,
+                                                'field' => $fieldName
+                                            ]);
+                                        }
+                                    } catch (\Exception $e2) {
+                                        Log::error('Failed to store file in public disk as well', [
+                                            'error' => $e2->getMessage()
+                                        ]);
+                                    }
+                                }
                             }
                         }
                     }
                     if (!empty($storedPaths)) {
-                        $value = json_encode($storedPaths, JSON_UNESCAPED_UNICODE);
-                        $metadataValue = array_map(function ($path) {
-                            return Storage::disk('public')->url($path);
-                        }, $storedPaths);
+                        // Filter out empty paths
+                        $storedPaths = array_filter($storedPaths, function($path) {
+                            return !empty($path) && trim($path) !== '';
+                        });
+                        
+                        if (!empty($storedPaths)) {
+                            $value = json_encode(array_values($storedPaths), JSON_UNESCAPED_UNICODE);
+                            $metadataValue = array_map(function ($path) {
+                                if (empty($path) || trim($path) === '') {
+                                    return null;
+                                }
+                                try {
+                                    return Storage::disk('s3')->url($path);
+                                } catch (\Exception $e) {
+                                    Log::error('Failed to generate S3 URL', [
+                                        'path' => $path,
+                                        'error' => $e->getMessage(),
+                                        'bucket' => config('filesystems.disks.s3.bucket')
+                                    ]);
+                                    return null;
+                                }
+                            }, array_values($storedPaths));
+                            $metadataValue = array_filter($metadataValue); // Remove null values
+                        }
                     }
                 } else {
                     if ($request->hasFile($fieldName)) {
                         $file = $request->file($fieldName);
-                        $filePath = $file->store('arts/field_files/' . $fieldName, 'public');
-                        $metadataValue = Storage::disk('public')->url($filePath);
+                        try {
+                            // Try to store in S3
+                            $filePath = $file->store('arts/field_files/' . $fieldName, 's3');
+                            
+                            // Validate filePath is not empty
+                            if (!empty($filePath) && trim($filePath) !== '') {
+                                // If store() returned a path, assume it's stored successfully
+                                // Try to generate URL (don't check exists as it might fail)
+                                try {
+                                    $metadataValue = Storage::disk('s3')->url($filePath);
+                                    Log::info('File stored in S3', [
+                                        'path' => $filePath,
+                                        'field' => $fieldName,
+                                        'file' => $file->getClientOriginalName(),
+                                        'url' => $metadataValue
+                                    ]);
+                                } catch (\Exception $e) {
+                                    // If URL generation fails, try public disk
+                                    Log::warning('S3 URL generation failed, trying public disk', [
+                                        'path' => $filePath,
+                                        'error' => $e->getMessage()
+                                    ]);
+                                    $publicPath = $file->store('arts/field_files/' . $fieldName, 'public');
+                                    if ($publicPath) {
+                                        $filePath = $publicPath;
+                                        $metadataValue = Storage::disk('public')->url($publicPath);
+                                    } else {
+                                        $filePath = null;
+                                        $metadataValue = null;
+                                    }
+                                }
+                            } else {
+                                // If store() returned empty, try public disk
+                                Log::warning('S3 store returned empty path, trying public disk', [
+                                    'field' => $fieldName
+                                ]);
+                                $publicPath = $file->store('arts/field_files/' . $fieldName, 'public');
+                                if ($publicPath) {
+                                    $filePath = $publicPath;
+                                    $metadataValue = Storage::disk('public')->url($publicPath);
+                                } else {
+                                    $filePath = null;
+                                    $metadataValue = null;
+                                }
+                            }
+                        } catch (\Exception $e) {
+                            Log::error('Failed to store file in S3, trying public disk', [
+                                'error' => $e->getMessage(),
+                                'field' => $fieldName,
+                                'file' => $file->getClientOriginalName(),
+                                'trace' => $e->getTraceAsString()
+                            ]);
+                            // Fallback to public disk
+                            try {
+                                $publicPath = $file->store('arts/field_files/' . $fieldName, 'public');
+                                if ($publicPath) {
+                                    $filePath = $publicPath;
+                                    $metadataValue = Storage::disk('public')->url($publicPath);
+                                    Log::info('File stored in public disk as fallback', [
+                                        'path' => $publicPath,
+                                        'field' => $fieldName
+                                    ]);
+                                } else {
+                                    $filePath = null;
+                                    $metadataValue = null;
+                                }
+                            } catch (\Exception $e2) {
+                                Log::error('Failed to store file in public disk as well', [
+                                    'error' => $e2->getMessage()
+                                ]);
+                                $filePath = null;
+                                $metadataValue = null;
+                            }
+                        }
                     }
                 }
             } elseif ($requirement->field_type === 'multi_select') {
@@ -370,7 +522,7 @@ class ArtController extends Controller
                     'field_type' => $requirement->field_type,
                     'requirement_type' => $requirement->requirement_type,
                     'value' => $metadataValue,
-                    'file_path' => $filePath ? Storage::disk('public')->url($filePath) : null,
+                    'file_path' => $filePath ? Storage::disk('s3')->url($filePath) : null,
                     'raw_value' => $value,
                 ];
             }
@@ -382,7 +534,26 @@ class ArtController extends Controller
             ]),
         ]);
 
-        return redirect()->route('artist.arts')->with('success', 'اثر شما با موفقیت ثبت شد!');
+        // Prepare success messages for art registration
+        if (app()->getLocale() === 'fa') {
+            $artRegistrationMessages = [
+                'هنرمند گرامی، اثر هنری شما در جشنواره مسیر ایران ثبت شد.',
+                'اثر شما به همراه مشخصات، برای هیئت بازبین جشنواره در رشته مربوطه ارسال میشود.',
+                'درصورت پذیرفته شدن اثر، از طرف جشنواره پیام تبریک به آدرس ایمیل شما ارسال خواهد شد.',
+            ];
+        } else {
+            $artRegistrationMessages = [
+                'Dear artist, your artwork has been registered in the Iran Route Festival.',
+                'Your artwork along with its details will be sent to the festival\'s review committee in the relevant field.',
+                'If your artwork is accepted, a congratulatory message will be sent to your email address from the festival.',
+            ];
+        }
+
+        return redirect()->route('artist.arts')
+            ->with('success', app()->getLocale() === 'fa' 
+                ? 'اثر شما با موفقیت ثبت شد!' 
+                : 'Your artwork has been successfully submitted!')
+            ->with('art_registration_success', $artRegistrationMessages);
     }
 
     public function show(Art $art)
@@ -462,11 +633,59 @@ class ArtController extends Controller
         // Handle image upload
         if ($request->hasFile('image')) {
             // Delete old image
-            if ($art->cover_image) {
-                Storage::disk('public')->delete($art->cover_image);
+            if ($art->cover_image && !empty(trim($art->cover_image))) {
+                try {
+                    if (Storage::disk('s3')->exists($art->cover_image)) {
+                        Storage::disk('s3')->delete($art->cover_image);
+                    } elseif (Storage::disk('public')->exists($art->cover_image)) {
+                        Storage::disk('public')->delete($art->cover_image);
+                    }
+                } catch (\Exception $e) {
+                    // Log error but continue
+                    Log::warning('Failed to delete old cover_image: ' . $e->getMessage());
+                }
             }
             
-            $imagePath = $request->file('image')->store('arts/images', 'public');
+            try {
+                // Check S3 configuration before storing
+                $bucket = config('filesystems.disks.s3.bucket');
+                if (empty($bucket)) {
+                    Log::error('S3 bucket not configured');
+                    return back()->withErrors(['image' => 'خطا در پیکربندی S3'])->withInput();
+                }
+                
+                $imagePath = $request->file('image')->store('arts/images', 's3');
+                
+                // Validate imagePath is not empty and file exists
+                if (empty($imagePath) || trim($imagePath) === '') {
+                    Log::error('Image path is empty after store', [
+                        'bucket' => $bucket
+                    ]);
+                    return back()->withErrors(['image' => 'خطا در ذخیره تصویر'])->withInput();
+                }
+                
+                // Verify file was actually stored
+                if (!Storage::disk('s3')->exists($imagePath)) {
+                    Log::error('Image stored but not found in S3', [
+                        'path' => $imagePath,
+                        'bucket' => $bucket
+                    ]);
+                    return back()->withErrors(['image' => 'خطا در ذخیره تصویر در S3'])->withInput();
+                }
+                
+                Log::info('Image successfully stored in S3', [
+                    'path' => $imagePath,
+                    'bucket' => $bucket
+                ]);
+            } catch (\Exception $e) {
+                Log::error('Failed to store image in S3', [
+                    'error' => $e->getMessage(),
+                    'file' => $request->file('image')->getClientOriginalName(),
+                    'bucket' => config('filesystems.disks.s3.bucket'),
+                    'trace' => $e->getTraceAsString()
+                ]);
+                return back()->withErrors(['image' => 'خطا در ذخیره تصویر: ' . $e->getMessage()])->withInput();
+            }
         } else {
             $imagePath = $art->cover_image;
         }
@@ -501,8 +720,17 @@ class ArtController extends Controller
         }
 
         // Delete image file
-        if ($art->cover_image) {
-            Storage::disk('public')->delete($art->cover_image);
+        if ($art->cover_image && !empty(trim($art->cover_image))) {
+            try {
+                if (Storage::disk('s3')->exists($art->cover_image)) {
+                    Storage::disk('s3')->delete($art->cover_image);
+                } elseif (Storage::disk('public')->exists($art->cover_image)) {
+                    Storage::disk('public')->delete($art->cover_image);
+                }
+            } catch (\Exception $e) {
+                // Log error but continue
+                Log::warning('Failed to delete cover_image: ' . $e->getMessage());
+            }
         }
 
         $art->delete();

@@ -16,14 +16,14 @@ import {
 import TextInput from '@/Components/TextInput';
 import { useTranslation } from '@/Utils/translation';
 
-export default function AdminArts({ auth }) {
+export default function AdminArts({ auth, arts: initialArts, artFields: initialArtFields, filters: initialFilters }) {
     const { trans } = useTranslation();
-    const [arts, setArts] = useState([]);
+    const [arts, setArts] = useState(initialArts?.data || []);
     const [filteredArts, setFilteredArts] = useState([]);
-    const [selectedField, setSelectedField] = useState('all');
-    const [selectedStatus, setSelectedStatus] = useState('all');
-    const [searchTerm, setSearchTerm] = useState('');
-    const [loading, setLoading] = useState(true);
+    const [selectedField, setSelectedField] = useState(initialFilters?.art_field_id || 'all');
+    const [selectedStatus, setSelectedStatus] = useState(initialFilters?.status || 'all');
+    const [searchTerm, setSearchTerm] = useState(initialFilters?.search || '');
+    const [loading, setLoading] = useState(false);
 
     const artFields = [
         { value: 'all', name: trans('all_fields') },
@@ -53,7 +53,12 @@ export default function AdminArts({ auth }) {
     ];
 
     useEffect(() => {
-        fetchArts();
+        // Only fetch from API if arts are not provided via props
+        if (!initialArts || !initialArts.data || initialArts.data.length === 0) {
+            fetchArts();
+        } else {
+            setLoading(false);
+        }
     }, []);
 
     useEffect(() => {
@@ -71,7 +76,17 @@ export default function AdminArts({ auth }) {
             });
             if (response.ok) {
                 const data = await response.json();
-                setArts(data.data || []);
+                // Handle paginated response
+                if (data.data && Array.isArray(data.data)) {
+                    setArts(data.data);
+                } else if (Array.isArray(data)) {
+                    setArts(data);
+                } else {
+                    setArts([]);
+                }
+            } else {
+                console.error('Failed to fetch arts:', response.status, response.statusText);
+                setArts([]);
             }
         } catch (error) {
             console.error('Error fetching arts:', error);

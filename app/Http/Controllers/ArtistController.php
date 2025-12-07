@@ -73,21 +73,23 @@ class ArtistController extends Controller
             'is_active' => true,
         ]);
 
-        // Log in the artist using web guard and create Passport token
-        auth()->guard('web')->login($artist);
-        
-        // Regenerate session for security
+        // Regenerate session for security (this will create new CSRF token)
         $request->session()->regenerate();
         
-        // Create access token for Passport
+        // Create access token for Passport after session regenerate
         $token = $artist->createToken('Registration Token', ['*'])->accessToken;
         
-        // Store token in session for web usage
+        // Store minimal authentication data in session after regenerate
+        // Only store essential data to avoid cookie size issues
         $request->session()->put('access_token', $token);
         $request->session()->put('user_type', 'artist');
         $request->session()->put('user_id', $artist->id);
+        // Don't store full user_data to avoid cookie size limits
 
-        return redirect()->route('artist.dashboard')->with('success', 'ثبت نام شما با موفقیت انجام شد!');
+        $successMessage = app()->getLocale() === 'fa' 
+            ? 'ثبت نام شما با موفقیت انجام شد!' 
+            : 'Registration successful!';
+        return redirect()->route('artist.dashboard')->with('success', $successMessage);
     }
 
     public function dashboard()
@@ -159,7 +161,7 @@ class ArtistController extends Controller
 
         if (Auth::guard('artist')->attempt($credentials, $remember)) {
             $request->session()->regenerate();
-            return redirect()->intended(route('artist.dashboard'));
+            return redirect()->intended(route('artist.dashboard'))->with('success', app()->getLocale() === 'fa' ? 'ورود شما با موفقیت انجام شد!' : 'Login successful!');
         }
 
         return back()->withErrors([

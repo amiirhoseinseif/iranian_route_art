@@ -18,10 +18,10 @@ class ArtistAuth
     {
         // Check if user is authenticated via session
         $userType = $request->session()->get('user_type');
-        $userData = $request->session()->get('user_data');
+        $userId = $request->session()->get('user_id');
         $accessToken = $request->session()->get('access_token');
         
-        if (!$userType || !$userData || !$accessToken) {
+        if (!$userType || !$userId || !$accessToken) {
             return redirect()->route('login');
         }
 
@@ -31,9 +31,9 @@ class ArtistAuth
         }
 
         // Verify token is still valid
-        $user = \App\Models\Artist::find($request->session()->get('user_id'));
+        $user = \App\Models\Artist::find($userId);
         if (!$user) {
-            $request->session()->forget(['access_token', 'user_type', 'user_id', 'user_data']);
+            $request->session()->forget(['access_token', 'user_type', 'user_id']);
             return redirect()->route('login');
         }
 
@@ -41,7 +41,7 @@ class ArtistAuth
         $hasValidTokens = $user->tokens()->where('revoked', false)->exists();
         
         if (!$hasValidTokens) {
-            $request->session()->forget(['access_token', 'user_type', 'user_id', 'user_data']);
+            $request->session()->forget(['access_token', 'user_type', 'user_id']);
             return redirect()->route('login');
         }
 

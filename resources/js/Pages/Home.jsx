@@ -65,6 +65,26 @@ export default function Home({ artFields = [] }) {
         // The page will show guide for everyone, and form fields only for authenticated users
         router.visit(`/artist/arts/create?art_field_id=${fieldId}`);
     };
+
+    const handleDownloadFarakhanFarsi = (e) => {
+        e.preventDefault();
+        const link = document.createElement('a');
+        link.href = '/farakhan-farsi.pdf';
+        link.download = 'فراخوان-جشنواره-مسیر-ایران-فارسی.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    const handleDownloadFarakhanEnglish = (e) => {
+        e.preventDefault();
+        const link = document.createElement('a');
+        link.href = '/farakhan-english.pdf';
+        link.download = 'iranian-route-festival-call-for-artworks-english.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
     const [scrollY, setScrollY] = useState(0);
     const [showScrollIndicator, setShowScrollIndicator] = useState(true);
     const heroSectionRef = useRef(null);
@@ -406,144 +426,282 @@ export default function Home({ artFields = [] }) {
                     {/* Header */}
                     <div className="text-center mb-12">
                         <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-primary-800 mb-4 font-['iransansX']">
-                            فراخوان
+                            {locale === 'en' ? 'Call for Artworks' : 'فراخوان'}
                         </h2>
                         <div className="w-24 h-1 bg-gradient-to-r from-primary-600 to-secondary-500 mx-auto mt-4 rounded-full"></div>
                     </div>
 
                     {/* Main Content */}
-                    <div dir="rtl" className="max-w-5xl mx-auto space-y-8">
-                        {/* Title Section */}
-                        <div className="text-center space-y-4 mb-10">
-                            <h3 className="text-3xl md:text-4xl font-black text-primary-700 font-['iransansX']">
-                                جشنواره بین‌المللی مسیر ایران
-                            </h3>
-                            <p className="text-xl md:text-2xl text-gray-700 font-semibold font-['iransansX']">
-                                دانشگاه‌ها و دانشکده‌های هنر ایران
-                            </p>
-                        </div>
-
-                        {/* Introduction */}
-                        <div className="bg-gradient-to-br from-primary-50 to-secondary-50 rounded-2xl p-6 sm:p-8 border-r-4 border-primary-500">
-                            <p className="text-base md:text-lg lg:text-xl text-gray-800 leading-relaxed font-['iransansX'] text-justify">
-                                مسیر ایران از هنرمندان جهان دعوت می‌کند تا به افتخار ایران، دست بر ساز، قلم و ابزار هنر ببرند.
-                            </p>
-                            <p className="text-base md:text-lg lg:text-xl text-gray-800 leading-relaxed font-['iransansX'] text-justify mt-4">
-                                جشنواره به صورت مجازی و با موضوع "ایران" برگزار می‌شود.
-                            </p>
-                        </div>
-
-                        {/* Art Fields Section */}
-                        <div className="space-y-6">
-                            <h4 className="text-2xl md:text-3xl font-bold text-primary-700 font-['iransansX'] text-right">
-                                مسیر ایران پذیرای آثار در رشته‌های زیر می‌باشد:
-                            </h4>
-                            
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {/* First Column */}
-                                <div className="space-y-3">
-                                    <div className="bg-white rounded-xl p-4 shadow-md border-r-4 border-primary-400">
-                                        <p className="text-base md:text-lg text-gray-800 font-['iransansX'] leading-relaxed">
-                                            <span className="font-bold text-primary-700">موسیقی</span> (نوازندگی و آهنگسازی)، <span className="font-bold text-primary-700">سینما</span> (فیلم کوتاه)، <span className="font-bold text-primary-700">نمایش</span> (فیلم نمایش) و <span className="font-bold text-primary-700">انیمیشن</span>.
-                                        </p>
-                                    </div>
-                                    <div className="bg-white rounded-xl p-4 shadow-md border-r-4 border-secondary-400">
-                                        <p className="text-base md:text-lg text-gray-800 font-['iransansX'] leading-relaxed">
-                                            <span className="font-bold text-primary-700">نقاشی</span> (سبک، تکنیک و اندازه آزاد)، <span className="font-bold text-primary-700">مجسمه‌سازی</span>، <span className="font-bold text-primary-700">خوشنویسی</span>، <span className="font-bold text-primary-700">گرافیک</span> (طراحی پوستر، نشانه و طراحی متحرک)، <span className="font-bold text-primary-700">تصویرسازی</span>، <span className="font-bold text-primary-700">عکاسی</span> (تک عکس و مجموعه) و <span className="font-bold text-primary-700">هنرهای جدید</span>.
-                                        </p>
-                                    </div>
-                                </div>
-
-                                {/* Second Column */}
-                                <div className="space-y-3">
-                                    <div className="bg-white rounded-xl p-4 shadow-md border-r-4 border-primary-500">
-                                        <p className="text-base md:text-lg text-gray-800 font-['iransansX'] leading-relaxed">
-                                            <span className="font-bold text-primary-700">معماری</span>، <span className="font-bold text-primary-700">طراحی صنعتی</span>، <span className="font-bold text-primary-700">طراحی لباس</span>، <span className="font-bold text-primary-700">طراحی پارچه</span>، <span className="font-bold text-primary-700">طراحی فرش</span>، <span className="font-bold text-primary-700">بافت فرش</span> و <span className="font-bold text-primary-700">صنایع دستی</span>.
-                                        </p>
-                                    </div>
-                                    <div className="bg-white rounded-xl p-4 shadow-md border-r-4 border-secondary-500">
-                                        <p className="text-base md:text-lg text-gray-800 font-['iransansX'] leading-relaxed">
-                                            <span className="font-bold text-primary-700">ادبیات</span>: داستان کوتاه و شعر.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="bg-gradient-to-r from-primary-100 to-secondary-100 rounded-xl p-4 border border-primary-200">
-                                <p className="text-base md:text-lg text-gray-800 font-['iransansX'] text-center">
-                                    <span className="font-bold text-primary-700">سبک، تکنیک و اندازه آزاد است.</span>
-                                </p>
-                            </div>
-                        </div>
-
-                        {/* Important Notes */}
-                        <div className="space-y-4 mt-10">
-                            <div className="bg-white rounded-xl p-6 shadow-lg border-l-4 border-primary-600">
-                                <p className="text-base md:text-lg text-gray-800 leading-relaxed font-['iransansX'] text-justify mb-3">
-                                    جشنواره مسیر ایران هیچ‌گونه رتبه‌بندی و گزینش مقام اول و دوم ندارد.
-                                </p>
-                                <p className="text-base md:text-lg text-gray-800 leading-relaxed font-['iransansX'] text-justify mb-3">
-                                    مسیر ایران بستری برابر جهت انتشار و تقدیر از آثار پذیرفته شده در جشنواره است.
-                                </p>
-                                <p className="text-base md:text-lg text-gray-800 leading-relaxed font-['iransansX'] text-justify mb-3">
-                                    لوح جشنواره، با افتخار از طرف دانشگاه هنر ایران به تمامی آثار پذیرفته شده اعطا خواهد شد.
-                                </p>
-                                <p className="text-base md:text-lg text-gray-800 leading-relaxed font-['iransansX'] text-justify">
-                                    بازبینی آثار توسط اساتید هنر از دانشگاه‌های هنر ایران صورت می‌پذیرد.
+                    {locale === 'en' ? (
+                        /* English Content */
+                        <div dir="ltr" className="max-w-5xl mx-auto space-y-8">
+                            {/* Title Section */}
+                            <div className="text-center space-y-4 mb-10">
+                                <h3 className="text-2xl md:text-3xl font-black text-primary-700 font-['iransansX']">
+                                    The International Festival of "The Iranian Route"
+                                </h3>
+                                <p className="text-lg md:text-xl text-gray-700 font-semibold font-['iransansX']">
+                                    Organized by Iranian Art Universities and Schools
                                 </p>
                             </div>
 
-                            <div className="bg-red-50 rounded-xl p-6 border-r-4 border-red-400">
-                                <p className="text-base md:text-lg text-red-800 font-bold font-['iransansX'] text-center">
-                                    آثار باید مختص به جشنواره مسیر ایران تولید شده باشند.
+                            {/* Introduction */}
+                            <div className="bg-gradient-to-br from-primary-50 to-secondary-50 rounded-2xl p-6 sm:p-8 border-l-4 border-primary-500">
+                                <p className="text-sm md:text-base lg:text-lg text-gray-800 leading-relaxed font-['iransansX'] text-justify">
+                                    "The Iranian Route" International Art Festival invites artists from around the world to celebrate Iran through their art.
+                                </p>
+                                <p className="text-sm md:text-base lg:text-lg text-gray-800 leading-relaxed font-['iransansX'] text-justify mt-4">
+                                    The festival will be held virtually, with "Iran" as its central theme.
                                 </p>
                             </div>
-                        </div>
 
-                        {/* Deadline Section */}
-                        <div className="bg-gradient-to-br from-primary-600 to-primary-700 rounded-2xl p-8 text-center shadow-xl mt-10">
-                            <div className="space-y-4">
-                                <h4 className="text-2xl md:text-3xl font-black text-white font-['iransansX']">
-                                    مهلت ارسال آثار
+                            {/* Art Fields Section */}
+                            <div className="space-y-6">
+                                <h4 className="text-xl md:text-2xl font-bold text-primary-700 font-['iransansX'] text-left">
+                                    The festival accepts works in the following fields:
                                 </h4>
-                                <p className="text-3xl md:text-4xl font-black text-white font-['iransansX']">
-                                    نوروز ۱۴۰۵
+                                
+                                <div className="bg-white rounded-xl p-6 shadow-md border-l-4 border-primary-500">
+                                    <ul className="text-sm md:text-base lg:text-lg text-gray-800 font-['iransansX'] leading-relaxed space-y-3">
+                                        <li>
+                                            <span className="font-bold text-primary-700">Music:</span> Performance and composition
+                                        </li>
+                                        <li>
+                                            <span className="font-bold text-primary-700">Cinema, Theater, and Animation:</span> Short films, recorded stage performances, and animation
+                                        </li>
+                                        <li>
+                                            <span className="font-bold text-primary-700">Visual Arts:</span> Painting (any style, technique, and size), Sculpture, Calligraphy, Graphic Design (poster, logo, and motion design), Illustration, Photography (single image or series), and New Media of Arts
+                                        </li>
+                                        <li>
+                                            <span className="font-bold text-primary-700">Design & Craft:</span> Architecture, Industrial Design, Fashion Design, Textile Design, Carpet Design, Carpet Weaving, and Handicrafts
+                                        </li>
+                                        <li>
+                                            <span className="font-bold text-primary-700">Literature:</span> Short Story and Poetry (any style, technique, and length)
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div className="bg-gradient-to-r from-primary-100 to-secondary-100 rounded-xl p-4 border border-primary-200">
+                                    <p className="text-sm md:text-base text-gray-800 font-['iransansX'] text-center">
+                                        <span className="font-bold text-primary-700">We welcome artworks in any style, technique, or format.</span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Important Notes */}
+                            <div className="space-y-4 mt-10">
+                                <div className="bg-white rounded-xl p-6 shadow-lg border-l-4 border-primary-600">
+                                    <p className="text-sm md:text-base text-gray-800 leading-relaxed font-['iransansX'] text-justify mb-3">
+                                        The Iranian Route Festival has no rankings and does not select first or second place winners. Each accepted work will receive a festival certificate from Iran University of Art.
+                                    </p>
+                                    <p className="text-sm md:text-base text-gray-800 leading-relaxed font-['iransansX'] text-justify mb-3">
+                                        Accepted works will be showcased equally on the festival's website and virtual platforms.
+                                    </p>
+                                    <p className="text-sm md:text-base text-gray-800 leading-relaxed font-['iransansX'] text-justify">
+                                        All submissions will be reviewed by faculty members from Iranian art universities and schools.
+                                    </p>
+                                </div>
+
+                                <div className="bg-red-50 rounded-xl p-6 border-l-4 border-red-400">
+                                    <p className="text-sm md:text-base text-red-800 font-bold font-['iransansX'] text-center">
+                                        Works must be created specifically for the Iranian Route Festival and must not have been previously published.
+                                    </p>
+                                </div>
+
+                                <div className="bg-green-50 rounded-xl p-6 border-l-4 border-green-400">
+                                    <p className="text-sm md:text-base text-green-800 font-bold font-['iransansX'] text-center">
+                                        Participation in the Iranian Route is free of charge.
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Deadline Section */}
+                            <div className="bg-gradient-to-br from-primary-600 to-primary-700 rounded-2xl p-8 text-center shadow-xl mt-10">
+                                <div className="space-y-4">
+                                    <h4 className="text-xl md:text-2xl font-black text-white font-['iransansX']">
+                                        Submission Deadline
+                                    </h4>
+                                    <p className="text-2xl md:text-3xl font-black text-white font-['iransansX']">
+                                        Nowruz 1405 (Persian New Year, March 20th, 2026)
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Website Link */}
+                            <div className="bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 border-2 border-primary-200 text-center mt-8">
+                                <p className="text-sm md:text-base text-gray-700 mb-4 font-['iransansX']">
+                                    For submission and full details, including technical requirements for each category (e.g., acceptable formats), please visit the official festival website:
                                 </p>
+                                <a 
+                                    href="https://www.iranian-route.com" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="inline-block text-xl md:text-2xl font-bold text-primary-700 hover:text-primary-800 transition-colors duration-300 font-['iransansX'] break-all"
+                                >
+                                    www.iranian-route.com
+                                </a>
+                            </div>
+
+                            {/* Download PDF Buttons */}
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8">
+                                <a
+                                    href="/farakhan-english.pdf"
+                                    onClick={handleDownloadFarakhanEnglish}
+                                    className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-primary-600 to-primary-700 text-white rounded-xl font-bold text-base sm:text-lg hover:from-primary-700 hover:to-primary-800 transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-xl hover:shadow-2xl font-['iransansX']"
+                                >
+                                    <svg className="w-6 h-6 transform group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                    </svg>
+                                    <span>Download Invitation Letter (English)</span>
+                                    <svg className="w-5 h-5 transform group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                    </svg>
+                                </a>
+                                <a
+                                    href="/farakhan-farsi.pdf"
+                                    onClick={handleDownloadFarakhanFarsi}
+                                    className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-secondary-600 to-secondary-700 text-white rounded-xl font-bold text-base sm:text-lg hover:from-secondary-700 hover:to-secondary-800 transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-xl hover:shadow-2xl font-['iransansX']"
+                                >
+                                    <svg className="w-6 h-6 transform group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                    </svg>
+                                    <span>دانلود فراخوان (فارسی)</span>
+                                    <svg className="w-5 h-5 transform group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                    </svg>
+                                </a>
                             </div>
                         </div>
+                    ) : (
+                        /* Persian Content */
+                        <div dir="rtl" className="max-w-5xl mx-auto space-y-8">
+                            {/* Title Section */}
+                            <div className="text-center space-y-4 mb-10">
+                                <h3 className="text-2xl md:text-3xl font-black text-primary-700 font-['iransansX']">
+                                    جشنواره بین المللی مسیر ایران
+                                </h3>
+                                <p className="text-lg md:text-xl text-gray-700 font-semibold font-['iransansX']">
+                                    دانشگاه ها و دانشکده های هنر ایران
+                                </p>
+                            </div>
 
-                        {/* Website Link */}
-                        <div className="bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 border-2 border-primary-200 text-center mt-8">
-                            <p className="text-base md:text-lg text-gray-700 mb-4 font-['iransansX']">
-                                برای ارسال اثر و مطالعهٔ جزئیات کامل و شرایط فنی هر رشته (مانند فرمت‌های قابل قبول) به وب‌سایت رسمی جشنواره مراجعه بفرمایید:
-                            </p>
-                            <a 
-                                href="https://www.iranian-route.com" 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                className="inline-block text-2xl md:text-3xl font-bold text-primary-700 hover:text-primary-800 transition-colors duration-300 font-['iransansX'] break-all"
-                            >
-                                WWW.IRANIAN-ROUTE.COM
-                            </a>
-                        </div>
+                            {/* Introduction */}
+                            <div className="bg-gradient-to-br from-primary-50 to-secondary-50 rounded-2xl p-6 sm:p-8 border-r-4 border-primary-500">
+                                <p className="text-sm md:text-base lg:text-lg text-gray-800 leading-relaxed font-['iransansX'] text-justify">
+                                    مسیر ایران از  هنرمندان جهان دعوت میکند تا به افتخار  ایران، دست بر ساز، قلم و ابزار هنر ببرند.
+                                </p>
+                                <p className="text-sm md:text-base lg:text-lg text-gray-800 leading-relaxed font-['iransansX'] text-justify mt-4">
+                                    جشنواره بصورت مجازی و با موضوع "ایران" برگزار میشود.
+                                </p>
+                            </div>
 
-                        {/* Download PDF Button */}
-                        <div className="flex justify-center mt-8">
-                            <a
-                                href="/farakhan.pdf"
-                                download="farakhan-jashnvare-masir-iran.pdf"
-                                className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-primary-600 to-primary-700 text-white rounded-xl font-bold text-base sm:text-lg hover:from-primary-700 hover:to-primary-800 transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-xl hover:shadow-2xl font-['iransansX']"
-                            >
-                                <svg className="w-6 h-6 transform group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                                </svg>
-                                <span>دانلود PDF متن فراخوان</span>
-                                <svg className="w-5 h-5 transform group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                </svg>
-                            </a>
+                            {/* Art Fields Section */}
+                            <div className="space-y-6">
+                                <h4 className="text-xl md:text-2xl font-bold text-primary-700 font-['iransansX'] text-right">
+                                    مسیر ایران پذیرای آثار در رشته های زیر میباشد:
+                                </h4>
+                                
+                                <div className="bg-white rounded-xl p-6 shadow-md border-r-4 border-primary-500">
+                                    <p className="text-sm md:text-base lg:text-lg text-gray-800 font-['iransansX'] leading-relaxed text-justify">
+                                        <span className="font-bold text-primary-700">موسیقی</span> (نوازندگی و آهنگسازی)، <span className="font-bold text-primary-700">سینما</span> (فیلم کوتاه)، <span className="font-bold text-primary-700">نمایش</span> (فیلم نمایش) و <span className="font-bold text-primary-700">انیمیشن</span>. <span className="font-bold text-primary-700">نقاشی</span> (سبک، تکنیک و اندازه آزاد)، <span className="font-bold text-primary-700">مجسمه‌سازی</span>، <span className="font-bold text-primary-700">خوشنویسی</span>، <span className="font-bold text-primary-700">گرافیک</span> (طراحی پوستر، نشانه و طراحی متحرک)، <span className="font-bold text-primary-700">تصویرسازی</span>، <span className="font-bold text-primary-700">عکاسی</span>(تک عکس و مجموعه) و <span className="font-bold text-primary-700">هنرهای جدید</span>. <span className="font-bold text-primary-700">معماری</span>، <span className="font-bold text-primary-700">طراحی صنعتی</span>، <span className="font-bold text-primary-700">طراحی لباس</span>، <span className="font-bold text-primary-700">طراحی پارچه</span>، <span className="font-bold text-primary-700">طراحی فرش</span>، <span className="font-bold text-primary-700">بافت فرش</span> و <span className="font-bold text-primary-700">صنایع دستی</span>. <span className="font-bold text-primary-700">ادبیات:</span> داستان کوتاه و شعر.
+                                    </p>
+                                </div>
+
+                                <div className="bg-gradient-to-r from-primary-100 to-secondary-100 rounded-xl p-4 border border-primary-200">
+                                    <p className="text-sm md:text-base text-gray-800 font-['iransansX'] text-center">
+                                        <span className="font-bold text-primary-700">سبک، تکنیک و اندازه آزاد است.</span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Important Notes */}
+                            <div className="space-y-4 mt-10">
+                                <div className="bg-white rounded-xl p-6 shadow-lg border-l-4 border-primary-600">
+                                    <p className="text-sm md:text-base text-gray-800 leading-relaxed font-['iransansX'] text-justify mb-3">
+                                        جشنواره مسیر ایران هیچگونه رتبه بندی و گزینش مقام اول و دوم ندارد.
+                                    </p>
+                                    <p className="text-sm md:text-base text-gray-800 leading-relaxed font-['iransansX'] text-justify mb-3">
+                                        مسیر ایران بستری برابر جهت انتشار و تقدیر از آثار پذیرفته شده در جشنواره است.
+                                    </p>
+                                    <p className="text-sm md:text-base text-gray-800 leading-relaxed font-['iransansX'] text-justify mb-3">
+                                        لوح جشنواره،  با افتخار از طرف دانشگاه هنر ایران به تمامی آثار پذیرفته شده  اعطا خواهد شد.
+                                    </p>
+                                    <p className="text-sm md:text-base text-gray-800 leading-relaxed font-['iransansX'] text-justify">
+                                        بازبینی آثار توسط اساتید هنر از دانشگاه های هنر ایران صورت میپذیرد.
+                                    </p>
+                                </div>
+
+                                <div className="bg-red-50 rounded-xl p-6 border-r-4 border-red-400">
+                                    <p className="text-sm md:text-base text-red-800 font-bold font-['iransansX'] text-center">
+                                        آثار باید مختص به جشنواره مسیر ایران تولید شده باشند.
+                                    </p>
+                                </div>
+
+                                <div className="bg-green-50 rounded-xl p-6 border-r-4 border-green-400">
+                                    <p className="text-sm md:text-base text-green-800 font-bold font-['iransansX'] text-center">
+                                        شرکت در مسیر ایران رایگان است.
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Deadline Section */}
+                            <div className="bg-gradient-to-br from-primary-600 to-primary-700 rounded-2xl p-8 text-center shadow-xl mt-10">
+                                <div className="space-y-4">
+                                    <h4 className="text-xl md:text-2xl font-black text-white font-['iransansX']">
+                                        مهلت ارسال آثار
+                                    </h4>
+                                    <p className="text-2xl md:text-3xl font-black text-white font-['iransansX']">
+                                        نوروز ۱۴۰۵
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Website Link */}
+                            <div className="bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 border-2 border-primary-200 text-center mt-8">
+                                <p className="text-sm md:text-base text-gray-700 mb-4 font-['iransansX']">
+                                    برای ارسال اثر و مطالعهٔ جزئیات کامل و شرایط فنی هر رشته (مانند فرمت‌های قابل قبول) به وب‌سایت رسمی جشنواره مراجعه بفرمایید:
+                                </p>
+                                <a 
+                                    href="https://www.iranian-route.com" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="inline-block text-xl md:text-2xl font-bold text-primary-700 hover:text-primary-800 transition-colors duration-300 font-['iransansX'] break-all"
+                                >
+                                    WWW. Iranian-Route. com
+                                </a>
+                            </div>
+
+                            {/* Download PDF Buttons */}
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8">
+                                <a
+                                    href="/farakhan-farsi.pdf"
+                                    onClick={handleDownloadFarakhanFarsi}
+                                    className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-primary-600 to-primary-700 text-white rounded-xl font-bold text-base sm:text-lg hover:from-primary-700 hover:to-primary-800 transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-xl hover:shadow-2xl font-['iransansX']"
+                                >
+                                    <svg className="w-6 h-6 transform group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                    </svg>
+                                    <span>دانلود فراخوان (فارسی)</span>
+                                    <svg className="w-5 h-5 transform group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                    </svg>
+                                </a>
+                                <a
+                                    href="/farakhan-english.pdf"
+                                    onClick={handleDownloadFarakhanEnglish}
+                                    className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-secondary-600 to-secondary-700 text-white rounded-xl font-bold text-base sm:text-lg hover:from-secondary-700 hover:to-secondary-800 transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-xl hover:shadow-2xl font-['iransansX']"
+                                >
+                                    <svg className="w-6 h-6 transform group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                    </svg>
+                                    <span>Download Invitation Letter (English)</span>
+                                    <svg className="w-5 h-5 transform group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                    </svg>
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </div>
             </section>
 
@@ -592,6 +750,119 @@ export default function Home({ artFields = [] }) {
                         transition: 'opacity 300ms ease',
                     }}
                     />
+                </div>
+            </section>
+
+        {/* Safiran Telegram Group Section */}
+        <section className="mb-32">
+            <div className="max-w-5xl mx-auto">
+                {/* Titles */}
+                <div className="text-center mb-12 space-y-4">
+                    <h2 className="text-3xl md:text-4xl font-black text-gray-900 font-['iransansX']" dir="rtl">
+                        گروه تلگرام سفیران جشنواره
+                    </h2>
+                    <h2 className="text-3xl md:text-4xl font-black text-gray-900 font-['iransansX']" dir="ltr">
+                        Festival Ambassadors Telegram Group
+                    </h2>
+                    <div className="w-20 h-1 bg-gradient-to-r from-primary-600 to-secondary-500 mx-auto rounded-full"></div>
+                </div>
+                
+                {/* Join Section - Two Column Layout */}
+                <div className="bg-gradient-to-br from-white via-gray-50 to-white rounded-3xl p-8 md:p-12 shadow-xl border border-gray-100">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+                        {/* Left: QR Code */}
+                        <div className="flex justify-center md:justify-start">
+                            <div className="relative group">
+                                <div className="absolute inset-0 bg-gradient-to-br from-primary-200 to-secondary-200 rounded-3xl blur-xl opacity-50 group-hover:opacity-70 transition-opacity duration-300 -z-10"></div>
+                                <div className="bg-white p-8 rounded-3xl shadow-xl border-2 border-primary-100 hover:border-primary-200 transition-all duration-300">
+                                    <div className="text-center mb-4">
+                                        <p className="text-sm font-semibold text-primary-700 font-['iransansX'] mb-1" dir="rtl">
+                                            اسکن کنید
+                                        </p>
+                                        <p className="text-xs text-gray-500 font-['iransansX']" dir="ltr">
+                                            Scan QR Code
+                                        </p>
+                                    </div>
+                                    <div 
+                                        className="w-64 h-64 mx-auto rounded-2xl overflow-hidden bg-white p-3"
+                                    >
+                                        <img 
+                                            src={`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent('https://t.me/Iranian_route_Ambassadors')}&color=374c9a&bgcolor=ffffff&margin=2&qzone=3`}
+                                            alt="QR Code"
+                                            className="w-full h-full rounded-xl"
+                                            style={{
+                                                imageRendering: 'auto',
+                                                filter: 'drop-shadow(0 4px 12px rgba(55, 76, 154, 0.2))',
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {/* Right: Description and Button */}
+                        <div className="space-y-6" dir={locale === 'en' ? 'ltr' : 'rtl'}>
+                            <div className="space-y-4">
+                                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 font-['iransansX']">
+                                    <span dir="rtl" className="block">پیوستن به گروه</span>
+                                    <span dir="ltr" className="block mt-1 text-xl md:text-2xl">Join the Group</span>
+                                </h3>
+                                <div className="space-y-3 text-gray-700 font-['iransansX']">
+                                    <p className="text-base md:text-lg leading-relaxed" dir="rtl">
+                                        برای پیوستن به گروه تلگرام سفیران جشنواره می‌توانید از دو روش استفاده کنید:
+                                    </p>
+                                    <p className="text-sm md:text-base leading-relaxed text-gray-600" dir="ltr">
+                                        You can join the Festival Ambassadors Telegram group in two ways:
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div className="space-y-3">
+                                <div className="flex items-start gap-3 p-4 bg-primary-50 rounded-xl border border-primary-100">
+                                    <div className="flex-shrink-0 w-8 h-8 bg-primary-600 text-white rounded-full flex items-center justify-center font-bold text-sm font-['iransansX']">
+                                        ۱
+                                    </div>
+                                    <div className="flex-1">
+                                        <p className="text-sm md:text-base font-semibold text-gray-800 font-['iransansX'] mb-1" dir="rtl">
+                                            اسکن QR Code با دوربین موبایل
+                                        </p>
+                                        <p className="text-xs md:text-sm text-gray-600 font-['iransansX']" dir="ltr">
+                                            Scan QR Code with your mobile camera
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <div className="flex items-start gap-3 p-4 bg-secondary-50 rounded-xl border border-secondary-100">
+                                    <div className="flex-shrink-0 w-8 h-8 bg-secondary-600 text-white rounded-full flex items-center justify-center font-bold text-sm font-['iransansX']">
+                                        ۲
+                                    </div>
+                                    <div className="flex-1">
+                                        <p className="text-sm md:text-base font-semibold text-gray-800 font-['iransansX'] mb-1" dir="rtl">
+                                            کلیک روی دکمه زیر
+                                        </p>
+                                        <p className="text-xs md:text-sm text-gray-600 font-['iransansX']" dir="ltr">
+                                            Click the button below
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <a 
+                                href="https://t.me/Iranian_route_Ambassadors" 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                className="inline-block group w-full"
+                            >
+                                <div className="bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white px-8 py-4 rounded-xl font-bold text-lg md:text-xl font-['iransansX'] transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-[1.02] active:scale-100 text-center w-full">
+                                    <div className="flex flex-col items-center gap-1">
+                                        <span dir="rtl" className="text-lg md:text-xl">پیوستن به گروه</span>
+                                        <span dir="ltr" className="text-base md:text-lg opacity-90">Join Group</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
                 </div>
                 </section>
 

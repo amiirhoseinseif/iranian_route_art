@@ -3,6 +3,8 @@ import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { LanguageSwitcherAuth } from '@/Components/LanguageSwitcher';
+import Toast from '@/Components/Toast';
+import ArtRegistrationSuccessModal from '@/Components/ArtRegistrationSuccessModal';
 import { Link, usePage } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 import { useTranslation } from '@/Utils/translation';
@@ -189,6 +191,12 @@ export default function AuthenticatedLayout({ header, children }) {
             )}
 
             <main>{children}</main>
+            
+            {/* Toast Notification */}
+            <Toast />
+            
+            {/* Art Registration Success Modal */}
+            <ArtRegistrationSuccessModal />
         </div>
     );
 }

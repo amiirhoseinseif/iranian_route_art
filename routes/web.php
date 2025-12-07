@@ -29,7 +29,24 @@ Route::get('/about', function () {
     return Inertia::render('About');
 })->name('about');
 
-// PDF Download Route
+// PDF Download Routes - فراخوان
+Route::get('/farakhan-farsi.pdf', function () {
+    $filePath = public_path('فراخوان سایت فارسی.pdf');
+    if (file_exists($filePath)) {
+        return response()->download($filePath, 'فراخوان-جشنواره-مسیر-ایران-فارسی.pdf');
+    }
+    abort(404);
+})->name('farakhan.farsi.download');
+
+Route::get('/farakhan-english.pdf', function () {
+    $filePath = public_path('فراخوان سایت انگلیسی.pdf');
+    if (file_exists($filePath)) {
+        return response()->download($filePath, 'iranian-route-festival-call-for-artworks-english.pdf');
+    }
+    abort(404);
+})->name('farakhan.english.download');
+
+// Keep old route for backward compatibility
 Route::get('/farakhan.pdf', [App\Http\Controllers\FarakhanController::class, 'download'])->name('farakhan.download');
 
 Route::get('/contact', function () {
@@ -46,6 +63,19 @@ Route::get('/artists', function () {
 Route::get('/login', [App\Http\Controllers\AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [App\Http\Controllers\AuthController::class, 'login'])->name('login.store');
 Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
+
+// Clear session route (for fixing oversized session cookies)
+Route::get('/clear-session', function (Illuminate\Http\Request $request) {
+    // Remove old user_data if exists
+    $request->session()->forget('user_data');
+    // Invalidate and regenerate session to get a fresh cookie
+    $request->session()->invalidate();
+    $request->session()->regenerate();
+    
+    // Return a simple HTML page that clears cookies and redirects
+    return response()->view('clear-session', [], 200)
+        ->header('Clear-Site-Data', '"cache", "cookies", "storage"');
+})->name('clear.session');
 
 Route::get('/forgot-password', function () {
     return Inertia::render('Auth/ForgotPassword');
@@ -244,9 +274,7 @@ Route::prefix('admin')->middleware(['auth.admin'])->group(function () {
         return Inertia::render('Admin/Artists');
     })->name('admin.artists');
     
-    Route::get('/arts', function () {
-        return Inertia::render('Admin/Arts');
-    })->name('admin.arts');
+    Route::get('/arts', [AdminController::class, 'indexArts'])->name('admin.arts');
 
     Route::get('/arts/{art}', [AdminController::class, 'viewArt'])->name('admin.arts.show');
     
@@ -438,6 +466,30 @@ Route::middleware('auth')->group(function () {
     Route::get('/datepicker-demo', function () {
         return Inertia::render('DatePickerDemo');
     })->name('datepicker.demo');
+});
+
+// S3 Storage Routes
+Route::prefix('s3')->group(function () {
+    Route::get('/download/{file}', [App\Http\Controllers\S3\DownloadController::class, 'download'])
+        ->where('file', '.*')
+        ->name('s3.download');
+    
+    Route::get('/presigned/{file}', [App\Http\Controllers\S3\PresignedController::class, 'generatePresignedUrl'])
+        ->where('file', '.*')
+        ->name('s3.presigned');
+    
+    Route::post('/upload', [App\Http\Controllers\S3\UploadController::class, 'upload'])
+        ->name('s3.upload');
+    
+    Route::delete('/delete/{file}', [App\Http\Controllers\S3\DeleteController::class, 'delete'])
+        ->where('file', '.*')
+        ->name('s3.delete');
+    
+    // Test routes for S3
+    Route::get('/test', [App\Http\Controllers\S3\TestController::class, 'showTestForm'])
+        ->name('s3.test.form');
+    Route::post('/test', [App\Http\Controllers\S3\TestController::class, 'testUpload'])
+        ->name('s3.test');
 });
 
 require __DIR__.'/auth.php';

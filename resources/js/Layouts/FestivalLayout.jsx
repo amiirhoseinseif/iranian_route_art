@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import { Head } from '@inertiajs/react';
-import { LogoIcon, HomeIcon, AboutIcon, ContactIcon, TelegramIcon, InstagramIcon, WhatsAppIcon, PaletteIcon, AddIcon, UploadIcon, ProfileIcon, BellIcon, SettingsIcon, UsersIcon, ScaleIcon, ClipboardIcon, StarIcon, ExitIcon, ChartBarIcon, EmailIcon, LocationIcon } from '@/Components/SvgIcons';
+import { LogoIcon, HomeIcon, AboutIcon, ContactIcon, TelegramIcon, InstagramIcon, WhatsAppIcon, PaletteIcon, AddIcon, UploadIcon, ProfileIcon, BellIcon, SettingsIcon, UsersIcon, ScaleIcon, ClipboardIcon, StarIcon, ExitIcon, ChartBarIcon, EmailIcon, LocationIcon, PhoneIcon } from '@/Components/SvgIcons';
 import Dropdown from '@/Components/Dropdown';
 import LanguageSwitcher, { LanguageSwitcherCompact } from '@/Components/LanguageSwitcher';
 import AuthModal from '@/Components/AuthModal';
+import Toast from '@/Components/Toast';
+import ArtRegistrationSuccessModal from '@/Components/ArtRegistrationSuccessModal';
 import { useTranslation } from '@/Utils/translation';
 
 export default function FestivalLayout({ children, title }) {
@@ -442,6 +444,17 @@ export default function FestivalLayout({ children, title }) {
                                 <ul className="space-y-4">
                                     <li className="flex items-start space-x-3 space-x-reverse group">
                                         <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-primary-600 transition-colors duration-300">
+                                            <PhoneIcon className="w-5 h-5" />
+                                        </div>
+                                        <a href="tel:+989392129628" className="text-gray-300 hover:text-white transition-colors font-['iransansX']">
+                                            <p className="text-sm text-gray-400 font-['iransansX'] mb-1">{trans('phone')}</p>
+                                            <p className="text-gray-300 font-['iransansX']">
+                                                {trans('phone_details')}
+                                            </p>
+                                        </a>
+                                    </li>
+                                    <li className="flex items-start space-x-3 space-x-reverse group">
+                                        <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-primary-600 transition-colors duration-300">
                                             <EmailIcon className="w-5 h-5" />
                                         </div>
                                         <div>
@@ -511,6 +524,12 @@ export default function FestivalLayout({ children, title }) {
                 isOpen={showAuthModal} 
                 onClose={() => setShowAuthModal(false)} 
             />
+            
+            {/* Toast Notification */}
+            <Toast />
+            
+            {/* Art Registration Success Modal */}
+            <ArtRegistrationSuccessModal />
         </>
     );
 }

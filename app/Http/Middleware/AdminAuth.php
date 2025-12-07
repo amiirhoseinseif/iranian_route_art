@@ -18,10 +18,10 @@ class AdminAuth
     {
         // Check if user is authenticated via session
         $userType = $request->session()->get('user_type');
-        $userData = $request->session()->get('user_data');
+        $userId = $request->session()->get('user_id');
         $accessToken = $request->session()->get('access_token');
         
-        if (!$userType || !$userData || !$accessToken) {
+        if (!$userType || !$userId || !$accessToken) {
             return redirect()->route('login');
         }
 
@@ -31,9 +31,9 @@ class AdminAuth
         }
 
         // Verify token is still valid
-        $user = \App\Models\Admin::find($request->session()->get('user_id'));
+        $user = \App\Models\Admin::find($userId);
         if (!$user) {
-            $request->session()->forget(['access_token', 'user_type', 'user_id', 'user_data']);
+            $request->session()->forget(['access_token', 'user_type', 'user_id']);
             return redirect()->route('login');
         }
 
@@ -41,7 +41,7 @@ class AdminAuth
         $hasValidTokens = $user->tokens()->where('revoked', false)->exists();
         
         if (!$hasValidTokens) {
-            $request->session()->forget(['access_token', 'user_type', 'user_id', 'user_data']);
+            $request->session()->forget(['access_token', 'user_type', 'user_id']);
             return redirect()->route('login');
         }
 

@@ -6,13 +6,12 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import { useTranslation } from '@/Utils/translation';
 import { route } from '@/Utils/route';
 
-export default function Login({ csrf_token }) {
+export default function Login() {
     const { trans } = useTranslation();
     const { data, setData, post, processing, errors } = useForm({
         email: '',
         password: '',
         remember: false,
-        _token: csrf_token,
     });
 
     const handleSubmit = (e) => {

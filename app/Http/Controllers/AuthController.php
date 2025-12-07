@@ -78,11 +78,15 @@ class AuthController extends Controller
                 // Create access token for Passport
                 $token = $user->createToken('Login Token', ['*'])->accessToken;
                 
-                // Store authentication data in session for web usage
+                // Regenerate session for security (this will create new CSRF token)
+                $request->session()->regenerate();
+                
+                // Store minimal authentication data in session after regenerate
+                // Only store essential data to avoid cookie size issues
                 $request->session()->put('access_token', $token);
                 $request->session()->put('user_type', $userType);
                 $request->session()->put('user_id', $user->id);
-                $request->session()->put('user_data', $user->toArray());
+                // Don't store full user_data to avoid cookie size limits
                 
                 break;
             }
@@ -148,16 +152,28 @@ class AuthController extends Controller
             }
         }
 
+        // Determine redirect URL based on user type
+        $redirectUrl = null;
         switch ($userType) {
             case 'artist':
-                return redirect()->intended(route('artist.dashboard'));
+                $redirectUrl = route('artist.dashboard');
+                break;
             case 'admin':
-                return redirect()->intended(route('admin.dashboard'));
+                $redirectUrl = route('admin.dashboard');
+                break;
             case 'judge':
-                return redirect()->intended(route('judge.dashboard'));
+                $redirectUrl = route('judge.dashboard');
+                break;
             default:
-                return redirect()->route('login');
+                return redirect()->route('login')->withErrors(['email' => 'نوع کاربر نامعتبر است.']);
         }
+        
+        // If there's an intended URL, use it; otherwise use default dashboard
+        if ($intendedUrl && $userType === 'artist') {
+            return redirect($intendedUrl)->with('success', app()->getLocale() === 'fa' ? 'ورود شما با موفقیت انجام شد!' : 'Login successful!');
+        }
+        
+        return redirect($redirectUrl)->with('success', app()->getLocale() === 'fa' ? 'ورود شما با موفقیت انجام شد!' : 'Login successful!');
     }
 
     public function logout(Request $request)
@@ -188,7 +204,7 @@ class AuthController extends Controller
         }
         
         // Clear session
-        $request->session()->forget(['access_token', 'user_type', 'user_id', 'user_data']);
+        $request->session()->forget(['access_token', 'user_type', 'user_id']);
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         

@@ -49,15 +49,22 @@ return [
 
         's3' => [
             'driver' => 's3',
-            'key' => env('AWS_ACCESS_KEY_ID'),
-            'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            'region' => env('AWS_DEFAULT_REGION'),
-            'bucket' => env('AWS_BUCKET'),
-            'url' => env('AWS_URL'),
-            'endpoint' => env('AWS_ENDPOINT'),
-            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+            // Hardcoded credentials from Liara
+            // IMPORTANT: Try both with and without "liara-" prefix
+            // If Access Key from Liara is "s6mlbavgakuuuq2g", try:
+            // 1. Without prefix: 's6mlbavgakuuuq2g'
+            // 2. With prefix: 'liara-s6mlbavgakuuuq2g'
+            'key' => 's6mlbavgakuuuq2g', // Try with prefix
+            'secret' => '02ab58f9-531d-4930-975e-b017b4356892',
+            'region' => 'default',
+            'bucket' => 'iranian-route', // Changed from 'iranian-route' to 'arts' based on error message
+            'url' => 'https://storage.c2.liara.space',
+            'endpoint' => 'https://storage.c2.liara.space',
+            // For Liara Storage and S3-compatible services, use path style
+            'use_path_style_endpoint' => true,
             'throw' => false,
             'report' => false,
+            'visibility' => 'private',
         ],
 
     ],
