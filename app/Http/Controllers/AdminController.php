@@ -1019,6 +1019,10 @@ class AdminController extends Controller
             return $path;
         }
 
+        // Get bucket name and endpoint from config
+        $bucket = config('filesystems.disks.s3.bucket', 'iranian-route');
+        $endpoint = config('filesystems.disks.s3.url', 'https://storage.c2.liara.space');
+
         // If it's a storage path, check public disk FIRST (for backward compatibility)
         if (Str::startsWith($path, ['arts/', 'storage/'])) {
             // Remove /storage/ prefix if exists
@@ -1043,7 +1047,8 @@ class AdminController extends Controller
             try {
                 // Check if file exists in S3
                 if (Storage::disk('s3')->exists($cleanPath)) {
-                    return Storage::disk('s3')->url($cleanPath);
+                    // Build URL manually: https://storage.c2.liara.space/{bucket}/{file_path}
+                    return rtrim($endpoint, '/') . '/' . $bucket . '/' . ltrim($cleanPath, '/');
                 }
             } catch (\Exception $e) {
                 // Silently continue - S3 might not be configured or accessible
@@ -1051,7 +1056,8 @@ class AdminController extends Controller
             
             // 3. Try to generate presigned URL for S3 (if file might exist but exists() failed)
             try {
-                return Storage::disk('s3')->temporaryUrl($cleanPath, now()->addHours(1));
+                // For S3 files, build URL manually instead of using temporaryUrl
+                return rtrim($endpoint, '/') . '/' . $bucket . '/' . ltrim($cleanPath, '/');
             } catch (\Exception $e) {
                 // Silently continue
             }
@@ -1074,7 +1080,8 @@ class AdminController extends Controller
             // 2. Try S3 (with error handling, but don't log)
             try {
                 if (Storage::disk('s3')->exists($path)) {
-                    return Storage::disk('s3')->url($path);
+                    // Build URL manually: https://storage.c2.liara.space/{bucket}/{file_path}
+                    return rtrim($endpoint, '/') . '/' . $bucket . '/' . ltrim($path, '/');
                 }
             } catch (\Exception $e) {
                 // Silently continue

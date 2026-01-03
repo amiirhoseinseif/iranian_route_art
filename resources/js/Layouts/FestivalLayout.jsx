@@ -98,6 +98,21 @@ export default function FestivalLayout({ children, title }) {
                             : 'bg-gradient-to-r from-secondary-600 via-secondary-700 to-secondary-800 shadow-lg'
                     } mobile-safe-area`}
                 >
+                    {/* Top Banner Text */}
+                    <div className={`hidden md:block border-b transition-all duration-300 ${
+                        isScrolled 
+                            ? 'border-secondary-200/30 bg-white/50' 
+                            : 'border-white/20 bg-white/5'
+                    }`}>
+                        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-1.5">
+                            <p className={`text-[9px] lg:text-[10px] text-center font-['iransansX'] leading-tight transition-colors duration-300 ${
+                                isScrolled ? 'text-gray-600' : 'text-white/80'
+                            }`}>
+                                {trans('festival_collaboration')}
+                            </p>
+                        </div>
+                    </div>
+                    
                     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="flex items-center justify-between h-20 lg:h-24">
                             {/* Mobile Hamburger */}
@@ -370,7 +385,7 @@ export default function FestivalLayout({ children, title }) {
                 </header>
 
                 {/* Main Content with padding for fixed header */}
-                <main className="pt-20 lg:pt-24 container mx-auto px-4 py-8">
+                <main className="pt-20 md:pt-28 lg:pt-28 container mx-auto px-4 py-8">
                     {children}
                 </main>
 
@@ -460,7 +475,7 @@ export default function FestivalLayout({ children, title }) {
                                         <div>
                                             <p className="text-sm text-gray-400 font-['iransansX'] mb-1">{trans('email')}</p>
                                             <a href="mailto:info@iranianrouteart.ir" className="text-gray-300 hover:text-white transition-colors font-['iransansX']">
-                                                info@iranianrouteart.ir
+                                                Iranianrouteartfestival@gmail.com
                                             </a>
                                         </div>
                                     </li>
@@ -509,7 +524,10 @@ export default function FestivalLayout({ children, title }) {
 
                         {/* Copyright */}
                         <div className="border-t border-white/20 pt-8 mt-8">
-                            <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+                            <div className="flex flex-col items-center justify-center space-y-3">
+                                <p className="text-gray-400 text-[10px] sm:text-xs text-center font-['iransansX'] leading-relaxed px-4">
+                                    {trans('festival_collaboration')}
+                                </p>
                                 <p className="text-gray-400 text-sm text-center font-['iransansX']">
                                     © 2025 {trans('site_title')}. {trans('all_rights_reserved')}.
                                 </p>

@@ -107,6 +107,16 @@ class ArtController extends Controller
 
     public function store(Request $request)
     {
+        // Log PHP upload settings for debugging
+        Log::info('PHP Upload Settings', [
+            'upload_max_filesize' => ini_get('upload_max_filesize'),
+            'post_max_size' => ini_get('post_max_size'),
+            'max_execution_time' => ini_get('max_execution_time'),
+            'max_input_time' => ini_get('max_input_time'),
+            'memory_limit' => ini_get('memory_limit'),
+            'content_length' => $request->header('Content-Length'),
+        ]);
+
         // Get artist from session first
         $userType = $request->session()->get('user_type');
         $userId = $request->session()->get('user_id');
@@ -145,6 +155,43 @@ class ArtController extends Controller
             ->orderBy('order')
             ->get();
 
+        // Check for PHP upload errors before validation
+        $phpUploadErrors = [];
+        foreach ($fieldRequirements as $requirement) {
+            if (in_array($requirement->field_type, ['file', 'image', 'audio', 'video'])) {
+                $fieldName = $requirement->field_name;
+                
+                // Check if file was uploaded
+                if ($request->hasFile($fieldName)) {
+                    $file = $request->file($fieldName);
+                    if ($file && $file->isValid()) {
+                        // File is valid, continue
+                        continue;
+                    } elseif ($file) {
+                        // File exists but has an error
+                        $errorCode = $file->getError();
+                        if ($errorCode !== UPLOAD_ERR_OK) {
+                            $errorMessage = $this->getUploadErrorMessage($errorCode, $requirement->display_name_translated);
+                            $phpUploadErrors[$fieldName] = $errorMessage;
+                        }
+                    }
+                } elseif ($request->has($fieldName)) {
+                    // Field was sent but no file - check $_FILES for error
+                    if (isset($_FILES[$fieldName]) && isset($_FILES[$fieldName]['error'])) {
+                        $errorCode = $_FILES[$fieldName]['error'];
+                        if ($errorCode !== UPLOAD_ERR_OK && $errorCode !== UPLOAD_ERR_NO_FILE) {
+                            $errorMessage = $this->getUploadErrorMessage($errorCode, $requirement->display_name_translated);
+                            $phpUploadErrors[$fieldName] = $errorMessage;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!empty($phpUploadErrors)) {
+            return back()->withErrors($phpUploadErrors)->withInput();
+        }
+
         // Build dynamic validation rules based on field requirements
         $rules = [];
         $messages = [];
@@ -181,6 +228,20 @@ class ArtController extends Controller
                         }
 
                         $rules[$fieldName . '.*'] = implode('|', $fileRules);
+                        
+                        // Add custom error messages for array file uploads
+                        $label = $requirement->display_name_translated;
+                        $maxSizeKB = (int) ($validationRules['max_size'] ?? 0);
+                        $maxSizeMB = round($maxSizeKB / 1024, 2);
+                        $messages[$fieldName . '.*.file'] = $locale === 'fa'
+                            ? $label . ' باید یک فایل معتبر باشد.'
+                            : $label . ' must be a valid file.';
+                        $messages[$fieldName . '.*.mimes'] = $locale === 'fa'
+                            ? $label . ' باید یکی از فرمت‌های مجاز باشد: ' . implode(', ', $validationRules['allowed_formats'] ?? [])
+                            : $label . ' must be one of the allowed formats: ' . implode(', ', $validationRules['allowed_formats'] ?? []);
+                        $messages[$fieldName . '.*.max'] = $locale === 'fa'
+                            ? $label . ' نباید بیشتر از ' . $maxSizeMB . ' مگابایت باشد.'
+                            : $label . ' must not be larger than ' . $maxSizeMB . ' MB.';
                     } else {
                         $fieldRules[] = 'file';
                         if (!empty($validationRules['allowed_formats'])) {
@@ -189,6 +250,23 @@ class ArtController extends Controller
                         if (isset($validationRules['max_size'])) {
                             $fieldRules[] = 'max:' . (int) $validationRules['max_size'];
                         }
+                        
+                        // Add custom error messages for single file uploads
+                        $label = $requirement->display_name_translated;
+                        $maxSizeKB = (int) ($validationRules['max_size'] ?? 0);
+                        $maxSizeMB = round($maxSizeKB / 1024, 2);
+                        $messages[$fieldName . '.file'] = $locale === 'fa'
+                            ? $label . ' باید یک فایل معتبر باشد.'
+                            : $label . ' must be a valid file.';
+                        $messages[$fieldName . '.mimes'] = $locale === 'fa'
+                            ? $label . ' باید یکی از فرمت‌های مجاز باشد: ' . implode(', ', $validationRules['allowed_formats'] ?? [])
+                            : $label . ' must be one of the allowed formats: ' . implode(', ', $validationRules['allowed_formats'] ?? []);
+                        $messages[$fieldName . '.max'] = $locale === 'fa'
+                            ? $label . ' نباید بیشتر از ' . $maxSizeMB . ' مگابایت باشد.'
+                            : $label . ' must not be larger than ' . $maxSizeMB . ' MB.';
+                        $messages[$fieldName . '.uploaded'] = $locale === 'fa'
+                            ? $label . ' آپلود نشد. لطفاً بررسی کنید که فایل خیلی بزرگ نباشد و دوباره تلاش کنید.'
+                            : $label . ' failed to upload. Please check that the file is not too large and try again.';
                     }
                     break;
 
@@ -266,10 +344,21 @@ class ArtController extends Controller
                 : $label . ' is required.';
         }
 
+        // Log validation rules for debugging
+        Log::info('File Upload Validation Rules', [
+            'rules' => $rules,
+            'messages' => $messages,
+        ]);
+
         // Validate dynamic fields
         $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
+            Log::error('Validation Failed', [
+                'errors' => $validator->errors()->toArray(),
+                'input' => array_keys($request->all()),
+                'files' => array_keys($request->allFiles()),
+            ]);
             return back()->withErrors($validator)->withInput();
         }
 
@@ -736,5 +825,82 @@ class ArtController extends Controller
         $art->delete();
 
         return redirect()->route('artist.arts')->with('success', 'اثر شما با موفقیت حذف شد!');
+    }
+
+    /**
+     * Get user-friendly error message for PHP upload errors
+     */
+    private function getUploadErrorMessage($errorCode, $fieldLabel)
+    {
+        $locale = app()->getLocale();
+        
+        switch ($errorCode) {
+            case UPLOAD_ERR_INI_SIZE:
+            case UPLOAD_ERR_FORM_SIZE:
+                return $locale === 'fa'
+                    ? $fieldLabel . ' خیلی بزرگ است. حداکثر اندازه مجاز: ' . $this->formatBytes(ini_get('upload_max_filesize'))
+                    : $fieldLabel . ' is too large. Maximum allowed size: ' . $this->formatBytes(ini_get('upload_max_filesize'));
+            
+            case UPLOAD_ERR_PARTIAL:
+                return $locale === 'fa'
+                    ? $fieldLabel . ' به صورت ناقص آپلود شد. لطفاً دوباره تلاش کنید.'
+                    : $fieldLabel . ' was only partially uploaded. Please try again.';
+            
+            case UPLOAD_ERR_NO_FILE:
+                return $locale === 'fa'
+                    ? $fieldLabel . ' انتخاب نشده است.'
+                    : $fieldLabel . ' was not selected.';
+            
+            case UPLOAD_ERR_NO_TMP_DIR:
+                return $locale === 'fa'
+                    ? 'خطا در سرور: پوشه موقت برای آپلود فایل وجود ندارد. لطفاً با مدیر سیستم تماس بگیرید.'
+                    : 'Server error: Missing temporary folder for file upload. Please contact the administrator.';
+            
+            case UPLOAD_ERR_CANT_WRITE:
+                return $locale === 'fa'
+                    ? 'خطا در سرور: نتوانست فایل را روی دیسک ذخیره کند. لطفاً با مدیر سیستم تماس بگیرید.'
+                    : 'Server error: Failed to write file to disk. Please contact the administrator.';
+            
+            case UPLOAD_ERR_EXTENSION:
+                return $locale === 'fa'
+                    ? 'خطا در سرور: یک افزونه PHP آپلود فایل را متوقف کرد. لطفاً با مدیر سیستم تماس بگیرید.'
+                    : 'Server error: A PHP extension stopped the file upload. Please contact the administrator.';
+            
+            default:
+                return $locale === 'fa'
+                    ? $fieldLabel . ' آپلود نشد. لطفاً دوباره تلاش کنید.'
+                    : $fieldLabel . ' failed to upload. Please try again.';
+        }
+    }
+
+    /**
+     * Format bytes to human-readable format
+     */
+    private function formatBytes($bytes)
+    {
+        if (is_numeric($bytes)) {
+            $bytes = (int) $bytes;
+        } else {
+            // Handle string values like "500M"
+            $bytes = trim($bytes);
+            $last = strtolower($bytes[strlen($bytes) - 1]);
+            $bytes = (int) $bytes;
+            switch ($last) {
+                case 'g':
+                    $bytes *= 1024;
+                case 'm':
+                    $bytes *= 1024;
+                case 'k':
+                    $bytes *= 1024;
+            }
+        }
+        
+        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+        $bytes = max($bytes, 0);
+        $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+        $pow = min($pow, count($units) - 1);
+        $bytes /= pow(1024, $pow);
+        
+        return round($bytes, 2) . ' ' . $units[$pow];
     }
 }

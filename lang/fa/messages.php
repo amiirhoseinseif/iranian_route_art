@@ -117,6 +117,9 @@ return [
     'get_started' => 'شروع کنید',
     
     // Footer
+    'festival_collaboration' => 'معاونت فرهنگی هنری دانشگاه هنر ایران و با همکاری معاونت فرهنگی و اجتماعی وزارت علوم و تحقیقات و فناوری',
+    'festival_collaboration_fa' => 'معاونت فرهنگی هنری دانشگاه هنر ایران و با همکاری معاونت فرهنگی و اجتماعی وزارت علوم و تحقیقات و فناوری',
+    'festival_collaboration_en' => 'Cultural and Artistic Affairs Office of Iran University of Art, in collaboration with the Cultural and Social Affairs Office of the Ministry of Science, Research and Technology',
     'quick_access' => 'دسترسی سریع',
     'festival_rules' => 'قوانین جشنواره',
     'faq' => 'سوالات متداول',

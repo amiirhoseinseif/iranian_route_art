@@ -361,6 +361,10 @@ export default function Home({ artFields = [] }) {
                                                 <p className={`text-sm sm:text-base md:text-lg leading-relaxed font-['iransansX'] ${panel.alignment} ${panel.descriptionTone}`}>
                                                     {panel.description}
                                                 </p>
+                                                {/* Collaboration Text */}
+                                                <p className={`text-[9px] sm:text-[10px] leading-relaxed font-['iransansX'] ${panel.alignment} text-white/60 mt-2`}>
+                                                    {panel.key === 'fa' ? trans('festival_collaboration_fa') : trans('festival_collaboration_en')}
+                                                </p>
                                             </div>
                                         </article>
                                     ))}
@@ -753,119 +757,6 @@ export default function Home({ artFields = [] }) {
                 </div>
             </section>
 
-        {/* Safiran Telegram Group Section */}
-        <section className="mb-32">
-            <div className="max-w-5xl mx-auto">
-                {/* Titles */}
-                <div className="text-center mb-12 space-y-4">
-                    <h2 className="text-3xl md:text-4xl font-black text-gray-900 font-['iransansX']" dir="rtl">
-                        گروه تلگرام سفیران جشنواره
-                    </h2>
-                    <h2 className="text-3xl md:text-4xl font-black text-gray-900 font-['iransansX']" dir="ltr">
-                        Festival Ambassadors Telegram Group
-                    </h2>
-                    <div className="w-20 h-1 bg-gradient-to-r from-primary-600 to-secondary-500 mx-auto rounded-full"></div>
-                </div>
-                
-                {/* Join Section - Two Column Layout */}
-                <div className="bg-gradient-to-br from-white via-gray-50 to-white rounded-3xl p-8 md:p-12 shadow-xl border border-gray-100">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-                        {/* Left: QR Code */}
-                        <div className="flex justify-center md:justify-start">
-                            <div className="relative group">
-                                <div className="absolute inset-0 bg-gradient-to-br from-primary-200 to-secondary-200 rounded-3xl blur-xl opacity-50 group-hover:opacity-70 transition-opacity duration-300 -z-10"></div>
-                                <div className="bg-white p-8 rounded-3xl shadow-xl border-2 border-primary-100 hover:border-primary-200 transition-all duration-300">
-                                    <div className="text-center mb-4">
-                                        <p className="text-sm font-semibold text-primary-700 font-['iransansX'] mb-1" dir="rtl">
-                                            اسکن کنید
-                                        </p>
-                                        <p className="text-xs text-gray-500 font-['iransansX']" dir="ltr">
-                                            Scan QR Code
-                                        </p>
-                                    </div>
-                                    <div 
-                                        className="w-64 h-64 mx-auto rounded-2xl overflow-hidden bg-white p-3"
-                                    >
-                                        <img 
-                                            src={`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent('https://t.me/Iranian_route_Ambassadors')}&color=374c9a&bgcolor=ffffff&margin=2&qzone=3`}
-                                            alt="QR Code"
-                                            className="w-full h-full rounded-xl"
-                                            style={{
-                                                imageRendering: 'auto',
-                                                filter: 'drop-shadow(0 4px 12px rgba(55, 76, 154, 0.2))',
-                                            }}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        {/* Right: Description and Button */}
-                        <div className="space-y-6" dir={locale === 'en' ? 'ltr' : 'rtl'}>
-                            <div className="space-y-4">
-                                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 font-['iransansX']">
-                                    <span dir="rtl" className="block">پیوستن به گروه</span>
-                                    <span dir="ltr" className="block mt-1 text-xl md:text-2xl">Join the Group</span>
-                                </h3>
-                                <div className="space-y-3 text-gray-700 font-['iransansX']">
-                                    <p className="text-base md:text-lg leading-relaxed" dir="rtl">
-                                        برای پیوستن به گروه تلگرام سفیران جشنواره می‌توانید از دو روش استفاده کنید:
-                                    </p>
-                                    <p className="text-sm md:text-base leading-relaxed text-gray-600" dir="ltr">
-                                        You can join the Festival Ambassadors Telegram group in two ways:
-                                    </p>
-                                </div>
-                            </div>
-                            
-                            <div className="space-y-3">
-                                <div className="flex items-start gap-3 p-4 bg-primary-50 rounded-xl border border-primary-100">
-                                    <div className="flex-shrink-0 w-8 h-8 bg-primary-600 text-white rounded-full flex items-center justify-center font-bold text-sm font-['iransansX']">
-                                        ۱
-                                    </div>
-                                    <div className="flex-1">
-                                        <p className="text-sm md:text-base font-semibold text-gray-800 font-['iransansX'] mb-1" dir="rtl">
-                                            اسکن QR Code با دوربین موبایل
-                                        </p>
-                                        <p className="text-xs md:text-sm text-gray-600 font-['iransansX']" dir="ltr">
-                                            Scan QR Code with your mobile camera
-                                        </p>
-                                    </div>
-                                </div>
-                                
-                                <div className="flex items-start gap-3 p-4 bg-secondary-50 rounded-xl border border-secondary-100">
-                                    <div className="flex-shrink-0 w-8 h-8 bg-secondary-600 text-white rounded-full flex items-center justify-center font-bold text-sm font-['iransansX']">
-                                        ۲
-                                    </div>
-                                    <div className="flex-1">
-                                        <p className="text-sm md:text-base font-semibold text-gray-800 font-['iransansX'] mb-1" dir="rtl">
-                                            کلیک روی دکمه زیر
-                                        </p>
-                                        <p className="text-xs md:text-sm text-gray-600 font-['iransansX']" dir="ltr">
-                                            Click the button below
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <a 
-                                href="https://t.me/Iranian_route_Ambassadors" 
-                                target="_blank" 
-                                rel="noopener noreferrer" 
-                                className="inline-block group w-full"
-                            >
-                                <div className="bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white px-8 py-4 rounded-xl font-bold text-lg md:text-xl font-['iransansX'] transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-[1.02] active:scale-100 text-center w-full">
-                                    <div className="flex flex-col items-center gap-1">
-                                        <span dir="rtl" className="text-lg md:text-xl">پیوستن به گروه</span>
-                                        <span dir="ltr" className="text-base md:text-lg opacity-90">Join Group</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                </div>
-                </section>
-
             {/* Art Fields Section - Modern Grid with Hover Effects */}
             <section className="mb-32 bg-gradient-to-br from-gray-50 via-white to-gray-50 rounded-[3rem] p-12 lg:p-16 shadow-xl">
                 <div className="text-center mb-16">
@@ -1011,6 +902,119 @@ export default function Home({ artFields = [] }) {
                     </div>
                 </div>
             </section> */}
+
+        {/* Safiran Telegram Group Section */}
+        <section className="mb-32">
+            <div className="max-w-5xl mx-auto">
+                {/* Titles */}
+                <div className="text-center mb-12 space-y-4">
+                    <h2 className="text-3xl md:text-4xl font-black text-gray-900 font-['iransansX']" dir="rtl">
+                        گروه تلگرام سفیران جشنواره
+                    </h2>
+                    <h2 className="text-3xl md:text-4xl font-black text-gray-900 font-['iransansX']" dir="ltr">
+                        Festival Ambassadors Telegram Group
+                    </h2>
+                    <div className="w-20 h-1 bg-gradient-to-r from-primary-600 to-secondary-500 mx-auto rounded-full"></div>
+                </div>
+                
+                {/* Join Section - Two Column Layout */}
+                <div className="bg-gradient-to-br from-white via-gray-50 to-white rounded-3xl p-8 md:p-12 shadow-xl border border-gray-100">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+                        {/* Left: QR Code */}
+                        <div className="flex justify-center md:justify-start">
+                            <div className="relative group">
+                                <div className="absolute inset-0 bg-gradient-to-br from-primary-200 to-secondary-200 rounded-3xl blur-xl opacity-50 group-hover:opacity-70 transition-opacity duration-300 -z-10"></div>
+                                <div className="bg-white p-8 rounded-3xl shadow-xl border-2 border-primary-100 hover:border-primary-200 transition-all duration-300">
+                                    <div className="text-center mb-4">
+                                        <p className="text-sm font-semibold text-primary-700 font-['iransansX'] mb-1" dir="rtl">
+                                            اسکن کنید
+                                        </p>
+                                        <p className="text-xs text-gray-500 font-['iransansX']" dir="ltr">
+                                            Scan QR Code
+                                        </p>
+                                    </div>
+                                    <div 
+                                        className="w-64 h-64 mx-auto rounded-2xl overflow-hidden bg-white p-3"
+                                    >
+                                        <img 
+                                            src={`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent('https://t.me/Iranian_route_Ambassadors')}&color=374c9a&bgcolor=ffffff&margin=2&qzone=3`}
+                                            alt="QR Code"
+                                            className="w-full h-full rounded-xl"
+                                            style={{
+                                                imageRendering: 'auto',
+                                                filter: 'drop-shadow(0 4px 12px rgba(55, 76, 154, 0.2))',
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {/* Right: Description and Button */}
+                        <div className="space-y-6" dir={locale === 'en' ? 'ltr' : 'rtl'}>
+                            <div className="space-y-4">
+                                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 font-['iransansX']">
+                                    <span dir="rtl" className="block">پیوستن به گروه</span>
+                                    <span dir="ltr" className="block mt-1 text-xl md:text-2xl">Join the Group</span>
+                                </h3>
+                                <div className="space-y-3 text-gray-700 font-['iransansX']">
+                                    <p className="text-base md:text-lg leading-relaxed" dir="rtl">
+                                        برای پیوستن به گروه تلگرام سفیران جشنواره می‌توانید از دو روش استفاده کنید:
+                                    </p>
+                                    <p className="text-sm md:text-base leading-relaxed text-gray-600" dir="ltr">
+                                        You can join the Festival Ambassadors Telegram group in two ways:
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div className="space-y-3">
+                                <div className="flex items-start gap-3 p-4 bg-primary-50 rounded-xl border border-primary-100">
+                                    <div className="flex-shrink-0 w-8 h-8 bg-primary-600 text-white rounded-full flex items-center justify-center font-bold text-sm font-['iransansX']">
+                                        ۱
+                                    </div>
+                                    <div className="flex-1">
+                                        <p className="text-sm md:text-base font-semibold text-gray-800 font-['iransansX'] mb-1" dir="rtl">
+                                            اسکن QR Code با دوربین موبایل
+                                        </p>
+                                        <p className="text-xs md:text-sm text-gray-600 font-['iransansX']" dir="ltr">
+                                            Scan QR Code with your mobile camera
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <div className="flex items-start gap-3 p-4 bg-secondary-50 rounded-xl border border-secondary-100">
+                                    <div className="flex-shrink-0 w-8 h-8 bg-secondary-600 text-white rounded-full flex items-center justify-center font-bold text-sm font-['iransansX']">
+                                        ۲
+                                    </div>
+                                    <div className="flex-1">
+                                        <p className="text-sm md:text-base font-semibold text-gray-800 font-['iransansX'] mb-1" dir="rtl">
+                                            کلیک روی دکمه زیر
+                                        </p>
+                                        <p className="text-xs md:text-sm text-gray-600 font-['iransansX']" dir="ltr">
+                                            Click the button below
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <a 
+                                href="https://t.me/Iranian_route_Ambassadors" 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                className="inline-block group w-full"
+                            >
+                                <div className="bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white px-8 py-4 rounded-xl font-bold text-lg md:text-xl font-['iransansX'] transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-[1.02] active:scale-100 text-center w-full">
+                                    <div className="flex flex-col items-center gap-1">
+                                        <span dir="rtl" className="text-lg md:text-xl">پیوستن به گروه</span>
+                                        <span dir="ltr" className="text-base md:text-lg opacity-90">Join Group</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                </section>
 
             {/* Final Call to Action - Modern CTA */}
             <section className="relative py-24 rounded-[3rem] overflow-hidden">
