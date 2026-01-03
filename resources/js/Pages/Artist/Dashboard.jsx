@@ -202,13 +202,13 @@ export default function ArtistDashboard({ artist, statistics, recent_arts, festi
                                         <div className="flex space-x-2 space-x-reverse">
                                             <Link 
                                                 href={`/artist/arts/${art.id}`}
-                                                className="flex-1 bg-primary-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-primary-700 transition-colors font-['iransansX'] text-center"
+                                                className="flex-1 bg-secondary-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-secondary-700 transition-colors font-['iransansX'] text-center"
                                             >
-                                                {trans('view')}
+                                                {trans('view_details') || trans('view')}
                                             </Link>
                                             <Link 
                                                 href={`/artist/arts/${art.id}/edit`}
-                                                className="flex-1 bg-gray-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-gray-700 transition-colors font-['iransansX'] text-center"
+                                                className="flex-1 bg-primary-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-primary-700 transition-colors font-['iransansX'] text-center"
                                             >
                                                 {trans('edit')}
                                             </Link>

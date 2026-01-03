@@ -61,14 +61,17 @@ export default function ArtistArts({ arts = [] }) {
                                     </div>
                                     <div className="flex flex-col sm:flex-row gap-2 space-x-0 sm:space-x-2 space-x-reverse">
                                         <Link
+                                            href={`/artist/arts/${art.id}`}
+                                            className="flex-1 bg-secondary-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-secondary-700 transition-colors text-center font-['iransansX']"
+                                        >
+                                            {trans('view_details') || 'مشاهده جزئیات'}
+                                        </Link>
+                                        <Link
                                             href={`/artist/arts/${art.id}/edit`}
                                             className="flex-1 bg-primary-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-primary-700 transition-colors text-center font-['iransansX']"
                                         >
                                             {trans('edit')}
                                         </Link>
-                                        <button className="flex-1 bg-gray-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-gray-700 transition-colors font-['iransansX']">
-                                            {trans('delete')}
-                                        </button>
                                     </div>
                                 </div>
                             </div>

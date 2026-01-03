@@ -242,11 +242,14 @@ Route::prefix('artist')->group(function () {
         
         Route::post('/arts', [App\Http\Controllers\ArtController::class, 'store'])->name('artist.arts.store');
         
+        Route::get('/arts/{art}', [App\Http\Controllers\ArtController::class, 'show'])->name('artist.arts.show');
+        
         Route::get('/arts/{art}/edit', [App\Http\Controllers\ArtController::class, 'edit'])->name('artist.arts.edit');
         
         Route::patch('/arts/{art}', [App\Http\Controllers\ArtController::class, 'update'])->name('artist.arts.update');
         
-        Route::delete('/arts/{art}', [App\Http\Controllers\ArtController::class, 'destroy'])->name('artist.arts.destroy');
+        // Route delete removed - حذف آثار مجاز نیست
+        // Route::delete('/arts/{art}', [App\Http\Controllers\ArtController::class, 'destroy'])->name('artist.arts.destroy');
         
         Route::get('/submissions', function () {
             return Inertia::render('Artist/Submissions');

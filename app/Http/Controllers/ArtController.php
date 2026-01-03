@@ -647,11 +647,155 @@ class ArtController extends Controller
 
     public function show(Art $art)
     {
-        $art->load(['artist', 'artField', 'evaluations.judge']);
+        // Get artist from session
+        $userType = request()->session()->get('user_type');
+        $userId = request()->session()->get('user_id');
+        
+        if ($userType !== 'artist' || !$userId) {
+            abort(403, 'شما مجاز به مشاهده این اثر نیستید');
+        }
+        
+        // Check if the art belongs to the authenticated artist
+        if ($art->artist_id !== $userId) {
+            abort(403, 'شما مجاز به مشاهده این اثر نیستید');
+        }
+
+        // Load art with all relationships
+        $art->loadMissing([
+            'artist:id,first_name,last_name,email,phone',
+            'artField:id,name,name_en,icon_name,description,description_en,metadata',
+            'fieldValues.fieldRequirement',
+            'evaluations.judge:id,first_name,last_name'
+        ]);
+
+        // Prepare art data with field values
+        $artData = $this->prepareArtForShow($art);
         
         return Inertia::render('Artist/ArtShow', [
-            'art' => $art
+            'art' => $artData
         ]);
+    }
+
+    /**
+     * Prepare art data for show page
+     */
+    private function prepareArtForShow(Art $art): array
+    {
+        $fieldValues = $art->fieldValues->map(function ($fieldValue) {
+            $requirement = $fieldValue->fieldRequirement;
+            $normalizedValue = $this->normalizeFieldValueForShow($fieldValue->value);
+
+            $files = [];
+            if ($fieldValue->file_path) {
+                $files[] = $this->resolveFileUrlForArtist($fieldValue->file_path);
+            }
+
+            $displayValue = $this->convertValueAndCollectFilesForShow($normalizedValue, $files);
+            $files = array_values(array_unique(array_filter($files)));
+
+            $displayNameFa = $requirement?->display_name;
+            $displayNameEn = $requirement?->display_name_en;
+
+            return [
+                'id' => $fieldValue->id,
+                'field_requirement_id' => $fieldValue->field_requirement_id,
+                'field_name' => $requirement?->field_name,
+                'display_name' => $requirement?->display_name_translated ?? $displayNameFa ?? $displayNameEn ?? $requirement?->field_name,
+                'display_name_fa' => $displayNameFa,
+                'display_name_en' => $displayNameEn,
+                'field_type' => $requirement?->field_type,
+                'requirement_type' => $requirement?->requirement_type,
+                'value' => $displayValue,
+                'raw_value' => $fieldValue->value,
+                'files' => $files,
+            ];
+        })->values();
+
+        return [
+            'id' => $art->id,
+            'artist_id' => $art->artist_id,
+            'art_field_id' => $art->art_field_id,
+            'title' => $art->title,
+            'description' => $art->description,
+            'status' => $art->status,
+            'rejection_reason' => $art->rejection_reason,
+            'video_url' => $art->video_url,
+            'audio_url' => $art->audio_url,
+            'tags' => $art->tags,
+            'year_created' => $art->year_created,
+            'image' => $art->image ? $this->resolveFileUrlForArtist($art->image) : null,
+            'created_at' => $art->created_at,
+            'updated_at' => $art->updated_at,
+            'metadata' => $art->metadata ?? [],
+            'artist' => $art->artist ? [
+                'id' => $art->artist->id,
+                'first_name' => $art->artist->first_name,
+                'last_name' => $art->artist->last_name,
+                'email' => $art->artist->email,
+                'phone' => $art->artist->phone,
+            ] : null,
+            'art_field' => $art->artField ? [
+                'id' => $art->artField->id,
+                'name' => $art->artField->name,
+                'name_en' => $art->artField->name_en,
+                'icon_name' => $art->artField->icon_name,
+                'description' => $art->artField->description,
+                'description_en' => $art->artField->description_en,
+                'description_translated' => $art->artField->description_translated,
+                'metadata' => $art->artField->metadata,
+                'metadata_translated' => $art->artField->metadata_translated,
+            ] : null,
+            'field_values' => $fieldValues,
+            'evaluations' => $art->evaluations->map(function ($evaluation) {
+                return [
+                    'id' => $evaluation->id,
+                    'score' => $evaluation->score,
+                    'comment' => $evaluation->comment,
+                    'judge' => $evaluation->judge ? [
+                        'id' => $evaluation->judge->id,
+                        'first_name' => $evaluation->judge->first_name,
+                        'last_name' => $evaluation->judge->last_name,
+                    ] : null,
+                    'created_at' => $evaluation->created_at,
+                ];
+            }),
+        ];
+    }
+
+    /**
+     * Normalize field value for show page
+     */
+    private function normalizeFieldValueForShow($value)
+    {
+        if (is_null($value) || $value === '') {
+            return null;
+        }
+
+        if (is_array($value)) {
+            return $value;
+        }
+
+        return $value;
+    }
+
+    /**
+     * Convert value and collect files for show page
+     */
+    private function convertValueAndCollectFilesForShow($value, array &$files)
+    {
+        if (is_array($value)) {
+            return array_map(function ($item) use (&$files) {
+                return $this->convertValueAndCollectFilesForShow($item, $files);
+            }, $value);
+        }
+
+        if (is_string($value) && Str::startsWith($value, ['arts/'])) {
+            $url = $this->resolveFileUrlForArtist($value);
+            $files[] = $url;
+            return $url;
+        }
+
+        return $value;
     }
 
     public function edit(Art $art)
@@ -959,36 +1103,8 @@ class ArtController extends Controller
 
     public function destroy(Art $art)
     {
-        // Get artist from session
-        $userType = request()->session()->get('user_type');
-        $userId = request()->session()->get('user_id');
-        
-        if ($userType !== 'artist' || !$userId) {
-            abort(403, 'شما مجاز به حذف این اثر نیستید');
-        }
-        
-        // Check if the art belongs to the authenticated artist
-        if ($art->artist_id !== $userId) {
-            abort(403, 'شما مجاز به حذف این اثر نیستید');
-        }
-
-        // Delete image file
-        if ($art->cover_image && !empty(trim($art->cover_image))) {
-            try {
-                if (Storage::disk('s3')->exists($art->cover_image)) {
-                    Storage::disk('s3')->delete($art->cover_image);
-                } elseif (Storage::disk('public')->exists($art->cover_image)) {
-                    Storage::disk('public')->delete($art->cover_image);
-                }
-            } catch (\Exception $e) {
-                // Log error but continue
-                Log::warning('Failed to delete cover_image: ' . $e->getMessage());
-            }
-        }
-
-        $art->delete();
-
-        return redirect()->route('artist.arts')->with('success', 'اثر شما با موفقیت حذف شد!');
+        // حذف آثار مجاز نیست
+        abort(403, 'حذف آثار مجاز نیست. لطفاً با مدیر سیستم تماس بگیرید.');
     }
 
     /**
