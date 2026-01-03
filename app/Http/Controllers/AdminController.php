@@ -800,6 +800,64 @@ class AdminController extends Controller
         ]);
     }
 
+    /**
+     * Download file from S3 storage.
+     */
+    public function downloadFile(Request $request)
+    {
+        $path = $request->query('path');
+        
+        if (!$path) {
+            abort(404, 'File path not provided');
+        }
+
+        // If path is a full URL, extract the path part
+        if (Str::startsWith($path, ['http://', 'https://'])) {
+            $parsedUrl = parse_url($path);
+            $path = $parsedUrl['path'] ?? $path;
+        }
+        
+        // Remove leading slash if exists
+        $path = ltrim($path, '/');
+        
+        // Remove bucket name and endpoint if present in path
+        $bucket = config('filesystems.disks.s3.bucket', 'iranian-route');
+        $endpoint = config('filesystems.disks.s3.url', 'https://storage.c2.liara.space');
+        
+        // Remove endpoint and bucket from path if present
+        $path = Str::replaceFirst($endpoint . '/' . $bucket . '/', '', $path);
+        $path = Str::replaceFirst($bucket . '/', '', $path);
+        $path = Str::replaceFirst('storage.c2.liara.space/' . $bucket . '/', '', $path);
+        $path = Str::replaceFirst('storage.c2.liara.space/', '', $path);
+        
+        // Validate path
+        if (empty($path) || !Str::startsWith($path, ['arts/'])) {
+            abort(404, 'Invalid file path');
+        }
+
+        try {
+            // Try S3 first
+            if (Storage::disk('s3')->exists($path)) {
+                $file = Storage::disk('s3')->get($path);
+                $mimeType = Storage::disk('s3')->mimeType($path);
+                $fileName = basename($path);
+                
+                return response($file, 200)
+                    ->header('Content-Type', $mimeType)
+                    ->header('Content-Disposition', 'attachment; filename="' . $fileName . '"');
+            }
+            
+            // Fallback to public disk
+            if (Storage::disk('public')->exists($path)) {
+                return Storage::disk('public')->download($path);
+            }
+            
+            abort(404, 'File not found');
+        } catch (\Exception $e) {
+            abort(500, 'Error downloading file: ' . $e->getMessage());
+        }
+    }
+
     private function normalizeMetadata(array $metadata): array
     {
         $defaults = [
@@ -1047,17 +1105,17 @@ class AdminController extends Controller
             try {
                 // Check if file exists in S3
                 if (Storage::disk('s3')->exists($cleanPath)) {
-                    // Build URL manually: https://storage.c2.liara.space/{bucket}/{file_path}
-                    return rtrim($endpoint, '/') . '/' . $bucket . '/' . ltrim($cleanPath, '/');
+                    // Return download route URL instead of direct S3 URL (bucket is private)
+                    return route('admin.arts.files.download', ['path' => $cleanPath]);
                 }
             } catch (\Exception $e) {
                 // Silently continue - S3 might not be configured or accessible
             }
             
-            // 3. Try to generate presigned URL for S3 (if file might exist but exists() failed)
+            // 3. Try to generate download URL for S3 (if file might exist but exists() failed)
             try {
-                // For S3 files, build URL manually instead of using temporaryUrl
-                return rtrim($endpoint, '/') . '/' . $bucket . '/' . ltrim($cleanPath, '/');
+                // For S3 files, return download route URL instead of direct URL
+                return route('admin.arts.files.download', ['path' => $cleanPath]);
             } catch (\Exception $e) {
                 // Silently continue
             }
@@ -1080,8 +1138,8 @@ class AdminController extends Controller
             // 2. Try S3 (with error handling, but don't log)
             try {
                 if (Storage::disk('s3')->exists($path)) {
-                    // Build URL manually: https://storage.c2.liara.space/{bucket}/{file_path}
-                    return rtrim($endpoint, '/') . '/' . $bucket . '/' . ltrim($path, '/');
+                    // Return download route URL instead of direct S3 URL (bucket is private)
+                    return route('admin.arts.files.download', ['path' => $path]);
                 }
             } catch (\Exception $e) {
                 // Silently continue

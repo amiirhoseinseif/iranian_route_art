@@ -242,9 +242,7 @@ Route::prefix('artist')->group(function () {
         
         Route::post('/arts', [App\Http\Controllers\ArtController::class, 'store'])->name('artist.arts.store');
         
-        Route::get('/arts/{art}/edit', function ($art) {
-            return Inertia::render('Artist/ArtEdit', ['art' => $art]);
-        })->name('artist.arts.edit');
+        Route::get('/arts/{art}/edit', [App\Http\Controllers\ArtController::class, 'edit'])->name('artist.arts.edit');
         
         Route::patch('/arts/{art}', [App\Http\Controllers\ArtController::class, 'update'])->name('artist.arts.update');
         
@@ -277,6 +275,8 @@ Route::prefix('admin')->middleware(['auth.admin'])->group(function () {
     Route::get('/arts', [AdminController::class, 'indexArts'])->name('admin.arts');
 
     Route::get('/arts/{art}', [AdminController::class, 'viewArt'])->name('admin.arts.show');
+    
+    Route::get('/arts/files/download', [AdminController::class, 'downloadFile'])->name('admin.arts.files.download');
     
     Route::get('/judges', function () {
         return Inertia::render('Admin/Judges');

@@ -669,12 +669,176 @@ class ArtController extends Controller
             abort(403, 'شما مجاز به ویرایش این اثر نیستید');
         }
 
-        $artFields = ArtField::active()->get();
+        // Load art with all relationships
+        $art->loadMissing([
+            'artField:id,name,name_en,icon_name,description,description_en,metadata',
+            'fieldValues.fieldRequirement'
+        ]);
+
+        // Prepare art data with field values
+        $artData = $this->prepareArtForEdit($art);
+
+        // Get art fields for dropdown
+        $artFields = ArtField::active()
+            ->with(['requirements' => function ($query) {
+                $query->where('requirement_type', '!=', 'disabled')
+                      ->orderBy('order')
+                      ->orderBy('created_at');
+            }])
+            ->get()
+            ->map(function (ArtField $field) {
+                return [
+                    'id' => $field->id,
+                    'name' => $field->name,
+                    'name_en' => $field->name_en,
+                    'icon_name' => $field->icon_name,
+                    'description' => $field->description,
+                    'description_en' => $field->description_en,
+                    'description_translated' => $field->description_translated,
+                    'is_active' => $field->is_active,
+                    'metadata' => $field->metadata ?? [],
+                    'metadata_translated' => $field->metadata_translated,
+                ];
+            });
         
         return Inertia::render('Artist/ArtEdit', [
-            'art' => $art,
+            'art' => $artData,
             'artFields' => $artFields
         ]);
+    }
+
+    /**
+     * Prepare art data for edit form
+     */
+    private function prepareArtForEdit(Art $art): array
+    {
+        $fieldValues = $art->fieldValues->map(function ($fieldValue) {
+            $requirement = $fieldValue->fieldRequirement;
+            $value = $fieldValue->value;
+
+            // Normalize value
+            if (is_string($value) && Str::startsWith($value, ['arts/'])) {
+                // This is a file path, resolve it to URL
+                $value = $this->resolveFileUrlForArtist($value);
+            }
+
+            return [
+                'id' => $fieldValue->id,
+                'field_requirement_id' => $fieldValue->field_requirement_id,
+                'field_name' => $requirement?->field_name,
+                'display_name' => $requirement?->display_name_translated ?? $requirement?->display_name ?? $requirement?->display_name_en ?? $requirement?->field_name,
+                'field_type' => $requirement?->field_type,
+                'requirement_type' => $requirement?->requirement_type,
+                'value' => $value,
+                'raw_value' => $fieldValue->value,
+                'file_path' => $fieldValue->file_path,
+            ];
+        })->values();
+
+        return [
+            'id' => $art->id,
+            'artist_id' => $art->artist_id,
+            'art_field_id' => $art->art_field_id,
+            'title' => $art->title,
+            'description' => $art->description,
+            'status' => $art->status,
+            'rejection_reason' => $art->rejection_reason,
+            'video_url' => $art->video_url,
+            'audio_url' => $art->audio_url,
+            'tags' => $art->tags,
+            'year_created' => $art->year_created,
+            'image' => $art->image ? $this->resolveFileUrlForArtist($art->image) : null,
+            'created_at' => $art->created_at,
+            'updated_at' => $art->updated_at,
+            'metadata' => $art->metadata ?? [],
+            'art_field' => $art->artField ? [
+                'id' => $art->artField->id,
+                'name' => $art->artField->name,
+                'name_en' => $art->artField->name_en,
+                'icon_name' => $art->artField->icon_name,
+                'description' => $art->artField->description,
+                'description_en' => $art->artField->description_en,
+                'description_translated' => $art->artField->description_translated,
+                'metadata' => $art->artField->metadata,
+                'metadata_translated' => $art->artField->metadata_translated,
+            ] : null,
+            'field_values' => $fieldValues,
+        ];
+    }
+
+    /**
+     * Resolve file URL for artist (use download route for S3 files)
+     */
+    private function resolveFileUrlForArtist(?string $path): ?string
+    {
+        if (!$path) {
+            return null;
+        }
+
+        // If it's already a full URL, return it
+        if (Str::startsWith($path, ['http://', 'https://'])) {
+            return $path;
+        }
+
+        // If it's a storage path
+        if (Str::startsWith($path, ['arts/', 'storage/'])) {
+            // Remove /storage/ prefix if exists
+            $cleanPath = Str::replaceFirst('/storage/', '', $path);
+            $cleanPath = Str::replaceFirst('storage/', '', $cleanPath);
+            
+            // Validate cleanPath is not empty
+            if (empty($cleanPath) || trim($cleanPath) === '') {
+                return null;
+            }
+            
+            // Check if file exists in S3
+            try {
+                if (Storage::disk('s3')->exists($cleanPath)) {
+                    // Return download route URL for S3 files (bucket is private)
+                    return route('admin.arts.files.download', ['path' => $cleanPath]);
+                }
+            } catch (\Exception $e) {
+                // Continue to public disk check
+            }
+            
+            // Check public disk
+            try {
+                if (Storage::disk('public')->exists($cleanPath)) {
+                    return Storage::disk('public')->url($cleanPath);
+                }
+            } catch (\Exception $e) {
+                // Continue
+            }
+            
+            // Fallback: return public URL even if file doesn't exist (for display)
+            return Storage::disk('public')->url($cleanPath);
+        }
+
+        // For other paths
+        if (!empty($path) && trim($path) !== '') {
+            // Try S3 first
+            try {
+                if (Storage::disk('s3')->exists($path)) {
+                    return route('admin.arts.files.download', ['path' => $path]);
+                }
+            } catch (\Exception $e) {
+                // Continue to public
+            }
+            
+            // Try public disk
+            try {
+                if (Storage::disk('public')->exists($path)) {
+                    return Storage::disk('public')->url($path);
+                }
+            } catch (\Exception $e) {
+                // Continue
+            }
+            
+            // Fallback
+            return Storage::disk('public')->url($path);
+        }
+
+        return null;
     }
 
     public function update(Request $request, Art $art)
